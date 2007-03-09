@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Sat Feb 10 15:47:22 PST 2007
+builderNum=2
+outputDir=doc/
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=doc
+mainTexFile=generalizing-bentley-rcm.tex
+outputFile=generalizing-bentley-rcm.pdf
+langSpell=
+markDer=true
+srcDir=doc/

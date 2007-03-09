@@ -1,0 +1,81 @@
+This package contains the TransmissionLab model, written to allow simulation of cultural
+transmission and evolution phenomena.  The goal of TransmissionLab is to accurately represent
+theoretical models of CT (e.g., random copying, prestige-biased transmission, frequency-biased
+transmission) within a variety of population structures (e.g., complete graphs/well-mixed, 
+sparse random graphs and social networks of varying topologies, spatial lattices), and using 
+a variety of update algorithms (e.g., Moran processes, Wright-Fisher processes, various
+other birth-death processes).  TransmissionLab seeks to also make data collection and 
+"observation" of simulated populations simple, with modules which are completely separate from
+the simulated population itself thus preventing observational "side-effects" on the model.  
+Analysis flows from data collection, and can be done in a variety of ways.  
+
+MODEL HISTORY
+
+The origin of the TransmissionLab model is the RandomCopyModel written by Alex Bentley, Carl
+Lipo, Harold Herzog, and Matthew Hahn in their 2007 article in the journal Evolution and 
+Human Behavior.  The code for that original simulation was provided to Mark E. Madsen in 
+early 2007 and I undertook to generalize the model and render it simple for first-time 
+users to understand.  Version 1.3 of the RandomCopyModel is available at:
+
+http://students.washington.edu/madsenm/software/software.html
+
+Additionally, the code is available from Dr. Alex Bentley, definitely in its revised version
+1.3, and possibly in its original form.  
+
+Version 1.3 of the RandomCopyModel represented the exact model explored by Bentley et al., but
+refactored and generalized.  No further development on that model is anticipated, and version 1.3 
+remains intact as the best realization of the model which features in the 2007 article.  
+
+Following that release, Mark split the codebase and the new branch is TransmissionLab.  Version 
+numbering for TransmissionLab will be independent of the older RandomCopyModel version scheme.
+
+DOCUMENTATION
+
+The "doc" directory of this distribution contains LaTeX and PDF versions of notes on the 
+codebase, generalizations that have been performed, and examples of how to author additional
+classes to extend the simulation functionality.  Please read this document first before 
+contacting the author with questions.  No other documentation is available or planned.  
+
+LIBRARIES AND DEPENDENCIES
+
+This codebase requires, as an external dependency, a Java JVM running version 1.5.0 or better, 
+since I use generic collections and annotations throughout the codebase.  The simulation is 
+based on the Repast simulation framework, version RepastJ 3.1.  Documentation and downloads are 
+available at http://repast.sourceforge.net, but this distribution includes the necessary binary 
+JAR files to be executed.  The distribution also includes updated versions of Jakarta Commons 
+Collections and Math libraries, as well as JUnit 4.1 and privilegedAccessor5.0_1.0.2 (used to 
+provide private method access in Junit test cases).  Each of these JAR files is licensed under
+an appropriate open-source license, available at their respective download locations.  
+
+WARRANTY
+
+No warranty is provided with this software, either express or implied, and no technical support
+is available from the authors.  We are, however, happy to discuss the scientific issues
+connected with the software and its implications for the codebase.  
+
+GETTING STARTED
+
+If you need help getting started with using and running this software, I recommend downloading
+and using the Eclipse open-source IDE.  This code was developed using Eclipse and the Texclipse
+environments, and the zip archive version of the code should be importable directly into 
+Eclipse 3.2.1 or later, as long as a Java JVM version 1.5.0 is available on the development
+system.  The code also imports cleanly into NetBeans 5.5, if you install the optional Eclipse 
+project import plug-in from the Tools -> Update Center menu in Netbeans.  This plug-in will
+add a File -> Import Project -> Eclipse Project menu.  Point it at the unzipped directory 
+containing a current version of the code repository for TransmissionLab and it will import the 
+source with correct classpaths to build and run the simulation.  Unlike Eclipse, the Netbeans
+project import does not retain the doc and other non-code-related subdirectories, but they remain
+in the underlying directory.  Those with more experience with Netbeans are welcome to let me know
+how to improve this inter-operability and I'll document it in the code distribution itself.
+
+CONTACT
+
+All contacts about this software should be routed to:
+
+Mark E. Madsen
+Department of Anthropology
+Box 353100
+University of Washington
+Seattle, WA  98195
+
+The best method of communication by far is email:  madsenm@u.washington.edu

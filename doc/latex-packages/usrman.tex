@@ -1,0 +1,1652 @@
+% This document requires LaTeX2e.
+% If you have trouble compiling this document, please use
+% the included PostScript version, or download the pdf version.
+%
+\documentclass[namedreferences]{kluwer}
+
+\usepackage{klups}
+%   klups.sty selects Times as text font. If this document doesn't
+%   compile, you may comment out this line.
+
+\usepackage[dvips]{graphicx}
+% if you use a different dvi-driver, the graphics in this document
+% may not print.
+
+\setcounter{tocdepth}{1}
+\marginparwidth=0pt
+\vbadness=5000
+%\ifdef\textcopyright\else\let\textcopyright=\copyright \fi
+\hfuzz=30pt
+\parindent 2em
+\def\Bs{\char92}
+\def\BibTeX{\textsc{Bib}\TeX}
+\usepackage{makeidx}
+\def\indexname{Index}
+\makeindex
+\newcommand{\Pindex}[1]{\index{Packages!#1}\index{#1 package}}
+\newcommand{\Eindex}[1]{\index{Environments!#1}\index{#1 environment}}
+\newcommand{\Oindex}[1]{\index{Options!#1}\index{#1 option}}
+\newcommand{\Cindex}[1]{\index{#1@\texttt{\Bs #1}}}
+\newcommand{\dbr}{\discretionary{}{}{}}
+\begin{document}
+%\typeout{^^J*** Kluwer Academic Publishers - prepress department^^J***
+%    Documentation for \filename, dated \filedate, version \fileversion}
+\begin{article}
+
+
+\begin{opening}
+\title{User manual for {\tt kluwer.cls}}
+\subtitle{Instructions for authors}
+\author{Prepress \surname{Deparment}\email{texhelp@wkap.nl}\thanks{This
+    e-mail address is available for all problems and questions.}}
+\runningauthor{Kluwer Academic Publishers}
+\runningtitle{User Manual}
+\institute{Kluwer Academic Publishers, Achterom 119,
+    3311 KB Dordrecht, The Netherlands}
+\begin{ao}\\
+KLUWER~ACADEMIC~PUBLISHERS PrePress Department,\\
+P.O.~Box~17, 3300~AA~~Dordrecht, The~Netherlands\\
+e-mail: TEXHELP@WKAP.NL\\
+Fax: +31 78 6392500
+\end{ao}
+\date{\filedate}
+
+
+\begin{abstract}
+This is the user manual for the {\tt kluwer.cls} class file for the
+preparation of articles to be submitted to journals.  It is based on
+the same set of macros as the class files which Kluwer uses for the
+typesetting of its journals.  The {\tt kluwer.cls} class file is
+similar in use as the {\tt article} class file of \LaTeXe, but it
+has some extra fields in the preamble and some extended commands
+for the main text.
+\end{abstract}
+%
+%
+\keywords{\LaTeXe, (electronic) submission, user manual, class file, Kluwer}
+\abbreviations{\abbrev{KAP}{Kluwer Academic Publishers};
+                \abbrev{compuscript}{Electronically submitted article}}
+
+\end{opening}
+
+{\footnotesize\tableofcontents}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+The {\tt kluwer} class file is the general style file for submitting
+an article in \LaTeXe\ for publication in one of the journals of
+Kluwer Academic Publishers.
+
+The \LaTeX\ class files for typesetting Kluwer journals are based on
+a common set of underlying macros; the same macros underly this
+class file. So, in theory at least, conversion of your submission to
+a journal class file should be trivial.
+
+\subsection{Using other packages}
+
+Please try to limit your use of additional packages. They frequently
+introduce incompatibilities. This problem is not specific to
+the Kluwer styles, it is a general \LaTeX\ problem.  Check this
+manual whether the required functionality is already provided by
+the Kluwer class file.  If you do need third-party packages, send them
+along with the paper.  Also check the log file whether additional files
+and packages are loaded by those packages and send them too.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section {The opening}
+
+Although you may be able to include the body of your paper with few
+or no
+changes, the opening is specific to the Kluwer class files. This is
+the structure of a paper:
+
+{\small
+\begin{verbatim}
+\documentclass[options]{kluwer}
+
+<package declarations>
+<your own macros and preamble commands>
+
+\begin{document}
+\begin{article}
+
+\begin{opening}
+<opening commands>
+\end{opening}
+
+<body of your paper>
+
+\end{article}
+\end{document}
+\end{verbatim}
+}
+It is possible to include several \texttt{article}
+environments into one paper. For an edited volume, one can also
+place a \texttt{frontmatter} environment before the \texttt{article}
+environments.
+
+\medskip\noindent
+The opening environment should look like this:
+
+{\small
+\begin{verbatim}
+\begin{opening}
+\end{verbatim}
+\noindent \% Title block:
+\begin{verbatim}
+\title{...}
+\subtitle{...}
+\end{verbatim}
+\noindent \% Author block [repeatable]:
+\begin{verbatim}
+\author{...\surname{...}\email{...}}
+\author{...\surname{...}\email{...}}
+\institute{...}
+\end{verbatim}
+\noindent \% Extra information:
+\begin{verbatim}
+\dedication{...}
+\translation{...}
+\runningtitle{...}
+\runningauthor{...}
+\begin{ao}
+....
+\end{ao}
+\begin{motto}
+....
+\end{motto}
+\end{verbatim}
+\noindent \% Abstracts and keywords:
+\begin{verbatim}
+\begin{abstract}
+...
+\end{abstract}
+\keywords{...}
+\abbreviations{\abbrev{...}{...};
+               \abbrev{...}{...}}
+\nomenclature{\nomen{...}{...}; \nomen{...}{...}}
+\classification{...}{...}
+\end{opening}
+\end{verbatim}
+\par} \noindent
+These commands should be used only within the \texttt{opening} environment.
+Most of them will produce an error if used somewhere else in your
+document.  Below, we shall describe them in detail.  Their order
+is not fixed. They are
+executed by \verb+\end{opening}+, without regard to their location within
+the \texttt{opening} environment (with an exception for the author block,
+please see below for details). Anything that is not within a command
+will end up being typeset {\it before\/} the `real' contents of the
+environment, so be careful to only use the commands given here.
+
+Now let us explain the commands in more detail.
+
+\subsection{Title and Subtitle}
+
+\Cindex{title}
+\Cindex{subtitle}
+The title and, if necessary, subtitle should be typed in one of
+the following two styles of capitalisation:
+
+\begin{trivlist}
+\item[] {\tt \Bs title\{This is my title\}} \qquad \rm One initial capital \\
+{\tt \Bs title\{This Is My Title\}} \qquad \rm Initial capitals
+\end{trivlist}
+
+\noindent
+This has to be done according to the style of the journal in which your
+article is to be published. Uppercasing will be done by the stylefile if
+necessary. A missing \texttt{\Bs title} command generates an error message.
+
+\Cindex{\Bs}You can split the typeset title and subtitle over multiple lines
+by putting two backslashes at an appropriate place,
+\Cindex{thanks}\index{Footnotes!to title}
+and you can specify footnotes  to the title by use of the
+\texttt{\Bs thanks}
+command. The specified text will be placed at the bottom of the
+page as a footnote.
+
+An example of a title block could look like this:
+\begin{verbatim}
+\title{The `Kluwer' LaTeX Style File:\\
+       Instructions for Authors\thanks{Donald Knuth}}
+\subtitle{Basic Instructions}
+\end{verbatim}
+
+\subsection{Author block}
+
+\Cindex{author}
+\Cindex{institute}
+The author block consists of one or more authors followed
+by an institute. This construction may be used more than one time.
+A typical `large' author block would look like this:
+\begin{verbatim}
+\author{A. \surname{Thor1}\email{thor@wkap.nl}}
+\author{B. \surname{Thor2}\thanks{Partially supported...}}
+\institute{KAP}
+\author{C. \surname{Thor3}}
+\institute{}
+\end{verbatim}
+
+\noindent \Cindex{surname} As you can see, the surname of the author
+is given within a separate command, \texttt{\Bs surname}. This makes
+it easier for us to extract database information from the \LaTeX\
+file. It has no influence on the way the author's name is typeset.
+
+\Cindex{thanks}\index{Footnotes!to author}
+You can specify support acknowledgements etc. by use of the
+\texttt{\Bs thanks} command.
+
+\Cindex{email}
+If the author has an email address that looks like it will last
+for at least the time between submission and publication, you
+can give the address in the \verb+\email+ command either after the
+surname of the author or in the \verb+\institute+ command.
+It will be typeset in
+small typewriter font within brackets.
+
+The specification for the author block is a bit more complicated
+than the rest of the opening environment. Please
+take note of the following restrictions:
+\begin{enumerate}
+\item Order is important for all \verb+\author+ and \verb+\institute+ commands.
+    They will be typeset in the same ordering as found in your
+    input file.
+\item \verb+\thanks+\Cindex{thanks\space(to author)} can only be used as
+    the very last item in the \verb+\author+
+    command. If you make a mistake, you will get a quite incomprehensible
+    \TeX\ error message.
+\item The list of authors {\it has} to end with an institute. If there
+    are authors that are not part of any institute, give an empty command
+    as demonstrated above. If you don't, that author's name will {\it not}
+    be typeset.
+\item \index{Overfull lines} Sometimes the class file may fail to find
+    a good place to break a line containing multiple authors. If this happens,
+    you can insert\Cindex{\Bs}
+    two backslashes (\verb+\\+) yourself to force a line break
+    after an author's name or email address (It
+    will {\it not} work if the two backslashes are the
+    first characters within \verb+\author+. In this
+    case there will be a \LaTeX\ error {\tt`No line to end'}).
+\end{enumerate}
+
+\subsection{Extra information}
+
+These commands give some extra information about the article.
+
+\subsubsection{Dedicated and translated articles}
+
+\Cindex{dedication}
+\Cindex{translation}
+You can use the commands \verb+\dedication+ and \verb+\translation+ to give
+extra information about your article. The commands help by inserting
+the correct amount of space above and below your text.
+
+\subsubsection{Running heads}
+
+{\sloppy \Cindex{runningtitle}
+You can create a running title (used on odd pages)
+by using the \verb+\runningtitle{}+ command, where you put
+the (maybe shortened) title between the curly braces,
+\Cindex{runningauthor}
+and you can create a running author line (used on even pages) using the
+analogous \verb+\runningauthor+ command.\par}
+
+Both of these commands may be used in strange ways by \LaTeX, so try to
+keep the information short enough to fit in the headline, and try to use
+only plain text. For instance, don't try to force line breaks in the
+running title, and don't insert \verb+\label+s.
+
+\subsubsection{Address for correspondence}
+
+\Eindex{ao}
+\Eindex{article}
+The environment \texttt{ao} can be used to give an address for correspondence
+or offprints.
+The contents of this environment will be typeset at the end of the
+article environment
+(an example is given in this document on page~\pageref{lastpage}). The
+exact phrasing of the leading text depends on the stylefile, so it may
+change later here at Kluwer.
+
+
+\subsection{Abstracts and keywords}
+
+\Eindex{abstract}
+The \texttt{abstract} environment is used to give a short description of
+the article.
+
+\Cindex{keywords}
+The \verb+\keywords+ command gives a list of keywords. These should be
+separated with commas.
+
+\Cindex{abbreviations}
+\Cindex{abbrev}
+The \verb+\abbreviations+ command allows to give a list of
+abbreviations used. It defines a sub-command \verb+\abbrev+  with two
+arguments, of which the first is  the abbreviation and the
+second the meaning. The exact layout will once again depend
+on the used stylefile.
+
+Here is the example from  the beginning of this document:
+\begin{verbatim}
+\abbreviations{\abbrev{KAP}{Kluwer Academic Publishers};
+   \abbrev{compuscript}{Electronically submitted article}}
+\end{verbatim}
+
+\Cindex{nomenclature}
+\Cindex{nomen}\noindent
+The command \verb+\nomenclature+ is closely related to \verb+\abbreviations+.
+It takes one argument subdivided into \verb+\nomen+ parts. The above
+example gives the correct syntax.  For both environments it
+is legal to have text outside of \verb+\abbrev+ respectively
+\verb+\nomen+, in which
+case it will just be typeset as flushed text, and you have to provide
+additional formatting yourself. This is discouraged.
+
+
+\Cindex{classification}
+The command \verb+\classification+ takes two arguments, the first
+describing the type of the classification, the second the classification
+proper. An example might be:
+
+\begin{verbatim}
+\classification{JEL codes}{D24, L60, 047}
+\end{verbatim}
+
+
+\subsection{Date}
+
+\Cindex{date}
+By using the \verb+\date+ command, it is possible to specify reception and
+acception dates. Since this is something that the journal's
+editor enters, the default value when no \verb+\date+ command is given
+is to insert a template line that allows easy fill-in of this
+information. You are advised not to use this command.
+
+
+\subsection{Motto}
+
+When you want to specify a piece of poetry or a quotation to
+specify a motto to your article, you can use the \texttt{motto}\Eindex{motto}
+environment. You can differentiate between prose and poetry.
+If you are using prose, give an extra option to the environment:
+\texttt{[prose]}
+
+Here is an example:
+\begin{verbatim}
+\begin{motto}[prose]
+The only thing that never looks right is a rule.
+There is not in existence a page with a rule on it
+that cannot be instantly and obviously improved
+by taking the rule out.
+
+\rightline{George Bernard Shaw, In {\it The Dolphin} (1940)}
+\end{motto}
+\end{verbatim}
+\Cindex{rightline}
+
+\subsection{Example}
+
+An example of an elaborate \texttt{opening} environment:
+{\small
+\begin{verbatim}
+\begin{opening}
+\title{The `Kluwer' LaTeX Style File:\\
+       Instructions for Authors\thanks{With thanks to Donald Knuth}}
+\subtitle{Basic Instructions}
+
+\author{A. \surname{Thor1}\email{thor@wkap.nl}}
+\author{B. \surname{Thor2}\thanks{Partially supported...}}
+\institute{KAP}
+\author{C. \surname{Thor3}}
+\institute{}
+
+%\date: rather not
+
+\dedication{To Jim}
+
+\translation{De Kluwer LaTeX stylefile; aanwijzingen voor auteurs}
+
+\runningtitle{De Kluwer LaTeX stylefile}
+\runningauthor{Hoekwater e.a.}
+
+\begin{ao}\\
+Kluwer Prepress Department\\
+P.O. Box 990\\
+3300 AZ Dordrecht\\
+The Netherlands
+\end{ao}
+
+\begin{motto}
+What can't be done with TeX isn't worth doing.
+\end{motto}
+
+\begin{abstract}
+This document describes how to format a paper with
+\texttt{kluwer.cls}, the Kluwer
+class file for journal submissions.
+\end{abstract}
+
+\keywords{LaTeX, Kluwer, Journal submissions}
+
+\abbreviations{\abbrev{KAP}{Kluwer Academic Publishers};
+   \abbrev{compuscript}{Electronically submitted article}}
+
+\nomenclature{\nomen{KAP}{Kluwer Academic Publishers};
+   \nomen{compuscript}{Electronically submitted article}}
+
+\classification{JEL codes}{D24, L60, 047}
+\end{opening}
+\end{verbatim}
+\par}
+\noindent Here ends the description of the \texttt{opening} environment.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Mathematical constructs}
+
+As already indicated, the Kluwer class file offers additional
+functionality be\-yond what the standard LaTeX \texttt{article} style
+provides.  This section gives an overview of the additional
+mathematical constructs that are supported.
+
+\subsection{Symbols}
+
+The class file attempts to load two packages \Pindex{amssymb}
+\texttt{amssymb} and \Pindex{wasysym}\texttt{wasysym}. These support
+additional symbols.
+There will be no error if they are not available.
+
+All of the  commands for symbols from these packages will
+of course be available. Additionally, there are
+some commands defined in \texttt{klumac.sty}. A short overview
+is given in Table~\ref{figsym}.\footnote{%
+   Some of these commands actually use the AMS fonts.
+   This means that if you do not have these fonts, the
+   commands will fail with a `missing font..' error.}
+
+Please see the documentation for \texttt{amssymb} and \texttt{wasysym}
+for the additional symbols these packages provide (most of \texttt{amssymb} is
+also documented in~\cite{goossens}).
+
+\begin{table}
+\small
+\begin{tabular*}{\maxfloatwidth}{llll}\hline
+$\I         $&\verb+$\I$+         & $\down{a}$    &\verb+$\down{a}$+  \\
+$\Res{a}$     &\verb+$\Res{a}$+   & $\dres$       &\verb+$\dres$+     \\
+$\bigo{a}$   &\verb+$\bigo{a}$+   & $\forces    $&\verb+$\forces$+    \\
+$\concat    $&\verb+$\concat$+    & $\grlo      $&\verb+$\grlo$+      \\
+$\dC$         &\verb+$\dC$+       & $\gsim      $&\verb+$\gsim$+      \\
+$\dE$         &\verb+$\dE$+       & $\iduaal$     &\verb+$\iduaal$+   \\
+$\dF        $&\verb+$\dF$+        & $\lh$         &\verb+$\lh$+       \\
+$\dL        $&\verb+$\dL$+        & $\logr$       &\verb+$\logr$+     \\
+$\dN        $&\verb+$\dN$+        & $\lsim$       &\verb+$\lsim$+     \\
+$\dP$         &\verb+$\dP$+       & $\mapdown{a}$&\verb+$\mapdown{a}$+\\
+$\dQ$         &\verb+$\dQ$+       & $\mapright{a}$&\verb+$\mapright{a}$+\\
+$\dR$         &\verb+$\dR$+       & $\nequiv    $&\verb+$\nequiv$+    \\
+$\dZ        $&\verb+$\dZ$+        & $\oast$       &\verb+$\oast$+   \\
+$\depth     $&\verb+$\depth$+     & $\range     $&\verb+$\range$+     \\
+$\diamond$    &\verb+$\diamond$+  & $\res$       &\verb+$\res$+       \\
+$\dom$        &\verb+$\dom$+      & $\restrict  $&\verb+$\restrict$+  \\ \hline
+\end{tabular*}
+\caption[]{Additional math symbols made available through \texttt{kluwer.cls}}
+\label{figsym}
+\end{table}
+
+\subsection{Subequation environment}
+
+A subequation environment is available to create equations with
+sub-numbering of the equation counter. It takes one (optional)
+argument, that
+specifies the way that the sub-counter should be typeset.
+
+Possible options are:
+
+\begin{trivlist}
+\item\begin{TABULAR}{@{}lrl}
+alph & (1a) & This is the default.\\
+Alph & (1A) & Uppercase\\
+arabic & (1.1) & Arabic numbers.
+\end{TABULAR}\label{subeq}
+\end{trivlist}
+
+\noindent \emph{e.g.}
+
+\begin{verbatim}
+\begin{subequation}[alph]
+\begin{equation}
+E = mc^2
+\end{equation}
+\begin{equation}
+x^2 + y^2 = 1
+\end{equation}
+\end{subequation}
+\end{verbatim}
+\label{sub}
+producing
+\begin{subequation}[alph]
+\begin{equation}
+E = mc^2
+\end{equation}
+\begin{equation}
+x^2 + y^2 = 1
+\end{equation}
+\end{subequation}
+You can also put an \texttt{eqnarray} environment inside a
+\texttt{subequation} environment:
+\begin{verbatim}
+\begin{subequation}[arabic]
+\begin{eqnarray}
+E & = & mc^2 \\
+x^2 + y^2 & = & 1
+\end{eqnarray}
+\end{subequation}
+\end{verbatim}
+producing
+\begin{subequation}[arabic]
+\begin{eqnarray}
+E & = & mc^2 \\
+x^2 + y^2 & = & 1
+\end{eqnarray}
+\end{subequation}
+
+\subsection{Varequation environment}
+
+\Eindex{varequation}
+If nothing else fits your requirements, you can also `hard-code'
+equation numbers of your own design with the \texttt{varequation}
+environment. No \LaTeX\ counters are incremented. You may
+want to use it as follows:
+
+\begin{verbatim}
+\begin{varequation}{3\ensuremath{\alpha}}
+E = mc^2
+\end{varequation}
+\end{verbatim}
+producing
+\begin{varequation}{3\ensuremath{\alpha}}
+E = mc^2
+\end{varequation}
+Note the use of  \Cindex{ensuremath}\verb+\ensuremath+, which may be
+necessary when you use mathematical symbols inside the argument.
+Otherwise your input may fail under some internal stylefiles (i.e.
+those that use equation numbers on the left side of the page).
+
+Note also that `hard' equation numbers require `hard' equation
+references: \LaTeX's automatic cross-referencing is of no use here.
+
+\subsection{Displayed sentences: theorems and such}
+
+The {\tt kluwer} class file contains a predefined layout for theorems,
+corollaries, etc. These environments have to  be defined with the help of
+\LaTeX's \verb+\newtheorem+ command.
+Here is an example:
+\begin{verbatim}
+\newtheorem{theoremdemo}{Demo Theorem}
+\begin{theoremdemo}
+This is a  \verb!\newtheorem!.
+\end{theoremdemo}
+\end{verbatim}
+Results in:
+\newtheorem{theoremdemo}{Demo Theorem}
+\begin{theoremdemo}
+This is a  \verb!\newtheorem!.
+\end{theoremdemo}
+
+\Cindex{newdisplay}\noindent
+The class file also defines a \verb+\newdisplay+ command, which is
+identical to \verb+\newtheorem+ in usage, but will give a different
+layout.
+Here is an example:
+\begin{verbatim}
+\newdisplay{displaydemo}{Demo Theorem}
+\begin{displaydemo}
+This is a  \verb!\newdisplay!.
+\end{displaydemo}
+\end{verbatim}
+Results in:
+\newdisplay{displaydemo}{Demo Theorem}
+\begin{displaydemo}
+This is a  \verb!\newdisplay!.
+\end{displaydemo}
+
+\noindent
+For more information on the use of the
+\verb+\newtheorem+ command, please refer to the \LaTeX{} manual.
+
+
+\Cindex{newproof}
+Also, the class defines an extra command, \verb+\newproof+, that can
+be used for displayed text of a lower level. The major differences are
+that this command does not define a counter to go with the environment,
+nor does it have an option to specify such a counter.
+
+\begin{verbatim}
+\newproof{rem}{Remark}
+\begin{rem}
+This is a remark.
+\end{rem}
+\end{verbatim}
+resulting in
+\newproof{rem}{Remark}
+\begin{rem}
+This is a remark.
+\end{rem}
+\noindent except of course that you should put commands such as
+\verb+\newproof+ in the preamble.
+
+\subsection{Proofs}\Eindex{pf}
+For proofs, you can use the \texttt{pf} environment. This will generate
+the heading `{\it Proof.}' If you wish to create your own heading,
+you can use \Eindex{pf*}{\tt pf*} and give the \verb+\begin{pf*}+ command
+your alternative heading as an extra argument. Thus,
+\verb+\begin{pf*}+\verb+{Proof (of Lemma 3)}+ will generate the heading
+`{\it Proof (of Lemma~3).}'
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Sectioning commands}\Cindex{section}
+This section gives examples of sectioning
+commands.
+
+\section{Section}
+Here is a section
+\subsection{Subsection}\Cindex{subsection}
+Here is a subsection
+\subsubsection{Subsubsection}\Cindex{subsubsection}
+And a subsubsection
+\paragraph{Paragraph}\Cindex{paragraph}
+This is a lead-in heading (paragraph)
+\subparagraph{Subparagraph}\Cindex{subparagraph}
+This is a lead-in heading (subparagraph)
+
+
+\noindent
+There is also a command \verb+\part+\Cindex{part}, but this is not
+intended to be used within articles.
+
+The general syntax of these commands should be known to you
+already. We have made no changes apart from the layout.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Lists and displayed text}
+The document class redefines \texttt{itemize}\Eindex{itemize} and
+\texttt{enumerate}\Eindex{enumerate} so that they take an optional
+argument that makes some parametrization possible.
+
+Also, there are some environments available for displayed
+text, for instance, quotations.
+
+\subsection{itemize}
+
+In the case of \texttt{itemize}\Eindex{itemize} the optional
+argument specifies a default label:
+
+\begin{verbatim}
+\begin{itemize}[$\bullet$]
+\item This is an example of a list with an optional argument
+\item[--] This is the second item
+\end{itemize}
+
+\begin{itemize}
+\item Ordinary.
+\end{itemize}
+\end{verbatim}
+
+Will result in:
+\begin{itemize}[$\bullet$]
+\item This is an example of a list with an optional argument
+\item[--] This is the second item
+\end{itemize}
+
+
+\subsection{enumerate}
+
+In the case of \texttt{enumerate}\Eindex{enumerate} the optional
+argument can be used to specify the width of the left margin, in
+approximately the same way as for the\break \texttt{thebibliography}
+environment.
+
+\begin{verbatim}
+\begin{enumerate}[000000]
+\item See the wide left margin below?\\ Next line
+\end{enumerate}
+\end{verbatim}
+
+\noindent Will result in:
+\begin{enumerate}[000000]
+\item See the wide left margin below?\\ Next line
+\end{enumerate}
+
+\begin{verbatim}
+\begin{enumerate}
+\item Normal.\\ Next line
+\end{enumerate}
+\end{verbatim}
+
+\noindent Will result in:
+\begin{enumerate}
+\item Normal.\\ Next line
+\end{enumerate}
+
+\noindent The default value for the optional argument is \texttt{00},
+which is approxi\-mately 1em.
+
+\subsection{Using poetry, quotes, and quotations}
+
+LaTeX defines environments
+\texttt{verse}\Eindex{verse}, \texttt{quote}\Eindex{quote} and
+\texttt{quotation}.\Eindex{quotation}; see \cite{lamport}.
+Here is how they look with the Kluwer class file:
+
+\noindent
+Here's a verse:
+\begin{verse}
+I think you will like them,\\
+when you shall see them on a beautiful quarto page,\\
+
+{\sc richard brinsley sheridan}, %
+  {\itshape The School for Scandal\/} (1777) % Act I Sc 1
+\end{verse}
+
+\noindent
+A quote:
+\begin{quote}
+When a proof has been sent me with two or three
+lines so widely spaced as to make a grey band across the page,
+I have often rewritten the passage so as to fill up the lines better
+
+{\sc george bernard shaw}, in {\itshape The Dolphin\/} (1940) % v4 p80
+\end{quote}
+
+\noindent
+A quotation:
+\begin{quotation}
+There was things which he stretched,
+but mainly he told the truth.
+
+{\sc mark twain}, {\itshape Huckleberry Finn\/} (1884) % chap1
+\end{quotation}
+
+\subsection{Vitae for authors}
+
+Because a lot of our articles contain
+a short vita(e) of the author(s), we have provided a
+\texttt{vitae}\Eindex{vitae}\Cindex{Vauthor}
+environment. Usage is as follows:
+\def\manai{{\slshape Author}}
+\begin{verbatim}
+\begin{vitae}
+\Vauthor{Author1} ...
+\Vauthor{Author2} ...
+\end{vitae}
+\end{verbatim}
+
+\noindent This environment is smart enough to notice the difference
+between one author and more than one author, which will be reflected
+in the generated heading.
+\nopagebreak
+\begin{vitae}
+\Vauthor{Hoekwater, T.} This author spent most of his working life
+    answering questions about \TeX\ and \LaTeX.
+\Vauthor{Kroonenberg, S.} Now this is the job of the second
+    author.
+\end{vitae}
+
+\subsection{Special sections for notes and acknowledgements}
+
+Just as most articles have a bibliography, a lot of articles
+also contain `Notes' and `Acknowledgements'. For this reason,
+there are respectively the environments \texttt{notes}\Eindex{notes}
+and \texttt{acknowledgements}\Eindex{acknowledgements}.
+
+Here are some examples again:
+\begin{verbatim}
+\begin{notes}
+\item Please note that this class file is provided
+    {\it as is}, and is copyrighted\index{copyright}
+    by Kluwer Academic Publishers. You are free to use
+    this class file as you see fit, provided that you do
+    not make changes to the included macro files.
+    If you do make changes, you are required to rename
+    the changed files.\index{making changes}
+\end{notes}
+\end{verbatim}
+
+\begin{notes}
+\item Please note that this class file is provided {\it as is}, and
+    is \textcopyright\index{copyright}
+    by Kluwer Academic Publishers. You are free to use
+    this class file as you see fit, provided that you do not make
+    changes to the included macro files. If you do make changes, you
+    are required to rename the changed files.\index{making changes}
+\end{notes}
+
+\begin{verbatim}
+\begin{acknowledgements}
+...
+\end{acknowledgements}
+\end{verbatim}
+
+\begin{acknowledgements}
+I would like to thank Donald E. Knuth for the fact that
+he wrote this brilliant program, thereby indirectly supporting
+my wife, my cats and myself.\quad({\it T.H.\/})
+\end{acknowledgements}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Footnotes and endnotes}
+\index{Footnotes}
+\index{Endnotes}
+
+When using the {\tt kluwer} class file, you can produce endnotes
+analogous to \LaTeX\ footnotes. Instead of the
+\verb+\footnote+\Cindex{footnote} command you use
+\verb+\endnote+\Cindex{endnote}. The command
+\verb+\theendnotes+\Cindex{theendnotes} should be used to place the
+endnotes in the text. They will be put in a separate `Notes' section
+in the \verb+\footnotesize+ font.
+
+There are also companion commands \verb+\endnotemark+\Cindex{endnotemark}
+and \verb+\endnotetext+\Cindex{endnotetext}. Use those under
+circumstances when \verb+\endnote+ would fail.\endnote{Here is an example
+of an endnote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Kluwer's tabular environment}\label{tabular}
+
+The Kluwer class file makes various
+changes\Eindex{tabular}\index{tabular!changes made in}
+\Eindex{TABULAR(*)} to the \texttt{tabular} and \texttt{tabular*}
+environments. Most notable is the extra vertical spacing. This
+effectively disables vertical rules, since they would contain gaps.
+Vertical rules rarely help to make a table more readable, and are
+frowned upon by designers. For most tables, the recommended
+arrangement of rules is: \\
+-- one rule at the top \\
+-- one rule separating column heads from data cells \\
+-- one bottom rule \\
+and no vertical rules; see \emph{e.g.} table~\ref{tab1} in
+section~\ref{floats}.
+But if you think you really can't live without vertical rules, you
+can use the \texttt{TABULAR}\index{TABULAR}\Eindex{TABULAR}
+environment, which is identical to the standard LaTeX
+\texttt{tabular} environment.  Section \ref{floats} contains
+examples.
+
+\subsubsection{tabular* and the array package}
+
+\noindent The \texttt{tabular*} environment is also modified: it
+always fills the entire specified width.\Eindex{tabular*}; see
+table~\ref{tab2} in section~\ref{floats}.
+
+If you load the \texttt{array} or \texttt{dcolumn}
+package, then the \texttt{tabular*} environment won't spread its
+columns automatically; you need to create the more elaborate
+preamble described in Lamport C.10.2. Whereas \emph{without} the
+array package a preamble
+\begin{verbatim}
+\begin{tabular*}{\maxfloatwidth}{lll}
+\end{verbatim}
+would suffice, you would need
+\begin{verbatim}
+\begin{tabular*}{\maxfloatwidth}{%
+  l@{\extracolsep{0pc plus 2pc}}l@{\extracolsep{0pc plus 2pc}}l} 
+\end{verbatim}
+if the array- or dcolumn package is loaded.
+
+\subsection{Additional commands for `tabular' and `tabular*'}
+\index{tabular!additional commands in}
+
+As you saw above, there are some changes to the \texttt{tabular}
+and \texttt{tabular*} environments. Apart from the extended baseline
+and the filling out of \texttt{tabular*}, there are also four extra
+commands to draw partial horizontal lines; these are:
+
+\medskip
+\Cindex{rcline}\Cindex{lcline}\Cindex{rlcline}\Cindex{lrcline}%
+\index{tabular!lines in}\noindent
+\verb+\rcline+, which leaves some space to
+the {\it left\/} of the line\\ \verb+\lcline+, which leaves space to
+the {\it right\/} of the line\\ \verb+\rlcline+ and \verb+\lrcline+,
+these two leave space on both sides (they mean the same
+thing).
+\medskip
+
+\noindent These commands are used in the tabular below:
+
+
+\bigskip\noindent
+\begin{tabular}{lll} \hline
+Description 1 & Description 2 & Description \\
+\lcline{1-1}\rlcline{2-2}\rcline{3-3}
+A& Row 1, Col 2 & Row 1, Col 3 \\
+B& Row 2, Col 2 & Row 2, Col 3 \\ \hline
+\end{tabular}
+
+\begin{verbatim}
+\begin{tabular}{lll} \hline
+Description 1 & Description 2 & Description \\
+\lcline{1-1}\rlcline{2-2}\rcline{3-3}
+A& Row 1, Col 2 & Row 1, Col 3 \\
+B& Row 2, Col 2 & Row 2, Col 3 \\ \hline
+\end{tabular}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Floats}\label{floats}
+\index{floats}
+
+{\bf Note.} When using the Kluwer float environments, keep in mind
+that the Kluwer classfiles need to provide uniform formatting.
+Whereas the standard LaTeX float environments simply provide a plain
+vanilla floating environment with a caption command, the Kluwer
+float environments contain various formatting specifications;
+\emph{e.g.} the placement of the caption within a float is enforced:
+the caption will be typeset above the table whether your caption
+command preceeds or follows your tabular environment. If you run
+into trouble, try to remove your own formatting and go with the
+defaults provided.
+
+\bigskip\noindent
+The {\tt kluwer} class file defines two major kinds of float, tables
+and figures, and some derivatives like starred environments and {\tt
+sub...} versions.
+
+\subsection{The table environment}
+\Eindex{table}\index{Tables}
+\noindent Here is how the \texttt{table} environment is intended to be used:
+\begin{verbatim}
+\begin{table}[placement options]
+...
+\caption[optional short version]{Caption text.}
+\label{unique-label}
+\end{table}
+\end{verbatim}
+\label{capverb}
+
+\noindent For {\itshape placement options}\index{floats!placement
+options}\index{Tables!placement options}\index{Figures!placement
+options} you can use a combination of the following characters:
+\begin{itemize}
+\item[{\tt t}] This indicates placement at the top of a page. This may
+    be the current page, but it could also be a subsequent one.
+\item[{\tt b}] This indicates placement at the bottom of a page. This may
+    be the current page, but it could also be a subsequent one.
+\item[{\tt p}] This indicates placement on a page that contains floats only,
+    no text.
+\item[{\tt h}] This should mean `here', but it is not always possible
+    (there may not be enough  space left on the page). In that case, \LaTeX\
+    will change this to {\tt [ht]}.
+\end{itemize}
+\noindent
+The following option is non-standard:\index{The {\tt H} option for floats}
+\begin{itemize}
+\item[{\tt H}]  Also means `here', but in a more rigorous way. If there
+    is not enough space left on the page, the page will be filled up
+    with whitespace and
+    the float will appear at the top of the next page. The difference between
+    {\tt h} and {\tt H} is that {\tt H} {\it never\/} skips over the following
+    text.
+\end{itemize}\label{specifiers}
+
+\noindent The table \Cindex{caption}caption is given with the
+\verb+\caption+ command. This command is required! If you do not
+have a caption, use \verb+\caption{}+.\index{floats!captioning} As
+you will see in the examples below, the correct way to tag a table
+for referencing through \verb+\ref+ is by putting  the \verb+\label+
+{\it after\/} the caption command.\index{floats!referencing}
+
+
+\subsubsection{Examples}
+We show two examples of tables. Their output can be seen in
+Tables~\ref{tab1} and~\ref{tab2}. See section~\ref{tabular} on the
+use of rules in tables.
+
+The first example, table~\ref{tab1}:
+\begin{verbatim}
+\begin{table}
+\caption{Caption text.}\label{tab1}
+\begin{tabular}{lll} \hline
+Description 1 & Description 2 & Description \\ \hline
+Row 1, Col 1 & Row 1, Col 2 & Row 1, Col 3 \\
+Row 2, Col 1 & Row 2, Col 2 & Row 2, Col 3 \\
+\hline
+\end{tabular}
+\end{table}
+\end{verbatim}
+
+
+\begin{table}
+\caption{Caption text.}\label{tab1}
+\begin{tabular}{lll} \hline
+Description 1 & Description 2 & Description \\ \hline
+Row 1, Col 1 & Row 1, Col 2 & Row 1, Col 3 \\
+Row 2, Col 1 & Row 2, Col 2 & Row 2, Col 3 \\ \hline
+\end{tabular}
+\end{table}
+
+\noindent
+The following example demonstrates the Kluwer version of the
+\texttt{tabular*} environment; see section~\ref{tabular}. You may
+want to set the width parameter to
+\verb+\maxfloatwidth+,\Cindex{maxfloatwidth} \index{floats!maximum
+width} which is the maximum allowed width of the float. Some of our
+journals have indented floats, so then the float is not allowed to
+be as wide as \verb+\textwidth+, while rotated tables (see below)
+have an allowed width of (almost) \verb+\textheight+.
+
+\begin{verbatim}
+\begin{table}
+\caption{Caption text.}\label{tab2}
+\begin{tabular*}{\maxfloatwidth}{lll} \hline
+Description 1 & Description 2 & Description \\ \hline
+Row 1, Col 1 & Row 1, Col 2 & Row 1, Col 3 \\
+Row 2, Col 1 & Row 2, Col 2 & Row 2, Col 3 \\
+\hline
+\end{tabular*}
+\end{table}
+\end{verbatim}
+
+\begin{table}
+\caption{Caption text.}\label{tab2}
+\begin{tabular*}{\maxfloatwidth}{lll} \hline
+Description 1 & Description 2 & Description \\ \hline
+Row 1, Col 1 & Row 1, Col 2 & Row 1, Col 3 \\
+Row 2, Col 1 & Row 2, Col 2 & Row 2, Col 3 \\
+\hline
+\end{tabular*}
+\end{table}
+
+\subsubsection{Trouble with captions}
+\noindent One final remark on tables: a Kluwer table float is
+specifically intended to contain a \texttt{tabular[*]} environment.
+If it doesn't, it may not know how wide a caption should be. If a
+long caption doesn't get broken properly into lines, the cause may
+be that your table is not a tabular, or that you are using a package
+that reimplements the \texttt{tabular} environment, or that there is
+more than one \texttt{tabular}. In such cases, you can tell the
+caption command manually the width of the table with a command
+\verb+\tabwidth{...}+ at the end of the \texttt{table} environment.
+
+\subsection{The figure environment}\index{Figures!options|see{floats}}
+
+Section~\ref{graphics} deals with general aspects of including
+graphics. This subsection is about the Kluwer
+\texttt{figure} float environment.
+
+For figures, there are the environments
+\texttt{figure}\Eindex{figure} and \texttt{figure*}\Eindex{figure*}.
+Both of these support the same optional placement specifiers
+as \texttt{table};
+see page~\pageref{specifiers} and section~\ref{specifiers}.
+
+Figure~\ref{mouse} is a typical figure, generated by the following
+code:
+\begin{verbatim}
+\begin{figure}
+\centerline{\includegraphics[width=12pc]{mouse.eps}}
+\caption{This is the caption of the figure.}
+\end{figure}
+\end{verbatim}
+Note that this example needs the line
+\Pindex{graphicx}
+\begin{verbatim}
+\usepackage[...]{graphicx}
+\end{verbatim}
+in the preamble of your document.
+
+
+\Eindex{figure}\Cindex{caption}\Cindex{centerline}
+\begin{figure}
+\centerline{\includegraphics[width=12pc]{mouse.eps}}
+\caption{This is the caption of the figure. This is a little mouse
+with one ear.}\label{mouse}
+\end{figure}
+
+
+\subsection{Subnumbering tables and figures}
+
+\texttt{figure}\Eindex{figure} and \texttt{table}\Eindex{table} also
+allow you to use the environments \texttt{subtable}\Eindex{subtable}
+and \texttt{subfigure}\Eindex{subfigure}. These two environments
+implement subnumbering, analogous to the
+\texttt{subequation}\Eindex{subequation} environment; see
+section~\ref{sub}.\index{floats!subnumbering}
+
+\subsection{Side-by-side figures}
+Please don't use the \texttt{subfigure} package for placing figures
+side-by-side: there is a name conflict with the subfigure feature
+described above. You won't need any particular package for this
+anyway. One way to accomplish such a thing is with the following
+code; see figure~\ref{twomice}:
+\begin{verbatim}
+\begin{figure}[H]
+\tabcapfont
+\centerline{%
+\begin{tabular}{c@{\hspace{6pc}}c}
+\includegraphics[width=1in]{mouse.eps} &
+\includegraphics[width=1in]{mouse.eps} \\
+a.~~ A mouse & b.~~ Another mouse
+\end{tabular}}
+\caption{Two mice}\label{twomice}
+\end{figure}
+\noindent Figures \ref{twomice}.a. and \ref{twomice}.b. are
+suspiciously similar.
+\end{verbatim}
+
+\begin{figure}[H]
+\tabcapfont
+\centerline{%
+\begin{tabular}{c@{\hspace{6pc}}c}
+\includegraphics[width=1in]{mouse.eps} &
+\includegraphics[width=1in]{mouse.eps} \\
+a.~~ A mouse & b.~~ Another mouse
+\end{tabular}}
+\caption{Two mice}\label{twomice}
+\end{figure}
+\noindent Figures \ref{twomice}.a. and \ref{twomice}.b. are
+suspiciously similar.
+
+\subsection{The algorithm environment}
+
+The \texttt{algorithm} environment\Eindex{algorithm} is no longer
+available.
+
+\subsection{Rotated floats}
+\index{floats!rotating}
+\noindent To rotate a table or figure over $90^{\circ}$
+counterclockwise, enclose the entire table/figure in the
+\texttt{kaprotate}\Eindex{kaprotate} environment.
+
+\begin{verbatim}
+\begin{kaprotate}
+\begin{table}
+...
+\end{table}
+\end{kaprotate}
+\end{verbatim}
+
+\noindent If you rotate a float, it will always use an entire page.
+
+\subsection{Single- and doublecolumns floats}
+In two-column styles, there is a difference
+between\index{floats!difference between normal and starred forms}
+the starred forms \texttt{figure*} and \texttt{table*} compared to
+their normal forms. The starred forms of \texttt{table} and
+\texttt{figure} will be doublecolumn, while the ordinary forms are
+one column.  This distinction also holds for rotated versions.
+
+\section{Using graphics with LaTeX}\label{graphics}
+
+\subsection{Macro packages for graphics inclusion}
+
+You are encouraged to include figures electronically. For this, we
+recommend the packages from the graphics bundle, including
+\texttt{graphics}\Pindex{graphics},
+\texttt{graphicx}\Pindex{graphicx} and
+\texttt{epsfig}\Pindex{epsfig}. If you currently use
+\texttt{psfig}\Pindex{psfig} then you may prefer \texttt{epsfig},
+which implements the interface of \texttt{psfig} in terms of the
+other packages. For documentation, see `Packages in the
+`graphics' bundle' by David Carlisle (filename
+\texttt{grfguide.[tex|ps]}). This document may be available within
+your TeX installation, but can also be obtained from CTAN, see
+page~\pageref{CTAN}.
+
+Another online resource is `Using Imported Graphics in LaTeX2e' by
+Keith Reckdahl (file \texttt{epslatex}, also available from CTAN).
+Be aware that you cannot blindly trust the information there to be
+valid with the Kluwer classes.
+
+\subsection{Graphics file formats}
+
+In general, the preferred graphics are tiff\index{tiff graphics
+format} for images/bitmaps and Encapsulated
+PostScript\index{Encapsulated PostScript}, eps\index{eps graphics
+format} in short, for any type of graphic, including bitmaps. Our
+TeX installation requires eps, but we can easily convert tiff to
+eps. Many other formats, e.g. pict (Macintosh), wmf (Windows) and
+various proprietary formats, are not suitable. Even if we can read
+such files, there is no guarantee that they will look the same on
+our systems as on yours. Don't use bm2font either.
+
+Simple line art without gray objects can easily be scanned by us, so
+as long as you provide good hardcopy of such pictures there will be
+no problem.
+
+For bitmapped graphics, the following resolutions are optimal:
+black-and-white line figures: 600--1200 dpi; line figures with some
+grey or coloured lines: 600 dpi; photographs: 300 dpi; screen shots:
+leave as is; any resampling at all will compromise the quality of
+screenshots. These are resolutions \emph{after} scaling. Higher
+resolutions won't improve output quality but do increase file size
+and increase the likelihood of problems at print time; lower
+resolutions may compromise output quality.
+
+If your program does not export to eps, you can let the printer
+driver generate an eps file; see below.
+
+\subsection{Setting up your Windows printerdriver for eps
+generation}\index{Eps generation}
+
+Create a printer entry especially for this purpose. Pick a
+printermodel without non-standard features. When available,
+`Distiller' is a good choice; an alternative is `Apple Laserwriter
+Plus'. Specify `FILE:' as printer port. Then each time you send
+something to the `printer' you will be asked for a filename. This
+will be the name of your EPS file.
+
+The Encapsulated PostScript (EPS) export option can be found under
+the PostScript tab. EPS export should be used only for single pages.
+
+If your PostScript driver doesn't have this option (Windows
+NT)\index{Windows NT} then we can probably use an ordinary
+PostScript dump. Select a PostScript option such as `Optimize for
+portability' or `Archive'.
+
+\subsection{Eps problems}\index{Eps problems}
+
+Eps files are often broken. Frequent problems are: very thin lines
+(thinner than, say, 0.25pt, or even thickness 0), very light tints
+(less than 10\% gray), exotic fonts and invalid PostScript. Use
+standard fonts (Times, Helvetica, Symbol) as much as possible.
+Convert text to outlines if you know how to. Test your files by trying
+to print them.
+
+Even so, printing to an imagesetter is something very different from
+printing to a desktop printer, even if it is a PostScript printer.
+So cross your fingers and supply good hardcopy. That way, at least
+we can spot problems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{References}\index{References}
+{\sloppy
+References are inserted in the
+\texttt{thebibliography}\Eindex{thebibliography} environment. We
+distinguish two styles of References: by name (explained below
+in section~\ref{alpharef}) and numbered (explained in
+section~\ref{numref}). You can select one of these styles by
+including the appropriate document option in the
+\verb+\documentclass+ command. \emph{Please refer to the style of
+the journal concerned when choosing an option for your references.}
+If no document option is included, the class file will usually
+presume named references.  \par}
+
+\subsection{References by name}
+\label{alpharef}\index{References!alphabetical}
+
+{\sloppy
+For references by name one should include the
+document option \texttt{namedreferences}\Oindex{namedreferences}
+in the documentclass command:\par}
+
+\begin{verbatim}
+\documentclass[namedreferences]{kluwer}
+\end{verbatim}
+
+{\sloppy \noindent For the \verb+\bibitem+ \Cindex{bibitem} entries
+there are some special, non-standard formatting requirements. You
+are urged to use Bibtex with the
+\texttt{klunamed}\Cindex{klunamed.bst} bibliography style, see
+section~\ref{bibtex}, which handles these requirements
+automatically. All Kluwer journals which use named references accept
+the \texttt{klunamed} bibliography style.
+
+Now about these requirements: every \verb+\bibitem+ in the
+\texttt{thebibliography}\Eindex{thebibliography} environment should
+have a \verb+\citeauthoryear+\Cindex{citeauthoryear} command as an
+option and should have a key to refer to. The \verb+\citeauthoryear+
+should have two arguments: the author's name(s) and the year. The
+\verb+\citeauthoryear+ should be preceded by a
+\verb+\protect+\Cindex{protect} and in the case of more than two
+authors the argument with the author's name(s) should contain the
+first author's name with an et al., \emph{e.g.}:\par}
+
+\begin{verbatim}
+\bibitem[\protect\citeauthoryear{authorname(s)}{year}]{key}
+\end{verbatim}
+
+\noindent The first part of your References section could look like this:
+\Eindex{thebibliography}
+
+\bigskip
+{\noindent\footnotesize\verb+\begin{thebibliography}{} %+
+\quad Note the empty pair of curly braces!
+\bigskip
+\begin{verbatim}
+\bibitem[\protect\citeauthoryear{Smith et al.}{1992}]{Smith92}
+Smith, I.N., Johnes, R.S. and Hines, W.P.: 1992,
+`Title of the Article',
+{\it Journal\/} {\bf Vol.~no.~X},
+pp.~00--00
+\end{verbatim}
+}
+
+{\sloppy\noindent
+The following \verb+\cite+ 
+\Cindex{cite}
+\Cindex{shortcite}
+\Cindex{citeauthor}
+\Cindex{citeyear}
+\Cindex{inlinecite}
+\Cindex{opencite}
+commands can now be used in
+your article: \verb+\cite+, \verb+\shortcite+, \verb+\citeauthor+,
+\verb+\citeyear+, \verb+\inlinecite+ and \verb+\opencite+.  For the
+sample \verb+\bibitem+ above, the four {\tt cite} commands would
+generate the following reference in your text:\par}
+
+\medskip
+\begin{tabular}{ll} \hline
+Call:                &Produces:\\ \hline
+\verb+\cite{Smith92}+       &\cite{Smith92}\\
+\verb+\citeauthor{Smith92}+ &\citeauthor{Smith92}\\
+\verb+\citeyear{Smith92}+   &\citeyear{Smith92}\\
+\verb+\shortcite{Smith92}+  &\shortcite{Smith92}\\
+\verb+\inlinecite{Smith92}+ &\inlinecite{Smith92}\\
+\verb+\opencite{Smith92}+   &\opencite{Smith92} \\ \hline
+\end{tabular}
+\medskip
+
+
+\noindent With these commands or combinations of them you can create
+any reference in your text according to the reference style of the
+journal in which your article is to be published.
+
+If you don't want to make use of
+references, but just want to generate a bibliographic
+\index{References!typesetting a sorted list}
+list at the end of your article, you can
+use empty square brackets and braces, like this:
+\verb+\bibitem[]{}+.\Cindex{bibitem}
+
+You can format the bibitems manually, but it is better to let Bibtex
+generate them, using the \texttt{klunamed} bibliography style; see
+page~\pageref{bibtex}.  For the layout conventions we refer you to
+the authors instructions of the journal in which your article is to
+be published.
+
+\subsection{Numbered References}
+\label{numref}\index{References!numbered}
+
+{\sloppy
+For numbered references one should include the documentclass option
+\texttt{numreferences}\Oindex{numreferences} in the preamble
+command: \par}
+
+\begin{verbatim}
+\documentclass[numreferences]{kluwer}
+\end{verbatim}
+
+\Eindex{thebibliography}
+\noindent You should start the \texttt{thebibliography} environment
+with the command:
+
+\begin{verbatim}
+\begin{thebibliography}{99}
+\end{verbatim}
+
+\noindent The second pair of curly braces should contain a number
+that corresponds with the widest number in the reference list below
+(usually 99 is the correct value).
+
+{\sloppy
+\Cindex{bibitem}
+\Cindex{cite}
+You should label every \verb+\bibitem+ by putting a key between the
+curly braces, e.g.: \verb+\bibitem{Smith92}+
+In your article you can refer to this
+\verb+\bibitem+ with \verb+\cite{Smith92}+.\par}
+
+\subsubsection{Using the optional argument of {\tt bibitem}}
+
+{\sloppy
+With numbered references, you should not use the optional
+argument to \verb+\bibitem+, since it will produce
+unexpected results.\par}
+
+The \verb+\cite+ command will produce the number of the reference in
+brackets, e.g. [2]. The \verb+\shortcite+, \verb+\citeauthor+ ...
+commands, as mentioned in
+Section~\ref{alpharef}, can also be used but they will produce the same
+output as \verb+\cite+.
+
+You can either format the bibitems manually or let Bibtex
+generate them; see below.  For the layout conventions we refer you
+to the authors instructions of the journal in which your article is
+to be published.
+
+\subsubsection{Customization}
+For numbered references, brackets around both bibliographic
+references and citations are now parameterized: if e.g. you want
+brackets around the numbers of the bibliographic entries but no dot
+after the number then you can put the following definitions is the
+preamble:
+\begin{verbatim}
+\def\redot{}
+\def\releft{[}
+\def\reright{]}
+\end{verbatim}
+In the same vein, brackets around citations in the text are defined
+by \verb+\def\coleft{[}+ and \verb+\def\ccright{]}+.
+
+\subsubsection{Ranges of references}
+
+If you want to collapse a range of citations such as [3,4,5] into
+something like [3--5] then you can load the package
+\texttt{klucite}:
+\begin{verbatim}
+\usepackage{klucite}
+\end{verbatim}
+It only works if the references are in the correct order.
+
+\subsection{\BibTeX}
+\label{bibtex}\index{Bibtex}\index{References!using bibtex}
+\index{Using bibtex}\index{Bibliography|see{References}}
+
+If you use \BibTeX, please send the {\tt bbl} file, not the
+\texttt{.bib} files. You could also include the \BibTeX\ output
+directly in your article.
+
+Kluwer has \BibTeX\ style files available for the
+\texttt{namedreferences}\Oindex{namedreferences} and
+\texttt{numreferences}\Oindex{numreferences} options. For named
+references, the file is called
+\texttt{klunamed.bst}\index{Bibtex!klunamed.bst}. You are strongly
+urged to use this one because of the special requirements for named
+references. For \texttt{numreferences}\Oindex{numreferences}, the
+file is called \texttt{klunum.bst}\index{Bibtex!klunum.bst}. You can
+substitute other bibliography styles for numbered references if you
+want. Both files are included with the distribution of the class
+file.
+
+We refer you to the \LaTeX\ and \BibTeX\ manuals for further
+information on using \BibTeX.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Various}
+
+
+
+\subsection{My pages come out raggedbottom!}
+
+The\index{short pages}
+sectioning commands always try to keep a section head together with
+a certain number of subsequent lines on
+the same page. Values may differ, but the
+typical values are: 3 lines for section and subsection and 2 lines
+for subsubsection.
+
+If you find that your pages come out unbalanced,
+this could be the problem. The other likely problem is
+that you used a \texttt{H}ere float on the page, and it didn't fit.
+
+\subsection{AMSmath and cross-referencing}
+
+If you use AMSmath,\index{AMSmath} you may have trouble with
+cross-referencing your equations. You can solve this by omitting the
+\verb+\begin/end{article}+ lines.
+
+The \texttt{article} environment is designed to allow multiple
+articles in one document. In order to guarantee unique
+cross-referencing labels, it internally prepends the article number
+as a Roman numeral to cross-referencing labels. We saw no way to
+make this work with AMSmath.  However, without an article
+environment nothing will be prepended, and cross-referencing will
+work o.k.
+
+\subsection{Error messages \emph{Command . . . already defined}}
+
+You can usually ignore messages about commands already being
+defined.
+
+\subsection{Bold math}\Pindex{bm}\index{Bold math}
+
+If you fail to get bold symbols, try loading the \texttt{bm} package:
+\begin{verbatim}
+\usepackage{klups]
+...
+$y = \bm{\alpha}$
+\end{verbatim}
+This package should be loaded \emph{after} packages such as klups or
+mathtime, if you use such a package.
+
+\subsection{Vertical space with theorems, proofs and display math}
+
+The proof environment is designed to maintain a fixed vertical space
+from a preceding theorem environment. If your theorem ends with
+displaymath you may not be happy with the effect. In that case,
+precede the proof environment with \verb+\vskip0pt+.
+
+\subsection{Authors' instructions}\index{authors' instructions}
+
+You may still encounter outdated authors' instructions for certain
+journals.  The instructions may require
+double line spacing\index{double line spacing} for submissions, or
+state that
+the journal does not accept electronic
+figures\index{Figures!electronic}. Neither of these statements
+applies to \LaTeX\ submissions. You do not have to change the
+baselines and we are happy with Encapsulated Postscript
+figures.\index{Encapsulated
+PostScript}\index{Figures!EPS}
+
+\subsection{Double abstracts}
+
+Sorry,\index{multiple abstracts}
+but you cannot have multiple abstracts in one article.
+If you need that, you have to make one
+abstract environment look like two.
+
+\subsection{Letterspaced text, problems with sections and captions}
+
+{\sloppy\noindent
+Certain journals require certain headings in a letterspaced font.
+While the stylefile provides for this, it interferes with writing to
+auxiliary files like the Table of Contents files. If you encounter
+incomprehensible error messages, the first thing you should try is
+to replace the offending \verb+\caption{...}+ or
+\verb+\section{...}+ command by \verb+\caption[...]{...}+ or
+\verb+\section[...]{...}+. You will sometimes also have to delete
+the \texttt{<jobname>.aux} file.
+
+If you tried this, and it didn't work, you can ask support from
+\texttt{texhelp@wkap.nl}. Please provide us with a log file that
+contains the error you received.\par}
+
+\subsection{Kluwer styles for camera-ready books}
+
+At our website, \texttt{www.wkap.nl}, LaTeX class files are available
+for camera-ready books (proceedings, edited volumes and monographs).
+These are not based on the journal styles documented here,
+and are maintained and supported by our Boston branch, email
+\texttt{dthelp@\dbr wkap.\dbr com}.
+
+Some ongoing book projects use different class files which
+\emph{are} based on the journal styles and are supported by us.
+These class files are being phased out and are available only upon
+request. They come with some additional documentation.
+
+\subsection{Obtaining extra fonts / macro packages}
+
+You may want to get extra packages and/or fonts (like the
+\texttt{wasy} symbol font) if those are not  provided at your site.
+
+All \TeX\ related files on the internet are available
+from a large central archive called CTAN. These are the main
+CTAN sites:\label{CTAN}
+
+{\tt
+\begin{center}
+ ftp.dante.de  (Deutschland) /tex-archive \\
+  ctan.tug.org  (TeX Users Group, Boston, U.S.A.) /tex-archive \\
+  ftp.tex.ac.uk (England) /tex-archive \\
+\end{center}}
+
+{\sloppy
+\noindent In the root of the CTAN directory structure you can find a
+file \texttt{CTAN.sites} with mirrors. If you decide to download,
+please select a site near you (network-wise).  The root of the CTAN
+tree also conveniently contains files \texttt{FILES.bydate},
+\texttt{FILES.byname} and \texttt{FILES.bysize}.\par}
+
+\bigskip\noindent If you do not have internet access, some of the packages
+ from these sites can also be obtained by request from KAP,
+ using the address at the end of this document.
+
+\subsection{Submitting bug reports and requests}
+
+{\sloppy
+If you have questions regarding our class file, or if you
+have discovered a bug, or if you have a request for something
+you would like to see included in the next version of this
+class file, send you comments to: {\tt texhelp@wkap.nl} (e-mail)
+or to KAP PrePress, Achterom 119, 3311 KB Dordrecht, The Netherlands
+(regular mail).\par}
+
+
+\theendnotes
+
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{}
+\bibitem[\protect\citeauthoryear{Goossens \bgroup \em et al.\egroup
+  }{1994}]{goossens}
+Goossens, M., F. Mittelbach, and A. Samarin:
+\newblock {\em The {\LaTeX} Companion}.
+\newblock Ad{\-d}i{\-s}on-Wes{\-l}ey, Reading, MA, USA, 1994.
+
+\bibitem[\protect\citeauthoryear{Knuth}{1984a}]{knuth}
+Knuth, D.E:
+\newblock {\em The {\TeX}book}.
+\newblock Ad{\-d}i{\-s}on-Wes{\-l}ey, Reading, MA, USA, 1984.
+
+\bibitem[\protect\citeauthoryear{Lamport}{1985}]{lamport}
+Lamport, L.:
+\newblock {\em {\LaTeX} -- {A} Document Preparation System -- User's
+  Guide and Reference Manual}.
+\newblock Ad{\-d}i{\-s}on-Wes{\-l}ey, Reading, MA, USA, 1985.
+
+\bibitem[\protect\citeauthoryear{Smith et al.}{1992}]{Smith92}
+Smith, I.N., R.S. Johnes, and W.P. Hines: 1992,
+`Title of the Article',
+{\it Journal Title in Italics} {\bf Vol.~no.~X},
+pp.~00--00
+
+\end{thebibliography}
+\printindex
+\label{lastpage}
+\end{article}
+\end{document}

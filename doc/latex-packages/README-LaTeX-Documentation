@@ -1,0 +1,18 @@
+The "latex-packages" subdirectory contains the necessary LaTeX macro files
+to compile any .tex files in the "doc" subdirectory of this project.  To
+do so, copy these files to an appropriate location in your TeX installation
+tree, or into the same directory as the source .tex file you're 
+compiling.  
+
+This will only be a concern to those who are editing and recompiling the 
+original .tex file.  This distribution includes an output PDF of any documentation
+files written in .tex for convenience.  
+
+If you do want to work on the original .tex files, I strongly recommend doing so
+within Eclipse, using the TeXclipse plug-in, which is what I did.  The downside of this plugin 
+is that the current version is clumsy to configure, but once configured it works well.  This allows you 
+to have the simulation code open in the same IDE as the .tex file, and the eclipse 
+environment provides a fairly decent LaTeX editor.  In OS X other great choices are TeXShop
+(probably my favorite LaTeX GUI for Mac), although the programming editor TextMate is 
+also excellent.  I'm less impressed with iTeXMac, although that's a pretty common 
+choice it seems.  
