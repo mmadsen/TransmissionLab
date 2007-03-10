@@ -14,11 +14,12 @@ import org.apache.log4j.PropertyConfigurator;
 import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmission.analysis.TraitFrequencyAnalyzer;
 import org.mmadsen.sim.transmission.analysis.top40DataFileRecorder;
+import org.mmadsen.sim.transmission.interfaces.IAgent;
 import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmission.interfaces.IDataCollector;
 import org.mmadsen.sim.transmission.interfaces.IPopulationFactory;
 import org.mmadsen.sim.transmission.interfaces.ISharedDataManager;
-import org.mmadsen.sim.transmission.population.PopulationFactory;
+import org.mmadsen.sim.transmission.population.SingleTraitPopulationFactory;
 import org.mmadsen.sim.transmission.rules.NonOverlappingRandomSamplingTransmission;
 import org.mmadsen.sim.transmission.rules.RandomAgentInfiniteAllelesMutation;
 import org.mmadsen.sim.transmission.util.PopulationRuleset;
@@ -41,7 +42,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		init.loadModel(model, null, false);
 	}
 	
-	private List<AgentSingleIntegerVariant> agentList = null;
 	private ActionGroup allActionGroups = null;
 	private ActionGroup analysisActionGroup = null;
 	private List<IDataCollector> dataCollectorList = null;
@@ -54,7 +54,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	private Boolean enableFileSnapshot = false;
 	
 	private Boolean enableNewTopN = true;
-	private BasicAction initialAction;
 	private String initialTraitStructure = null;
 	private Log log = null;
 	private int maxVariants = 4000;
@@ -127,9 +126,8 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	
 	
 	private void buildModel() {
-		IPopulationFactory factory = new PopulationFactory();
+		IPopulationFactory factory = new SingleTraitPopulationFactory();
 		this.population = factory.generatePopulation(this, log);
-		this.agentList = this.population.getAgentList();
 		this.maxVariants = this.population.getCurrentMaximumVariant();
 	}
 
@@ -159,10 +157,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	public void executePopulationRules() {
 		this.log.debug("executing population rules at tick: " + this.getNumTicks());
 		this.population = (IAgentPopulation) this.popRuleSet.transform(this.population);
-	}
-	
-	public List<AgentSingleIntegerVariant> getAgentList() {
-		return this.population.getAgentList();
 	}
 	
 	public boolean getCopyHist() {
@@ -253,34 +247,9 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		return Variant;
 	}
 
-	public void initialAction() {
-		transmitVariants();
-		
-		// now we iterate over the IDataCollectors, allowing each to run
-		for( IDataCollector collector: this.dataCollectorList) {
-			collector.process();
-		}
-	}
-
-	// TODO:  Deprecate and remove after Ruleset thoroughly tested, before 1.3 release!!
-	public void mutateVariants() {
-		log.debug("Entering mutateVariants at time: " + this.getTickCount());
-		for (int n = 0; n < numNodes; n++) {
-			double chance = Random.uniform.nextDoubleFromTo(0, 1);
-			AgentSingleIntegerVariant iNode = (AgentSingleIntegerVariant) agentList.get(n);
-			if (chance < getMu()) {
-				this.maxVariants++;
-				iNode.setAgentVariant(this.maxVariants);
-			}
-		}
-	}
 
 	private void removeDataCollector(IDataCollector collector) {
 		this.dataCollectorList.remove(collector);
-	}
-
-	public void removeInitialAction() {
-		schedule.removeAction(initialAction);
 	}
 
 	public void removeSharedObject(String key) {
@@ -359,7 +328,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		 * data.
 		 */
 		this.schedule = null;
-		this.agentList = null;
 		this.Variant = 1;
 		
 		// if this is the first time through (i.e., just started the simulation),
@@ -387,7 +355,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		
 		Random.createUniform();
 	
-		this.agentList = new ArrayList<AgentSingleIntegerVariant>();
 		this.dataCollectorList = new ArrayList<IDataCollector>();
 		this.dataCollectorMap = new HashMap<String, IDataCollector>();
 		this.sharedDataRepository = new SharedRepository();
@@ -427,76 +394,13 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		this.sharedDataRepository.putEntry(key, value);
 	}
 
-	public void transmitVariants() {
-		log.debug("Entering transmitVariants at time: " + this.getTickCount());
-		int[] copiedVariants = new int[numNodes];
-		
-		/*
-		 * MEM:
-		 * Create a list of variants, equal in size to the 
-		 * number of agents, but chosen randomly from the 
-		 * agent population, with replacement. This list will
-		 * be used to then reassign all of the agents with a 
-		 * variant for the next time step, from the current population
-		 * of variants.  This could be the same variant they 
-		 * already have, but the chance of that is proportional
-		 * to the frequency of their old variant in the population.
-		 * This implements a pure random sampling of traits, and
-		 * implies that low-frequency traits could go "extinct" purely
-		 * by drift (i.e., not being part of the sampled variation 
-		 * in a given time step).
-		 */
-		for (int n = 0; n < numNodes; n++) {
-			int index = Random.uniform.nextIntFromTo(0, numNodes - 1);
-			AgentSingleIntegerVariant iNode = agentList.get(index);
-			copiedVariants[n] = iNode.getAgentVariant();
-		}
+	
+	public IAgentPopulation getPopulation() {
+		return this.population;
+	}
 
-		/*
-		 * MEM:  
-		 * Right now, even though parts of this next loop 
-		 * weren't commented out in the model I received, 
-		 * it's not doing anything.  The 
-		 * intent appears to be that we'll single out a proportion
-		 * of the population as "early adoptors" and we'll give them
-		 * a "trendier" trait -- however defined.  I've commented it 
-		 * out completely for now, since we're not even relying upon 
-		 * it for beneficial side effects, and part of it was causing
-		 * our negative variant index bug.
-		 */
-		
-		// Now the early Adopters look for "cooler copies"
-		// with frequencies < theNewThing
-		/*for (int i = 0; i < (numNodes * earlyAdoptors); i++) {
-			//Find an early adoptor at index n
-			int eAindex = Random.uniform.nextIntFromTo(0, numNodes - 1);
-			AgentSingleIntegerVariant eANode = (AgentSingleIntegerVariant) agentList.get(eAindex);
-
-			// early adopter then looks until finds another with trendy variant
-			int trendyVariant = eANode.getAgentVariant();
-			//while (trendyVariant < getVariant() - (int)getNMu()*getStillTrendy()) {
-			//int index = Random.uniform.nextIntFromTo(0, numNodes - 1);
-			//AgentSingleIntegerVariant iNode = (AgentSingleIntegerVariant)agentList.get(index);
-			// trendyVariant = iNode.getAgentVariant();
-			//}
-			
-			// MEM - this is what's causing the issue with negative array
-			// indices in updateCopySummary(). Not sure what it does, actually. 
-			//copiedVariants[eAindex] = getVariant() - i;//trendyVariant;
-
-		}*/
-
-		/*
-		 * MEM:  
-		 * Now we just run through the array of "new" variants and 
-		 * copy those to the relevant individuals, setting up the 
-		 * population for the next time step.  
-		 */
-		
-		for (int n = 0; n < numNodes; n++) {
-			AgentSingleIntegerVariant node = (AgentSingleIntegerVariant) agentList.get(n);
-			node.setAgentVariant(copiedVariants[n]);
-		}
+	public void setPopulation(IAgentPopulation population) {
+		this.population = population;
 	}
 
 }

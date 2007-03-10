@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmission.interfaces.IAgent;
 import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmission.interfaces.IPopulationTransformationRule;
 import org.mmadsen.sim.transmission.models.TransmissionLabModel;
@@ -30,17 +31,19 @@ public class NonOverlappingRandomSamplingTransmission implements
 	}
 
 	private IAgentPopulation transmit(IAgentPopulation population) {
-		List<AgentSingleIntegerVariant> agentList = population.getAgentList();
-		List<AgentSingleIntegerVariant> newAgentList = new ArrayList<AgentSingleIntegerVariant>();
+		List<IAgent> agentList = population.getAgentList();
+		List<IAgent> newAgentList = new ArrayList<IAgent>();
 		int numAgents = agentList.size();
 		
 		// since we're just sampling with replacement, we'll simply make a new
 		// list of agents randomly from the old list, and replace the agent list
 		// in the population object
+		// NOTE:  this is the ONLY place in the class where we know that we're dealing
+		// with a specific agent class, rather than a generic IAgent...
 		for(int i = 0; i < numAgents; i++) {
 			int index = Random.uniform.nextIntFromTo(0, numAgents - 1);
 			//log.debug("transmit: choosing agent " + index + " to copy");
-			AgentSingleIntegerVariant agent = agentList.get(index);
+			AgentSingleIntegerVariant agent = (AgentSingleIntegerVariant) agentList.get(index);
 			newAgentList.add(new AgentSingleIntegerVariant(agent.getAgentVariant()));
 		}
 		

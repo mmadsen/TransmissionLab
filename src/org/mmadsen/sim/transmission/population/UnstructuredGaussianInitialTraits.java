@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmission.interfaces.IAgent;
 import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 
 import uchicago.src.sim.util.Random;
@@ -23,7 +24,7 @@ import uchicago.src.sim.util.Random;
 
 public class UnstructuredGaussianInitialTraits implements IAgentPopulation {
 
-	private ArrayList<AgentSingleIntegerVariant> agentList = null;
+	private ArrayList<IAgent> agentList = null;
 	private int numAgents = 0;
 	private double meanInitialVariant = 1000;
 	private double stdevInitialVariant = 250;
@@ -33,7 +34,7 @@ public class UnstructuredGaussianInitialTraits implements IAgentPopulation {
 	public UnstructuredGaussianInitialTraits(int numAgents, Log log) {
 		this.numAgents = numAgents;
 		this.log = log;
-		this.agentList = new ArrayList<AgentSingleIntegerVariant>();
+		this.agentList = new ArrayList<IAgent>();
 	
 		Random.createNormal(meanInitialVariant, stdevInitialVariant);
 		
@@ -45,11 +46,12 @@ public class UnstructuredGaussianInitialTraits implements IAgentPopulation {
 			if ( randomVariant > this.currentMaxVariant) {
 				this.currentMaxVariant = randomVariant;
 			}
+			// the following is the ONLY place where this class knows the concrete type of agents it's creating.
 			this.agentList.add(new AgentSingleIntegerVariant(randomVariant, this.log));
 		}
 	}
 	
-	public List<AgentSingleIntegerVariant> getAgentList() {
+	public List<IAgent> getAgentList() {
 		return this.agentList;
 	}
 
@@ -57,9 +59,12 @@ public class UnstructuredGaussianInitialTraits implements IAgentPopulation {
 		return currentMaxVariant;
 	}
 
-	public void replaceAgentList(List<AgentSingleIntegerVariant> newAgentList) {
+
+	public void replaceAgentList(List<IAgent> newAgentList) {
 		this.agentList = null;
-		this.agentList = new ArrayList<AgentSingleIntegerVariant>(newAgentList);
+		this.agentList = new ArrayList<IAgent>(newAgentList);
+		
 	}
+
 
 }

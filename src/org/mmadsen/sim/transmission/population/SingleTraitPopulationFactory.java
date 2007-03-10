@@ -8,7 +8,7 @@ import org.mmadsen.sim.transmission.interfaces.IPopulationFactory;
 import uchicago.src.sim.engine.SimModelImpl;
 
 
-public class PopulationFactory implements IPopulationFactory {
+public class SingleTraitPopulationFactory implements IPopulationFactory {
 	
 	public IAgentPopulation generatePopulation(SimModelImpl model, Log log) {
 		

@@ -1,20 +1,23 @@
 package org.mmadsen.sim.transmission.agent;
 
 import org.apache.commons.logging.Log;
+import org.mmadsen.sim.transmission.interfaces.IAgent;
 
 /**
- * Generic agent class for simulations.  Currently just holds one variant; clearly this 
- * can be extended in any number of ways.
+ * Generic agent class for simulations that require nothing but a single 
+ * "index" trait with no structure.
  * 
  */
 
-public class AgentSingleIntegerVariant {
+public class AgentSingleIntegerVariant extends AbstractAgent implements IAgent {
 
 	int agentVariant = 1;
+
 	@SuppressWarnings("unused")
 	private Log log = null;
 
 	public AgentSingleIntegerVariant() {
+		super();
 	}
 
 	public AgentSingleIntegerVariant(int variant) {
@@ -31,14 +34,12 @@ public class AgentSingleIntegerVariant {
 	}
 
 	public void setAgentVariant(int agvar) {
-		/*if ( agvar < 0) {
-			StringBuffer sb = new StringBuffer("setAgentVariant: ");
-			sb.append("agent: ");
-			sb.append(this.toString());
-			sb.append("  variant: ");
-			sb.append(agvar);
-			log.debug(sb);
-		}*/
+		/*
+		 * if ( agvar < 0) { StringBuffer sb = new
+		 * StringBuffer("setAgentVariant: "); sb.append("agent: ");
+		 * sb.append(this.toString()); sb.append(" variant: ");
+		 * sb.append(agvar); log.debug(sb); }
+		 */
 		agentVariant = agvar;
 	}
 

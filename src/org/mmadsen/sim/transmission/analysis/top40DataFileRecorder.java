@@ -82,6 +82,7 @@ public class top40DataFileRecorder implements IDataCollector {
 		return this.TYPE_CODE;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void recordAction() {
 		String filePath = this.createDataDumpFilePath();
 		List<TraitCount> curSortedTraitCounts = (List<TraitCount>) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_COUNT_LIST_KEY);

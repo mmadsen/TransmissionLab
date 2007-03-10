@@ -12,6 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Closure;
 import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmission.interfaces.IAgent;
+import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmission.interfaces.IDataCollector;
 import org.mmadsen.sim.transmission.models.TransmissionLabModel;
 
@@ -65,7 +67,6 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	private OpenSequenceGraph totalVariabilityGraph = null;
 	private TransmissionLabModel model = null;
 	private Log log = null;
-	private List<AgentSingleIntegerVariant> agentListRef = null;
 	private Closure freqCounter = null;
 	private Map<Integer, TraitCount> freqMap = null;
 	private ArrayList<TraitCount> prevSortedTraitCounts = null;
@@ -138,6 +139,8 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		}
 		
 		public void execute(Object arg0) {
+			// the following is the only place in this entire set of nested classes that we "know"
+			// the concrete class of the agent objects....
 			AgentSingleIntegerVariant agent = (AgentSingleIntegerVariant) arg0;
 			Integer agentVariant = (Integer) agent.getAgentVariant();
 		
@@ -314,13 +317,15 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	public void process() {
 		this.log.debug("Entering TraitFrequencyAnalyzer.process at time " + this.model.getTickCount());
 		// cache a fresh copy of the agent list since it may have changed due to other module's actions
-		this.agentListRef = this.model.getAgentList();
+		IAgentPopulation population = this.model.getPopulation();
+		List<IAgent> agentList = population.getAgentList();
+
 		// clear out the frequency map, and current list of sorted TraitCounts and recount
 		this.freqMap.clear();
 		this.curSortedTraitCounts = null;
 		
 		// fill up the frequency map
-		CollectionUtils.forAllDo(this.agentListRef, this.freqCounter);
+		CollectionUtils.forAllDo(agentList, this.freqCounter);
 		
 		// At this point, we've got all the counts, so let's prepare a sorted List
 		// of TraitCounts for further processing
