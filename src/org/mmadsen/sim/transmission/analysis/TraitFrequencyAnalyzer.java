@@ -74,6 +74,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	private final String TYPE_CODE = this.getClass().getSimpleName();
 	private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
+	private int ewensThetaMultipler = 0;
 	
 	
 	/**
@@ -288,9 +289,10 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	public void initialize() {
 		this.log.debug("entering TraitFrequencyAnalyzer.initialize");
 		this.topNListSize = this.model.getTopNListSize();
+		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
 		
-		this.ewensVariationLevel = 2.0 * this.model.getMu() * this.model.getNumNodes();
-		this.log.info("Ewens 4Nmu variation level is: " + this.ewensVariationLevel);
+		this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumNodes();
+		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
 		
 		this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);
 		this.turnGraph.setAxisTitles("time", "turnover");
@@ -306,7 +308,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		this.totalVariabilityGraph = new OpenSequenceGraph("Total Number of Traits in Population", this.model);
 		this.totalVariabilityGraph.setAxisTitles("time", "# of Traits");
 		this.totalVariabilityGraph.addSequence("num traits", new TotalVariabilitySequence());
-		this.totalVariabilityGraph.addSequence("Ewens 2Nmu", new EwensSequence());
+		this.totalVariabilityGraph.addSequence("Ewens " + this.ewensThetaMultipler + "Nmu", new EwensSequence());
 		this.totalVariabilityGraph.setXRange(0, 50);
 		this.totalVariabilityGraph.setYRange(0, 100);
 		this.totalVariabilityGraph.setSize(400, 250);

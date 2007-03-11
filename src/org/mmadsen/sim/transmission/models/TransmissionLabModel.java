@@ -69,6 +69,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	private int stillTrendy = 3;
 	private int topNListSize = 40;
 	private int Variant = 1;
+	private int ewensThetaMultipler = 2;
 
 	
 	@SuppressWarnings("unchecked") // vector usage is type-unsafe but follows repast examples
@@ -191,6 +192,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	public String[] getInitParam() {
 		String[] params = { "NumNodes", "Mu", "NumTicks",
 //				"StillTrendy", "EarlyAdoptors", 
+				"EwensThetaMultipler",
 			    "DataDumpDirectory", 
 				"EnableNewTopN", "EnableFileSnapshot", 
 				"TopNListSize", "DataFileSnapshotPercentage", "InitialTraitStructure" };
@@ -386,8 +388,9 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		// DEBUG: testing only - remove 
 		//this.popRuleSet.addRule(new NullRule(log, this));
 		
-		this.popRuleSet.addRule(new RandomAgentInfiniteAllelesMutation(log, this));
 		this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
+		this.popRuleSet.addRule(new RandomAgentInfiniteAllelesMutation(log, this));
+		
 	}
 	
 	public void storeSharedObject(String key, Object value) {
@@ -401,6 +404,14 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 
 	public void setPopulation(IAgentPopulation population) {
 		this.population = population;
+	}
+
+	public int getEwensThetaMultipler() {
+		return this.ewensThetaMultipler;
+	}
+
+	public void setEwensThetaMultipler(int ewensThetaMultipler) {
+		this.ewensThetaMultipler = ewensThetaMultipler;
 	}
 
 }

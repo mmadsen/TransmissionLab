@@ -39,6 +39,7 @@ public class RandomAgentInfiniteAllelesMutation implements
 			agent = (AgentSingleIntegerVariant) agent;
 			double chance = Random.uniform.nextDoubleFromTo(0, 1);
 			if ( chance < mutationProbability ) {
+				this.log.debug("mutating an individual, chance was: " + chance + " mu was: " + mutationProbability);
 				int curMaxVariant = this.model.getMaxVariants();
 				curMaxVariant++;
 				// NOTE:  This is the only place in the class we know that we're dealing
