@@ -17,6 +17,7 @@ import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmission.interfaces.IDataCollector;
 import org.mmadsen.sim.transmission.models.TransmissionLabModel;
 
+import uchicago.src.sim.analysis.AverageSequence;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
 
@@ -75,6 +76,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
+	private ArrayList<Integer> historicalTraitCounts = null;
 	
 	
 	/**
@@ -214,8 +216,8 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 
 			// given the sorted trait frequencies tallied in the IDataCollector process()
 			// method, extract just the sorted trait IDs, trim the list to top "N" if needed
-			List prevList = this.getTopNTraits(prevSortedTraitCounts);
-			List curList = this.getTopNTraits(curSortedTraitCounts);
+			List prevList = getTopNTraits(prevSortedTraitCounts);
+			List curList = getTopNTraits(curSortedTraitCounts);
 			
 			// now find the intersection of these two sorted trait ID lists
 			Collection intersection = CollectionUtils.intersection(prevList, curList);
@@ -233,18 +235,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 			return turnover;
 		}
 		
-		// helper method to reduce duplication
-		private List<Integer> getTopNTraits( List<TraitCount> traitCounts ) {
-			ArrayList<Integer> listOfTraits = new ArrayList<Integer>();
-			for( TraitCount trait: traitCounts ) {
-				listOfTraits.add(trait.getTrait());
-			}
-			if (listOfTraits.size() > topNListSize ) {
-				return listOfTraits.subList(0, topNListSize);
-			}
-			// otherwise return the whole list if it's smaller than "top N"
-			return listOfTraits;
-		}
+		
 	}
 	
 	class TotalVariabilitySequence implements Sequence {
@@ -261,6 +252,19 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 			// We return a constant value here since we're aiming at a "reference" line on the 
 			// total variation graph
 			return ewensVariationLevel;
+		}
+		
+	}
+	
+	class AverageTraitCountSequence implements Sequence {
+		private AverageSequence seq = null;
+		
+		public AverageTraitCountSequence() {
+			this.seq = new AverageSequence(curSortedTraitCounts, "size");
+		}
+		
+		public double getSValue() {
+			return this.seq.getSValue();
 		}
 		
 	}
@@ -283,6 +287,9 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		if ( this.totalVariabilityGraph != null) {
 			this.totalVariabilityGraph.dispose();
 		}
+
+		this.curSortedTraitCounts = null;
+		this.prevSortedTraitCounts = null;
 		this.model.removeSharedObject(TRAIT_COUNT_LIST_KEY);
 	}
 
@@ -309,6 +316,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		this.totalVariabilityGraph.setAxisTitles("time", "# of Traits");
 		this.totalVariabilityGraph.addSequence("num traits", new TotalVariabilitySequence());
 		this.totalVariabilityGraph.addSequence("Ewens " + this.ewensThetaMultipler + "Nmu", new EwensSequence());
+		//this.totalVariabilityGraph.addSequence("Avg. Traits", new AverageTraitCountSequence());
 		this.totalVariabilityGraph.setXRange(0, 50);
 		this.totalVariabilityGraph.setYRange(0, 100);
 		this.totalVariabilityGraph.setSize(400, 250);
@@ -331,8 +339,8 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		
 		// At this point, we've got all the counts, so let's prepare a sorted List
 		// of TraitCounts for further processing
-		curSortedTraitCounts = new ArrayList<TraitCount>();
-		curSortedTraitCounts.addAll(this.freqMap.values());
+		this.curSortedTraitCounts = new ArrayList<TraitCount>();
+		this.curSortedTraitCounts.addAll(this.freqMap.values());
 		Collections.sort(curSortedTraitCounts);
 		Collections.reverse(curSortedTraitCounts);
 		
@@ -352,6 +360,20 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		// other modules to use
 		this.model.storeSharedObject(TRAIT_COUNT_LIST_KEY, this.curSortedTraitCounts);
 		this.prevSortedTraitCounts = this.curSortedTraitCounts;
+	}
+	
+	//	 helper method to reduce duplication - held in the outer class so it
+	// can be used by all inner classes.
+	private List<Integer> getTopNTraits( List<TraitCount> traitCounts ) {
+		ArrayList<Integer> listOfTraits = new ArrayList<Integer>();
+		for( TraitCount trait: traitCounts ) {
+			listOfTraits.add(trait.getTrait());
+		}
+		if (listOfTraits.size() > topNListSize ) {
+			return listOfTraits.subList(0, topNListSize);
+		}
+		// otherwise return the whole list if it's smaller than "top N"
+		return listOfTraits;
 	}
 	
 	public String getDataCollectorTypeCode() {

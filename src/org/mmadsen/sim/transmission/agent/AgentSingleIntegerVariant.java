@@ -43,4 +43,8 @@ public class AgentSingleIntegerVariant extends AbstractAgent implements IAgent {
 		agentVariant = agvar;
 	}
 
+	public AgentSingleIntegerVariant copyOf() {
+		return new AgentSingleIntegerVariant(this.getAgentVariant(), this.log);
+	}
+	
 }

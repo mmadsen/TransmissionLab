@@ -11,23 +11,23 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
-import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmission.analysis.TraitFrequencyAnalyzer;
 import org.mmadsen.sim.transmission.analysis.top40DataFileRecorder;
-import org.mmadsen.sim.transmission.interfaces.IAgent;
 import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmission.interfaces.IDataCollector;
 import org.mmadsen.sim.transmission.interfaces.IPopulationFactory;
 import org.mmadsen.sim.transmission.interfaces.ISharedDataManager;
 import org.mmadsen.sim.transmission.population.SingleTraitPopulationFactory;
+import org.mmadsen.sim.transmission.rules.MoranProcessRandomSamplingTransmission;
 import org.mmadsen.sim.transmission.rules.NonOverlappingRandomSamplingTransmission;
+// debug only
+//import org.mmadsen.sim.transmission.rules.NullRule;
 import org.mmadsen.sim.transmission.rules.RandomAgentInfiniteAllelesMutation;
 import org.mmadsen.sim.transmission.util.PopulationRuleset;
 import org.mmadsen.sim.transmission.util.SharedRepository;
 
 import uchicago.src.reflector.ListPropertyDescriptor;
 import uchicago.src.sim.engine.ActionGroup;
-import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.engine.ScheduleBase;
 import uchicago.src.sim.engine.SimInit;
@@ -54,7 +54,10 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	private Boolean enableFileSnapshot = false;
 	
 	private Boolean enableNewTopN = true;
+	private int ewensThetaMultipler = 2;
 	private String initialTraitStructure = null;
+	private String populationProcessType = null;
+	private int moranProcessNumPairs = 1;
 	private Log log = null;
 	private int maxVariants = 4000;
 	private ActionGroup modelActionGroup = null;
@@ -68,9 +71,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	private boolean showCopyHist = false;
 	private int stillTrendy = 3;
 	private int topNListSize = 40;
-	private int Variant = 1;
-	private int ewensThetaMultipler = 2;
-
 	
 	@SuppressWarnings("unchecked") // vector usage is type-unsafe but follows repast examples
 	public TransmissionLabModel() {
@@ -83,7 +83,13 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 			popPropertyVec.add("SequentialTrait");
 			popPropertyVec.add("GaussianTrait");
 			ListPropertyDescriptor pd = new ListPropertyDescriptor("InitialTraitStructure", popPropertyVec);
+			
+			Vector transmissionRulePropVec = new Vector();
+			transmissionRulePropVec.add("WrightFisherProcess");
+			transmissionRulePropVec.add("MoranProcess");
+			ListPropertyDescriptor pd2 = new ListPropertyDescriptor("PopulationProcessType", transmissionRulePropVec);
 			descriptors.put("InitialTraitStructure", pd);
+			descriptors.put("PopulationProcessType", pd2);
 	}
 
 	private void addDataCollector(IDataCollector collector) {
@@ -119,6 +125,9 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		// debug
 		log.debug("dataCollectorMap: " + this.dataCollectorMap.toString());
 		
+		// now let's setup the rules that'll govern the population transformations at each step
+		// we do it here rather than in setup() because we want access to GUI parameter selections
+		this.buildPopulationRules();
 
 		// now that the data collector list has been filtered by GUI params 
 		// and built into an ActionGroup, we can set up the schedule
@@ -185,6 +194,10 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		return this.enableNewTopN;
 	}
 	
+	public int getEwensThetaMultipler() {
+		return this.ewensThetaMultipler;
+	}
+	
 	public String getInitialTraitStructure() {
 		return initialTraitStructure;
 	}
@@ -193,6 +206,8 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		String[] params = { "NumNodes", "Mu", "NumTicks",
 //				"StillTrendy", "EarlyAdoptors", 
 				"EwensThetaMultipler",
+				"PopulationProcessType",
+				"MoranProcessNumPairs",
 			    "DataDumpDirectory", 
 				"EnableNewTopN", "EnableFileSnapshot", 
 				"TopNListSize", "DataFileSnapshotPercentage", "InitialTraitStructure" };
@@ -212,19 +227,26 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		return mu;
 	}
 	
+	
 	public String getName() {
 		return "TransmissionLab";
 	}
 	
+
 	
 	public int getNumNodes() {
 		return numNodes;
 	}
-	
 
-	
+
 	public int getNumTicks() {
 		return numTicks;
+	}
+
+
+
+	public IAgentPopulation getPopulation() {
+		return this.population;
 	}
 
 
@@ -232,7 +254,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		return schedule;
 	}
 
-
+	
 
 	public int getStillTrendy() {
 		return stillTrendy;
@@ -244,12 +266,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	}
 
 	
-
-	public int getVariant() {
-		return Variant;
-	}
-
-
 	private void removeDataCollector(IDataCollector collector) {
 		this.dataCollectorList.remove(collector);
 	}
@@ -265,10 +281,11 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	public Object retrieveSharedObject(String key) {
 		return this.sharedDataRepository.getEntry(key);
 	}
-	
+
 	public void setCopyHist(boolean val) {
 		showCopyHist = val;
 	}
+
 
 	public void setDataDumpDirectory(String dir) {
 		this.dataDumpDirectory = dir;
@@ -278,7 +295,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	public void setDataFileSnapshotPercentage(double d) {
 		this.dataFileSnapshotPercentage = d;
 	}
-
 
 	public void setEarlyAdoptors(double eadopt) {
 		earlyAdoptors = eadopt;
@@ -291,32 +307,41 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	public void setEnableNewTopN( Boolean e ) {
 		this.enableNewTopN = e;
 	}
-
+	
+	public void setEwensThetaMultipler(int ewensThetaMultipler) {
+		this.ewensThetaMultipler = ewensThetaMultipler;
+	}
+	
 	public void setInitialTraitStructure(String initialTraitStructure) {
 		this.initialTraitStructure = initialTraitStructure;
 	}
 
+
 	public void setMaxVariants( int newMaxVariant ) {
 		this.maxVariants = newMaxVariant;
 	}
-	
+
 	public void setMu(double mew) {
 		mu = mew;
 	}
-	
+
 	public void setNumNodes(int n) {
 		numNodes = n;
 	}
-
 
 	public void setnumTicks(int timest) {
 		numTicks = timest;
 	}
 
+	public void setPopulation(IAgentPopulation population) {
+		this.population = population;
+	}
+	
 	public void setStillTrendy(int stdy) {
 		stillTrendy = stdy;
 	}
 
+	
 	public void setTopNListSize(int topNListSize) {
 		this.topNListSize = topNListSize;
 	}
@@ -330,7 +355,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		 * data.
 		 */
 		this.schedule = null;
-		this.Variant = 1;
 		
 		// if this is the first time through (i.e., just started the simulation),
 		// we don't have data collectors yet, but if this is called by hitting
@@ -378,40 +402,54 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		
 		this.dataCollectorsPresent = true;
 		
-		// now let's setup the rules that'll govern the population transformations at each step
-		this.setupPopulationRules();
+
+		
+		this.log.debug("completed model setup() successfullly");
 	}
 
-	private void setupPopulationRules() {
+	private void buildPopulationRules() {
 		this.log.debug("Setting up population transformation rules");
 		this.popRuleSet = new PopulationRuleset();
+		
 		// DEBUG: testing only - remove 
 		//this.popRuleSet.addRule(new NullRule(log, this));
 		
-		this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
-		this.popRuleSet.addRule(new RandomAgentInfiniteAllelesMutation(log, this));
+		if (this.getPopulationProcessType() == "WrightFisherProcess") {
+			this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));	
+		} else if ( this.getPopulationProcessType() == "MoranProcess") {
+			MoranProcessRandomSamplingTransmission mpRule = new MoranProcessRandomSamplingTransmission(log, this);
+			mpRule.setReproductivePairsPerTick(this.getMoranProcessNumPairs());
+			this.popRuleSet.addRule(mpRule);	
+		} else {
+			// defaults to WrightFisher if no selection
+			log.info("No PopulationProcess selection made");
+			this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
+		}
 		
+		this.log.debug("created Transmission rule: " + this.getPopulationProcessType());
+		
+		this.popRuleSet.addRule(new RandomAgentInfiniteAllelesMutation(log, this));
+		this.log.debug("created Mutation rule");
 	}
-	
+
 	public void storeSharedObject(String key, Object value) {
 		this.sharedDataRepository.putEntry(key, value);
 	}
 
-	
-	public IAgentPopulation getPopulation() {
-		return this.population;
+	public String getPopulationProcessType() {
+		return this.populationProcessType;
 	}
 
-	public void setPopulation(IAgentPopulation population) {
-		this.population = population;
+	public void setPopulationProcessType(String populationProcessType) {
+		this.populationProcessType = populationProcessType;
 	}
 
-	public int getEwensThetaMultipler() {
-		return this.ewensThetaMultipler;
+	public int getMoranProcessNumPairs() {
+		return this.moranProcessNumPairs;
 	}
 
-	public void setEwensThetaMultipler(int ewensThetaMultipler) {
-		this.ewensThetaMultipler = ewensThetaMultipler;
+	public void setMoranProcessNumPairs(int moranProcessNumPairs) {
+		this.moranProcessNumPairs = moranProcessNumPairs;
 	}
 
 }
