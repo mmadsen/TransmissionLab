@@ -298,7 +298,7 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		this.topNListSize = this.model.getTopNListSize();
 		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
 		
-		this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumNodes();
+		this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
 		
 		this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);

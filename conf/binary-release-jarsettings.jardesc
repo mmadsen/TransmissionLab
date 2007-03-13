@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="/Volumes/Storage1/Users/mark/Documents/simulations/transmissionlab-export/transmissionlab-1.1pre.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/transmissionlab/conf/binary-release-jarsettings.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+<selectedProjects/>
+<manifest generateManifest="false" manifestLocation="/transmissionlab/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<file path="/transmissionlab/README"/>
+<file path="/transmissionlab/.texlipse"/>
+<file path="/transmissionlab/.project"/>
+<file path="/transmissionlab/.lint4jprefs"/>
+<file path="/transmissionlab/VERSION"/>
+<file path="/transmissionlab/.classpath"/>
+<javaElement handleIdentifier="=transmissionlab/src"/>
+<file path="/transmissionlab/MANIFEST.MF"/>
+<file path="/transmissionlab/GPL.txt"/>
+<file path="/transmissionlab/LICENSE"/>
+</selectedElements>
+</jardesc>

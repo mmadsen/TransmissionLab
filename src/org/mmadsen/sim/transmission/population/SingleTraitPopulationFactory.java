@@ -18,7 +18,7 @@ public class SingleTraitPopulationFactory implements IPopulationFactory {
 			populationType = "SequentialTrait"; 
 		}
 		
-		int numAgents = ((TransmissionLabModel) model).getNumNodes();
+		int numAgents = ((TransmissionLabModel) model).getNumAgents();
 		
 		if ( populationType.equalsIgnoreCase("SequentialTrait")) {
 			log.debug("Constructing UnstructuredSequentialTrait population");

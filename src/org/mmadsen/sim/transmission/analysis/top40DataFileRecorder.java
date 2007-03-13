@@ -116,7 +116,7 @@ public class top40DataFileRecorder implements IDataCollector {
 		sb.append(this.model.getDataDumpDirectory());
 		sb.append("/");
 		sb.append("rcm-data-numnodes-");
-		sb.append(this.model.getNumNodes());
+		sb.append(this.model.getNumAgents());
 		sb.append("-step-");
 		sb.append(this.model.getTickCount());
 		sb.append("-mu-");

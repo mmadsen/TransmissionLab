@@ -62,7 +62,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	private int maxVariants = 4000;
 	private ActionGroup modelActionGroup = null;
 	private double mu = 0.01;
-	private int numNodes = 500;
+	private int numAgents = 500;
 	private int numTicks = 500;
 	private PopulationRuleset popRuleSet = null;
 	private IAgentPopulation population = null;
@@ -203,7 +203,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	}
 	
 	public String[] getInitParam() {
-		String[] params = { "NumNodes", "Mu", "NumTicks",
+		String[] params = { "NumAgents", "Mu", "NumTicks",
 //				"StillTrendy", "EarlyAdoptors", 
 				"EwensThetaMultipler",
 				"PopulationProcessType",
@@ -234,8 +234,8 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 	
 
 	
-	public int getNumNodes() {
-		return numNodes;
+	public int getNumAgents() {
+		return numAgents;
 	}
 
 
@@ -325,8 +325,8 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		mu = mew;
 	}
 
-	public void setNumNodes(int n) {
-		numNodes = n;
+	public void setNumAgents(int n) {
+		numAgents = n;
 	}
 
 	public void setnumTicks(int timest) {

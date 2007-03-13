@@ -64,7 +64,6 @@ public class MoranProcessRandomSamplingTransmission implements
 			int index = Random.uniform.nextIntFromTo(0, numAgents - 1);
 			if (!selectedAgentMap.containsKey(index)) {
 				selectedAgentMap.put(index, agentList.get(index));
-				log.debug("Selected unique agent: " + index);
 				numUniqueAgentsNeeded--;
 			}
 		}
@@ -76,7 +75,6 @@ public class MoranProcessRandomSamplingTransmission implements
 		Set<Entry<Integer, IAgent>> entries = selectedAgentMap.entrySet();
 		Iterator entryIter = entries.iterator();
 		while(entryIter.hasNext()) {
-			log.debug("Moran process: death-birth process with agent pair");
 			Entry entry1 = (Entry) entryIter.next();
 			Entry entry2 = (Entry) entryIter.next();
 			Integer indexAgent1 = (Integer) entry1.getKey();
