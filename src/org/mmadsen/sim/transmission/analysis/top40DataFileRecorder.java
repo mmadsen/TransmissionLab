@@ -10,6 +10,10 @@ import org.mmadsen.sim.transmission.analysis.TraitFrequencyAnalyzer.TraitCount;
 import org.mmadsen.sim.transmission.interfaces.IDataCollector;
 import org.mmadsen.sim.transmission.models.TransmissionLabModel;
 
+import uchicago.src.sim.engine.ActionUtilities;
+import uchicago.src.sim.engine.BasicAction;
+import uchicago.src.sim.engine.Schedule;
+
 /**
  * @author mark
  * 
@@ -31,8 +35,16 @@ import org.mmadsen.sim.transmission.models.TransmissionLabModel;
  * These data are the curSortedTraitCounts from TraitFrequencyAnalyzer, so 
  * they also are written in reverse or descending frequency order - most 
  * frequent trait to least frequent.  
+ * 
+ * Uses the default implementation of getDataCollectorSchedule() from AbstractDataCollector
+ * 
  */
-public class top40DataFileRecorder implements IDataCollector {
+public class top40DataFileRecorder extends AbstractDataCollector implements IDataCollector {
+
+	public top40DataFileRecorder(Object m) {
+		super(m);
+		// TODO Auto-generated constructor stub
+	}
 
 	private TransmissionLabModel model = null;
 	private Log log = null;
@@ -78,7 +90,7 @@ public class top40DataFileRecorder implements IDataCollector {
 		this.recordAction();
 	}
 	
-	public String getDataCollectorTypeCode() {
+	public String getDataCollectorName() {
 		return this.TYPE_CODE;
 	}
 	
@@ -123,6 +135,14 @@ public class top40DataFileRecorder implements IDataCollector {
 		sb.append(this.model.getMu());
 		sb.append(".txt");
 		return sb.toString();
+	}
+
+	@Override
+	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
+		Schedule sched = new Schedule();
+		log.debug("Scheduling top40DataFileRecorder action to start at tick: " + this.stepToStartRecording);
+		sched.scheduleActionBeginning(this.stepToStartRecording, actionToSchedule);
+		return sched;
 	}
 
 }

@@ -20,6 +20,9 @@ import org.mmadsen.sim.transmission.models.TransmissionLabModel;
 import uchicago.src.sim.analysis.AverageSequence;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
+import uchicago.src.sim.engine.ActionUtilities;
+import uchicago.src.sim.engine.BasicAction;
+import uchicago.src.sim.engine.Schedule;
 
 
 /**
@@ -56,13 +59,18 @@ import uchicago.src.sim.analysis.Sequence;
  * in addition to the current results.  We do not store any older (previous previous, etc) 
  * versions of the lists.  
  * 
- * TODO:  Perhaps the analyzer ought to cache data across time steps in the model for other IDataCollector 
- * modules to use.  
+ * Uses the default implementation of getDataCollectorSchedule() from AbstractDataCollector
+ * 
  * @author mark
  *
  */
 
-public class TraitFrequencyAnalyzer implements IDataCollector {
+public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDataCollector {
+	public TraitFrequencyAnalyzer(Object m) {
+		super(m);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static final String TRAIT_COUNT_LIST_KEY = "TRAIT_COUNT_LIST_KEY";
 	private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
@@ -76,8 +84,6 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 	private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
-	private ArrayList<Integer> historicalTraitCounts = null;
-	
 	
 	/**
 	 * TraitCount is a value class for tracking trait frequencies. 
@@ -376,8 +382,17 @@ public class TraitFrequencyAnalyzer implements IDataCollector {
 		return listOfTraits;
 	}
 	
-	public String getDataCollectorTypeCode() {
+	public String getDataCollectorName() {
 		return this.TYPE_CODE;
 	}
+
+	@Override
+	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
+		Schedule sched = new Schedule();
+		sched.scheduleActionAt(1, actionToSchedule);
+		return sched;
+	}
+
+
 
 }

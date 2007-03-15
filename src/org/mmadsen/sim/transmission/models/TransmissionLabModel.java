@@ -78,23 +78,28 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 			URL log4jresource = this.getClass().getResource("log4j.properties");
 			PropertyConfigurator.configure(log4jresource);
 			this.log = LogFactory.getLog(TransmissionLabModel.class);
-			
-			Vector popPropertyVec = new Vector();
-			popPropertyVec.add("SequentialTrait");
-			popPropertyVec.add("GaussianTrait");
-			ListPropertyDescriptor pd = new ListPropertyDescriptor("InitialTraitStructure", popPropertyVec);
-			
-			Vector transmissionRulePropVec = new Vector();
-			transmissionRulePropVec.add("WrightFisherProcess");
-			transmissionRulePropVec.add("MoranProcess");
-			ListPropertyDescriptor pd2 = new ListPropertyDescriptor("PopulationProcessType", transmissionRulePropVec);
-			descriptors.put("InitialTraitStructure", pd);
-			descriptors.put("PopulationProcessType", pd2);
+			this.addDynamicParameters();
 	}
 
+	@SuppressWarnings("unchecked")
+	private void addDynamicParameters() {
+		this.log.debug("Adding dynamic parameters");
+		Vector<String> popPropertyVec = new Vector<String>();
+		popPropertyVec.add("SequentialTrait");
+		popPropertyVec.add("GaussianTrait");
+		ListPropertyDescriptor pd = new ListPropertyDescriptor("InitialTraitStructure", popPropertyVec);
+		
+		Vector<String> transmissionRulePropVec = new Vector<String>();
+		transmissionRulePropVec.add("WrightFisherProcess");
+		transmissionRulePropVec.add("MoranProcess");
+		ListPropertyDescriptor pd2 = new ListPropertyDescriptor("PopulationProcessType", transmissionRulePropVec);
+		this.descriptors.put("InitialTraitStructure", pd);
+		this.descriptors.put("PopulationProcessType", pd2);
+	}
+	
 	private void addDataCollector(IDataCollector collector) {
 		this.dataCollectorList.add(collector);
-		this.dataCollectorMap.put(collector.getDataCollectorTypeCode(), collector);
+		this.dataCollectorMap.put(collector.getDataCollectorName(), collector);
 	}
 	
 	public void begin() {
@@ -116,10 +121,11 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		}
 		
 		// now that the user has entered/modified parameters in the GUI,
-		// let all of the IDataCollectors initialize themselves
+		// let all of the IDataCollectors initialize themselves.  Then we 
+		// let the IDataCollector tell us how to schedule itself.
 		for( IDataCollector collector: this.dataCollectorList) {
 			collector.initialize();
-			this.analysisActionGroup.createActionFor(collector, "process");
+			this.analysisActionGroup.addAction(collector.getDataCollectorSchedule());
 		}
 
 		// debug
@@ -381,6 +387,9 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		
 		Random.createUniform();
 	
+		// Upon setup(), we may need to reinitialize dynamic parameters in the combo box
+		this.addDynamicParameters();
+		
 		this.dataCollectorList = new ArrayList<IDataCollector>();
 		this.dataCollectorMap = new HashMap<String, IDataCollector>();
 		this.sharedDataRepository = new SharedRepository();
@@ -390,10 +399,10 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		this.allActionGroups = new ActionGroup(ActionGroup.SEQUENTIAL);
 		
 		// TODO: roughing out the measurement refactoring - seems clunky but it works
-		IDataCollector f = new TraitFrequencyAnalyzer();
+		IDataCollector f = new TraitFrequencyAnalyzer(this);
 		this.addDataCollector(f);
 		
-		IDataCollector t = new top40DataFileRecorder();
+		IDataCollector t = new top40DataFileRecorder(this);
 		this.addDataCollector(t);
 		
 		for( IDataCollector collector: this.dataCollectorList) {
@@ -423,6 +432,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 		} else {
 			// defaults to WrightFisher if no selection
 			log.info("No PopulationProcess selection made");
+			this.setPopulationProcessType("WrightFisherProcess");
 			this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
 		}
 		

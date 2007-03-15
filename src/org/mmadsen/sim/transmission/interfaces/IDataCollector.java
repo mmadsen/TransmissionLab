@@ -1,5 +1,7 @@
 package org.mmadsen.sim.transmission.interfaces;
 
+import uchicago.src.sim.engine.BasicAction;
+
 /**
  * @author mark
  * Interface IDataCollector represents any class that observe model state and 
@@ -38,6 +40,10 @@ public interface IDataCollector {
 	// ID strings are used to identify the "type" of a data collector, so we can
 	// find a reference to the collector object later, for example if we want to
 	// do fancy scheduling and add or remove a data collector at a particular time
-	public String getDataCollectorTypeCode();
+	public String getDataCollectorName();
+	
+	// We need to know when and how to schedule each data collector.  Ideally the 
+	// model code should know nothing about this
+	public BasicAction getDataCollectorSchedule();
 	
 }
