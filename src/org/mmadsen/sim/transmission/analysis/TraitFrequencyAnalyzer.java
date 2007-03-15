@@ -389,7 +389,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	@Override
 	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
 		Schedule sched = new Schedule();
-		sched.scheduleActionAt(1, actionToSchedule);
+		sched.scheduleActionBeginning(1, actionToSchedule);
 		return sched;
 	}
 
