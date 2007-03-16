@@ -1,3 +1,5 @@
+TRANSMISSIONLAB VERSION 1.X
+
 This package contains the TransmissionLab model, written to allow simulation of cultural
 transmission and evolution phenomena.  The goal of TransmissionLab is to accurately represent
 theoretical models of CT (e.g., random copying, prestige-biased transmission, frequency-biased
