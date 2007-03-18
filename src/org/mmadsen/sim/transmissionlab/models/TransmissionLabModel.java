@@ -51,18 +51,12 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     private ActionGroup modelActionGroup = null;
     private ActionGroup setupActionGroup = null;
     private List<IDataCollector> dataCollectorList = null;
-
     private Map<String, IDataCollector> dataCollectorMap = null;
     private Boolean dataCollectorsPresent = false;
     private String dataDumpDirectory = "/tmp";
     private double dataFileSnapshotPercentage = 0.10;
-    private double earlyAdoptors = 0.05;
     private Boolean enableFileSnapshot = false;
-
     private Boolean enableNewTopN = true;
-
-
-
     private Boolean enableOverallStats = true;
     private int ewensThetaMultipler = 2;
     private String initialTraitStructure = null;
@@ -70,7 +64,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     private int moranProcessNumPairs = 1;
     private Log log = null;
     private int maxVariants = 4000;
-
     private double mu = 0.01;
     private int numAgents = 500;
     private int numTicks = 500;
@@ -78,8 +71,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     private IAgentPopulation population = null;
     private Schedule schedule;
     private SharedRepository sharedDataRepository = null;
-    private boolean showCopyHist = false;
-    private int stillTrendy = 3;
     private int topNListSize = 40;
 
     @SuppressWarnings("unchecked")
@@ -120,19 +111,19 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // would be nice if we could genericize this by having a standard parameter for each IDataCollector
         // but I haven't solved the problem of initializing the getInitParams() before we've actually run
         // anything in the model yet...
-        if (this.getEnableNewTopN() == false) {
+        if (!this.getEnableNewTopN()) {
             this.log.debug("removing TraitFrequencyAnalyzer from active data collectors - not selected");
             IDataCollector d = this.dataCollectorMap.get("TraitFrequencyAnalyzer");
             this.removeDataCollector(d);
         }
 
-        if (this.getEnableFileSnapshot() == false) {
+        if (!this.getEnableFileSnapshot()) {
             this.log.debug("removing top40DataFileRecorder from active data collectors - not selected");
             IDataCollector d = this.dataCollectorMap.get("top40DataFileRecorder");
             this.removeDataCollector(d);
         }
 
-        if (this.getEnableOverallStats() == false) {
+        if (!this.getEnableOverallStats()) {
             this.log.debug("removing OverallStatisticsRecorder from active data collectors - not selected");
             IDataCollector d = this.dataCollectorMap.get("OverallStatisticsRecorder");
             this.removeDataCollector(d);
@@ -144,11 +135,11 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         for (IDataCollector collector : this.dataCollectorList) {
             collector.initialize();
             DataCollectorScheduleType schedGroupType = collector.getSchedGroupType();
-            if ( schedGroupType == DataCollectorScheduleType.EACH_TICK ) {
+            if (schedGroupType == DataCollectorScheduleType.EACH_TICK) {
                 this.analysisActionGroup.addAction(collector.getDataCollectorSchedule());
-            } else if( schedGroupType == DataCollectorScheduleType.END ) {
+            } else if (schedGroupType == DataCollectorScheduleType.END) {
                 this.finalActionGroup.addAction(collector.getDataCollectorSchedule());
-            } else if( schedGroupType == DataCollectorScheduleType.BEGIN) {
+            } else if (schedGroupType == DataCollectorScheduleType.BEGIN) {
                 this.setupActionGroup.addAction(collector.getDataCollectorSchedule());
             } else {
                 this.log.error("ERROR: unknown schedule group type: " + schedGroupType.toString());
@@ -200,7 +191,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // we then *define* the end of the simulation to be the last configured tick,
         // unless the user hits stop first.  
 
-        schedule.scheduleActionAt(1,this.setupActionGroup);
+        schedule.scheduleActionAt(1, this.setupActionGroup);
         schedule.scheduleActionBeginning(2, this.simulationActionGroups);
         schedule.scheduleActionAtEnd(this.finalActionGroup);
         schedule.scheduleActionAt(numTicks, this, "stop", ScheduleBase.LAST);
@@ -209,21 +200,20 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     // pretty much, this is all we have to do to run the stack of population rules...
     // and then we create a BasicAction for it in the modelActionGroup which
     // schedules it to run.  that is done in buildSchedule() in the current model class
+    @SuppressWarnings({"UnusedDeclaration"})
     public void executePopulationRules() {
         this.log.debug("executing population rules at tick: " + this.getTickCount());
         this.population = (IAgentPopulation) this.popRuleSet.transform(this.population);
     }
 
+    @SuppressWarnings({"WeakerAccess"})
     public Boolean getEnableOverallStats() {
         return enableOverallStats;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setEnableOverallStats(Boolean enableOverallStats) {
         this.enableOverallStats = enableOverallStats;
-    }
-
-    public boolean getCopyHist() {
-        return showCopyHist;
     }
 
     public String getDataDumpDirectory() {
@@ -234,15 +224,13 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         return this.dataFileSnapshotPercentage;
     }
 
-    public double getEarlyAdoptors() {
-        return earlyAdoptors;
-    }
 
-
+    @SuppressWarnings({"WeakerAccess"})
     public Boolean getEnableFileSnapshot() {
         return enableFileSnapshot;
     }
 
+    @SuppressWarnings({"WeakerAccess"})
     public Boolean getEnableNewTopN() {
         return this.enableNewTopN;
     }
@@ -255,6 +243,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         return initialTraitStructure;
     }
 
+    @SuppressWarnings({"UnnecessaryLocalVariable"})
     public String[] getInitParam() {
         String[] params = {"NumAgents", "Mu", "NumTicks",
                 "EwensThetaMultipler",
@@ -305,16 +294,12 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     }
 
 
-    public int getStillTrendy() {
-        return stillTrendy;
-    }
-
-
     public int getTopNListSize() {
         return topNListSize;
     }
 
 
+    @SuppressWarnings({"SuspiciousMethodCalls"})
     private void removeDataCollector(IDataCollector collector) {
         this.dataCollectorList.remove(collector);
         this.dataCollectorMap.remove(collector);
@@ -332,36 +317,34 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         return this.sharedDataRepository.getEntry(key);
     }
 
-    public void setCopyHist(boolean val) {
-        showCopyHist = val;
-    }
 
-
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setDataDumpDirectory(String dir) {
         this.dataDumpDirectory = dir;
         this.log.debug("Directory for file output: " + this.dataDumpDirectory);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setDataFileSnapshotPercentage(double d) {
         this.dataFileSnapshotPercentage = d;
     }
 
-    public void setEarlyAdoptors(double eadopt) {
-        earlyAdoptors = eadopt;
-    }
-
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setEnableFileSnapshot(Boolean enableFileSnapshot) {
         this.enableFileSnapshot = enableFileSnapshot;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setEnableNewTopN(Boolean e) {
         this.enableNewTopN = e;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setEwensThetaMultipler(int ewensThetaMultipler) {
         this.ewensThetaMultipler = ewensThetaMultipler;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setInitialTraitStructure(String initialTraitStructure) {
         this.initialTraitStructure = initialTraitStructure;
     }
@@ -371,27 +354,28 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         this.maxVariants = newMaxVariant;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setMu(double mew) {
         mu = mew;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setNumAgents(int n) {
         numAgents = n;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setnumTicks(int timest) {
         numTicks = timest;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setPopulation(IAgentPopulation population) {
         this.population = population;
     }
 
-    public void setStillTrendy(int stdy) {
-        stillTrendy = stdy;
-    }
 
-
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setTopNListSize(int topNListSize) {
         this.topNListSize = topNListSize;
     }
@@ -410,7 +394,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // we don't have data collectors yet, but if this is called by hitting
         // the rest for a second or later run, we need to clean out the graphs
         // and other objects held by data collectors.
-        if (this.dataCollectorsPresent == true) {
+        if (this.dataCollectorsPresent) {
             for (IDataCollector collector : this.dataCollectorList) {
                 collector.completion();
             }
@@ -446,7 +430,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // of "ordering" for stuff that happens after the model run.
         this.finalActionGroup = new ActionGroup(ActionGroup.RANDOM);
 
-        // TODO: roughing out the measurement refactoring - seems clunky but it works
+        // TODO: somehow this needs to be configurable, so we can have looser coupling here.
         IDataCollector f = new TraitFrequencyAnalyzer(this);
         this.addDataCollector(f);
 
@@ -473,15 +457,15 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // DEBUG: testing only - remove
         //this.popRuleSet.addRule(new NullRule(log, this));
 
-        if (this.getPopulationProcessType() == "WrightFisherProcess") {
+        if (this.getPopulationProcessType().equals("WrightFisherProcess")) {
             this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
-        } else if (this.getPopulationProcessType() == "MoranProcess") {
+        } else if (this.getPopulationProcessType().equals("MoranProcess")) {
             MoranProcessRandomSamplingTransmission mpRule = new MoranProcessRandomSamplingTransmission(log, this);
             mpRule.setReproductivePairsPerTick(this.getMoranProcessNumPairs());
             this.popRuleSet.addRule(mpRule);
         } else {
             // defaults to WrightFisher if no selection
-            log.info("No PopulationProcess selection made");
+            log.info("No PopulationProcess selection made - defaulting to WrightFisherProcess");
             this.setPopulationProcessType("WrightFisherProcess");
             this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
         }
@@ -496,18 +480,22 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         this.sharedDataRepository.putEntry(key, value);
     }
 
+    @SuppressWarnings({"WeakerAccess"})
     public String getPopulationProcessType() {
         return this.populationProcessType;
     }
 
+    @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
     public void setPopulationProcessType(String populationProcessType) {
         this.populationProcessType = populationProcessType;
     }
 
+    @SuppressWarnings({"WeakerAccess"})
     public int getMoranProcessNumPairs() {
         return this.moranProcessNumPairs;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void setMoranProcessNumPairs(int moranProcessNumPairs) {
         this.moranProcessNumPairs = moranProcessNumPairs;
     }
