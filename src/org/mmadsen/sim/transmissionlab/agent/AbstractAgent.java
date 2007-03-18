@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.mmadsen.sim.transmission.agent;
+package org.mmadsen.sim.transmissionlab.agent;
 
-import org.mmadsen.sim.transmission.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 
 /**
  * @author mark
@@ -17,14 +17,14 @@ public abstract class AbstractAgent implements IAgent {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.mmadsen.sim.transmission.interfaces.IAgent#getAgentID()
+	 * @see org.mmadsen.sim.transmissionlab.interfaces.IAgent#getAgentID()
 	 */
 	public int getAgentID() {
 		return this.agentID;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mmadsen.sim.transmission.interfaces.IAgent#setAgentID(int)
+	 * @see org.mmadsen.sim.transmissionlab.interfaces.IAgent#setAgentID(int)
 	 */
 	public void setAgentID(int agentID) {
 		this.agentID = agentID;

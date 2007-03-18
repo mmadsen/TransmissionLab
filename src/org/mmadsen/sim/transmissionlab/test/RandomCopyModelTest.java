@@ -1,9 +1,9 @@
-package org.mmadsen.sim.transmission.test;
+package org.mmadsen.sim.transmissionlab.test;
 
 
 import org.junit.After;
 import org.junit.Before;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
 import junit.extensions.PrivilegedAccessor;	
 

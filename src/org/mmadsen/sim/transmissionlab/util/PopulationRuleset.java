@@ -1,11 +1,11 @@
-package org.mmadsen.sim.transmission.util;
+package org.mmadsen.sim.transmissionlab.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.functors.ChainedTransformer;
-import org.mmadsen.sim.transmission.interfaces.IPopulationTransformationRule;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
 
 /**
  * @author mark

@@ -1,8 +1,8 @@
-package org.mmadsen.sim.transmission.rules;
+package org.mmadsen.sim.transmissionlab.rules;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
 /**
  * NullRule does absolutely nothing to the population.  The whole point is to use it

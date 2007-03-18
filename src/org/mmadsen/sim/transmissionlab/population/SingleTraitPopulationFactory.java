@@ -1,9 +1,9 @@
-package org.mmadsen.sim.transmission.population;
+package org.mmadsen.sim.transmissionlab.population;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
-import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmission.interfaces.IPopulationFactory;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationFactory;
 
 import uchicago.src.sim.engine.SimModelImpl;
 

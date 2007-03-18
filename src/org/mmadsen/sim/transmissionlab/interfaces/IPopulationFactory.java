@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.interfaces;
+package org.mmadsen.sim.transmissionlab.interfaces;
 
 import org.apache.commons.logging.Log;
 

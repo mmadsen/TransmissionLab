@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.analysis;
+package org.mmadsen.sim.transmissionlab.analysis;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.analysis.TraitFrequencyAnalyzer.TraitCount;
-import org.mmadsen.sim.transmission.interfaces.IDataCollector;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer.TraitCount;
+import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
-import uchicago.src.sim.engine.ActionUtilities;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
 
@@ -52,13 +51,13 @@ public class top40DataFileRecorder extends AbstractDataCollector implements IDat
 	private final String TYPE_CODE = this.getClass().getSimpleName();
 	
 	/* No implementation needed; each file snapshot cleans up after itself
-	 * @see org.mmadsen.sim.transmission.IDataCollector#completion()
+	 * @see org.mmadsen.sim.transmissionlab.IDataCollector#completion()
 	 */
 	public void completion() {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mmadsen.sim.transmission.IDataCollector#build()
+	 * @see org.mmadsen.sim.transmissionlab.IDataCollector#build()
 	 */
 	public void build(Object m) {
 		this.model = (TransmissionLabModel) m;
@@ -67,18 +66,19 @@ public class top40DataFileRecorder extends AbstractDataCollector implements IDat
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mmadsen.sim.transmission.IDataCollector#initialize()
+	 * @see org.mmadsen.sim.transmissionlab.IDataCollector#initialize()
 	 */
 	public void initialize() {
 		// calculate the tickCount for when we start recording
-		double ticksToRecord = this.model.getNumTicks() * this.model.getDataFileSnapshotPercentage();
+        this.log.debug("Entering top40DataFileRecorder.initialize()");
+        double ticksToRecord = this.model.getNumTicks() * this.model.getDataFileSnapshotPercentage();
 		this.stepToStartRecording = this.model.getNumTicks() - ticksToRecord;
-		this.log.debug("initialize: will start recording after tick: " + this.stepToStartRecording);
+		this.log.debug("top40DataFileRecorder: start recording after tick: " + this.stepToStartRecording);
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mmadsen.sim.transmission.IDataCollector#process()
+	 * @see org.mmadsen.sim.transmissionlab.IDataCollector#process()
 	 */
 	public void process() {
 		if( this.model.getTickCount() < this.stepToStartRecording) {

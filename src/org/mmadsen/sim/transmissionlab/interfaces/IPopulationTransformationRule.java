@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.mmadsen.sim.transmission.interfaces;
+package org.mmadsen.sim.transmissionlab.interfaces;
 
 import org.apache.commons.collections.Transformer;
 
@@ -38,7 +38,7 @@ import org.apache.commons.collections.Transformer;
  * since Closures and Predicates can be composed dynamically at runtime, we can 
  * easily envision agent and population rules that actually "evolve" as a population
  * process -- something that is very hard to model by writing procedural code.  This
- * opens the door to meaningfully examining cultural transmission not just of "token"-like
+ * opens the door to meaningfully examining cultural transmissionlab not just of "token"-like
  * traits, but traits which actually govern behavior -- but without hardcoding this into 
  * agent classes. 
  */

@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.interfaces;
+package org.mmadsen.sim.transmissionlab.interfaces;
 /**
  * Interface IAgent specifies the contract that all Agent classes need to implement
  * within TransmissionLab.  

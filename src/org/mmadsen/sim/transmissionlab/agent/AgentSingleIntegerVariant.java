@@ -1,7 +1,7 @@
-package org.mmadsen.sim.transmission.agent;
+package org.mmadsen.sim.transmissionlab.agent;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 
 /**
  * Generic agent class for simulations that require nothing but a single 

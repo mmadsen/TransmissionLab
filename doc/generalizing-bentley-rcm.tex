@@ -3,10 +3,10 @@
 \begin{document}
 \begin{article}
 \begin{opening}
-\title{Generalizing the Random Copying Model for Cultural Transmission Research
-\thanks{This work is licensed under the Creative Commons NonCommercial-Attribution-ShareAlike License version 2.5 (\byncsa). 
+\title{The TransmissionLab Framework, Version 1\thanks{This work is licensed under the Creative Commons NonCommercial-Attribution-ShareAlike License version 3.0(\byncsa). 
 To view a copy of this license, visit http://creativecommons.org or send a letter to 
-Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.}} 
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.}}
+\subtitle{Generalizing the RandomCopyingModel for Cultural Transmission Research}
 
 \runningauthor{M.E. Madsen}
 \runningtitle{Generalizing the RCM}
@@ -15,7 +15,7 @@ Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.}}
 \institute{Department of Anthropology, University of Washington \email{madsenm@u.washington.edu}}
 
 
-\date{February 2007}
+\date{March 2007}
 
 \begin{abstract}
 Bentley et al. 2007 present a simple null model for imitation in cultural populations.  
@@ -24,7 +24,7 @@ This ``random copying model'' attempts to provide a simple generative model for 
 new traits, and stochastic loss of low-frequency traits by drift.  The current document 
 outlines a series of generalizations and refactorings of the basic agent-based model,
 suitable for additional
-experimentation and analysis of cultural null models as well as various types of biased copying.  
+experimentation and analysis of cultural null models as well as various types of biased copying.   The results of this generalization process is \emph{TransmissionLab}, a framework for modeling cultural transmission in an agent-based manner.  
 The ABM itself is written in Repast 3.x, a popular Java-based agent modeling toolkit with good 
 documentation, available on open-source license terms for all common platforms.
 \end{abstract}
@@ -40,20 +40,18 @@ population.  This model posits a null hypothesis for the cultural transmission o
 is that nothing more complex than random copying of a fellow population member's trait is needed to 
 account for the patterns seen at the population level.  
 
-In what follows, I focus not on the scientific aspects of the random copying model, but the software engineering
-aspects of generalizing the Bentley et al. model for additional cultural transmission experiments.  Bentley et al.'s model (hereafter referred to as the RCM or random copying model) is written in Java, using the Repast agent-based simulation toolkit.  With suitable generalization and refactoring, the RCM will serve as a useful ``platform'' model
-for both extending Bentley et al.'s analysis, but performing a wide variety of computational ``experiments'' of cultural transmission.  
 
-I began working on generalizing the Bentley et al. model because it is clean,
-simple, and reasonably generic ``out of the box.''  Starting from scratch allows
-one to design without history or constraints, but it is often valuable to start
-from something which works, and modify it incrementally.  I chose the latter
-approach, incrementally evolving the model's structure.  
+I began generalizing the Bentley et al. model because it is clean,
+simple, and gave me a baseline model with known analytic form, as well as empirical behavior to use as a test comparison as I restructured the software itself.   Starting from scratch allows
+one to design without history or constraints, but it is often better to start
+from something which works, and modify it incrementally, in order to understand whether model behavior is faithful to underlying theoretical models, rather than simply an artifact of the development process.  I chose to start with Bentley's RCM as my baseline, and have evolved it considerably (as of version 1.2).  The result is a fairly generic framework for running 
+simulation models of cultural transmission, called \emph{TransmissionLab}.  
+
 In the next several sections I outline the reorganization, refactoring, and
-generalization of the simulation codebase I'm performing.  
-
-This document is a work-in-progress, and will be updated as we continue to
-develop and use the transmission framework for new research projects.
+generalization of the simulation codebase I'm performing.  This document is a work-in-progress, and will be updated as we continue to develop and use the transmission framework for new research projects.  In this document, I focus not on the scientific aspects of transmission models, but upon the software engineering
+aspects of \emph{TransmissionLab}.  The framework is written in Java, using the Repast agent-based simulation toolkit.  With suitable generalization and refactoring, \emph{TransmissionLab} will serve as a useful ``platform'' model
+for both extending Bentley et al.'s analysis, but performing a wide variety of computational ``experiments'' of cultural transmission. 
+ 
 \section{Modeling Philosophy}
 One of the hardest aspects of using agent-based models in scientific research is
 translating the theoretical ``model'' into the simulation realm.  In my past experience with simulations
@@ -63,7 +61,7 @@ of code, and ensuring the correct timing and ordering of agent updates,
 interactions, and observations in order to measure what we \emph{believe} we're
 measuring can be quite difficult.  
 
-In generalizing the Random Copying Model, I began with the hypothesis that 
+In developing TransmissionLab, I began with the hypothesis that 
 in most agent-based models designed to study
 population-level ``inheritance'' problems, several aspects of the model can be
 kept strictly orthogonal in the design of the simulation model.  And if the code
@@ -75,8 +73,7 @@ be tested in isolation, knowing that data collection or other aspects of the
 model aren't affecting that interaction via side effects.  
 
 Of course, the price of all this cleanliness and separation is a more complex
-body of code.  What follows are notes on the current version of the Random
-Copying Model, and the changes I'm trying in order to achieve a model which
+body of code.  What follows are notes on the current version of TransmissionLab, and the changes I'm trying in order to achieve a model which
 really lives up to the promises of the previous paragraph.  These notes will
 also serve as partial documentation for using and extending the model once
 released.  
@@ -123,7 +120,7 @@ stability and accuracy of the model core once it is stable and the bug count is
 low. 
 \subsection{Refactoring Model and Measurement}
 The first separation I performed was to extract data collection code from
-the core model class (named \texttt{RandomCopyingModel}).  The current design
+the core model class (named \texttt{TransmissionLabModel}).  The current design
 defines a single interface for measurement and data collection classes (named
 \texttt{IDataCollector}).  This interface defines a simple four-method contract
 which defines a data collection ``cycle.''  
@@ -162,6 +159,7 @@ which are then available by the time the user clicks the ``begin'' button.
 Thus, in the \texttt{begin()} model method, we allow each data collector to
 query the model for parameters relevant to its own configuration and operation.
 
+[[DEPRECATED:  Describe the new scheduling mechanism]]
 In the current version, scheduling of data collection is very simplistic, and
 not well refactored.  Currently, the model's Action methods (\texttt{mainAction}
 and \texttt{initialAction}) each iterate over the list, calling the
@@ -185,7 +183,7 @@ transmission and other ``model'' rules in preparation for spatial structure.
 \subsection{Data Collector Refactorings in the Bentley Model}
 Given this structure, the turnover graph and data snapshots in the original
 Random
-Copying Model were moved into separate classes:\\  \texttt{top40DataFileRecorder}
+Copying Model were moved into separate classes in TransmissionLab:\\  \texttt{top40DataFileRecorder}
 and \texttt{TurnoverGraphCollector}.  The latter refactoring, in particular,
 removes a great deal of code and complexity from the model class. 
 The inner class \texttt{Turnover} moves to the \texttt{TurnoverGraphCollector},
@@ -223,6 +221,8 @@ thing is in the Model class, and Agents, IDataCollectors, or future simulation
 
 
 \subsubsection{Example Data Collector:  TraitFrequencyAnalyzer}
+[[NOTE: Update given changes to scheduling, etc]]
+
 I added \texttt{TraitFrequencyAnalyzer}, written from scratch as a
 ``paradigm'' example of how a modular data collection and analysis system would
 work.  The class accesses \emph{only} the agent list held by the model, caches
@@ -263,7 +263,7 @@ from Jakarta Commons Collections, and then passing the agent list and the
 closure class to the Commons Collections helper method
 \texttt{CollectionUtils.forAlldo()}.  The closure class here is
 \texttt{FrequencyCounter}, and in its \texttt{execute()} method it checks if the
-passed \texttt{RCMAgent}'s trait is already indexed in the trait frequency map,
+passed \texttt{IAgent}'s trait is already indexed in the trait frequency map,
 calls the \texttt{TraitCount.increment()} method if so, and if not, constructs a
 new \texttt{TraitCount} object for the trait and inserts it into the map.
 
@@ -334,6 +334,7 @@ appear in the initial GUI.
 NOTE:  Still working on this (2/28/07) but am having some luck - in the
 SimModelImpl constructor you can add PropertyDescriptors dynamically, like I do
 for the initial trait structure pull-down.
+
 \subsection{Refactoring Model and Inter-Agent Interaction}
 
 \subsection{Isolating Population Structure}

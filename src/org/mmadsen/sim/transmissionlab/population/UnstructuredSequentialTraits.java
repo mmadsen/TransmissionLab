@@ -1,12 +1,12 @@
-package org.mmadsen.sim.transmission.population;
+package org.mmadsen.sim.transmissionlab.population;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
-import org.mmadsen.sim.transmission.interfaces.IAgent;
-import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 
 
 public class UnstructuredSequentialTraits implements IAgentPopulation {
@@ -23,7 +23,7 @@ public class UnstructuredSequentialTraits implements IAgentPopulation {
 		this.agentList = new ArrayList<IAgent>();
 		int curVariant = this.initialVariant;
 		
-		this.log.debug("Constructing UnstructuredSequentialTrait population of " + this.numAgents + " agents");
+		this.log.debug("Constructing population of " + this.numAgents + " agents");
 		for( int i = 0; i < this.numAgents; i++) {
 			// the following line is the only place this class knows the concrete type of agent it's creating.
 			this.agentList.add(new AgentSingleIntegerVariant(curVariant, this.log));

@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.interfaces;
+package org.mmadsen.sim.transmissionlab.interfaces;
 
 import uchicago.src.sim.engine.BasicAction;
 
@@ -45,5 +45,9 @@ public interface IDataCollector {
 	// We need to know when and how to schedule each data collector.  Ideally the 
 	// model code should know nothing about this
 	public BasicAction getDataCollectorSchedule();
+
+    public int getSchedGroupType();
+
+    public void setSchedGroupType(int schedGroupType);
 	
 }

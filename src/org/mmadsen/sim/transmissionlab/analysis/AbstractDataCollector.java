@@ -1,8 +1,8 @@
-package org.mmadsen.sim.transmission.analysis;
+package org.mmadsen.sim.transmissionlab.analysis;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.interfaces.IDataCollector;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
 import uchicago.src.sim.engine.ActionUtilities;
 import uchicago.src.sim.engine.BasicAction;
@@ -11,8 +11,22 @@ import uchicago.src.sim.engine.Schedule;
 public abstract class AbstractDataCollector implements IDataCollector {
 	private TransmissionLabModel model = null;
 	private Log log = null;
-	
-	public AbstractDataCollector(Object m) {
+    public static final int SCHED_GROUP_TYPE_END = 0;
+    public static final int SCHED_GROUP_TYPE_SIMULATION = 1;
+    public static final int SCHED_GROUP_TYPE_BEGIN = 2;
+
+    public int getSchedGroupType() {
+        return schedGroupType;
+    }
+
+    public void setSchedGroupType(int schedGroupType) {
+        this.schedGroupType = schedGroupType;
+    }
+
+    private int schedGroupType = SCHED_GROUP_TYPE_SIMULATION;
+
+
+    public AbstractDataCollector(Object m) {
 		this.model = (TransmissionLabModel) m;
 		this.log = this.model.getLog();
 	}
@@ -34,7 +48,7 @@ public abstract class AbstractDataCollector implements IDataCollector {
 	 * 
 	 */
 	public BasicAction getDataCollectorSchedule() {
-		this.log.debug("Entering getDataCollectorSchedule for " + this.getClass().getCanonicalName());
+		this.log.debug("Entering getDataCollectorSchedule for " + this.getClass().getSimpleName());
 		return this.getSpecificSchedule(this.getBasicActionForDataCollector());
 	}
 	

@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.util;
+package org.mmadsen.sim.transmissionlab.util;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,4 +1,4 @@
-package org.mmadsen.sim.transmission.analysis;
+package org.mmadsen.sim.transmissionlab.analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,16 +11,15 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Closure;
-import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
-import org.mmadsen.sim.transmission.interfaces.IAgent;
-import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmission.interfaces.IDataCollector;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
 import uchicago.src.sim.analysis.AverageSequence;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
-import uchicago.src.sim.engine.ActionUtilities;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
 
@@ -300,7 +299,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	}
 
 	public void initialize() {
-		this.log.debug("entering TraitFrequencyAnalyzer.initialize");
+		this.log.debug("entering TraitFrequencyAnalyzer.initialize()");
 		this.topNListSize = this.model.getTopNListSize();
 		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
 		
@@ -366,7 +365,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// other modules to use
 		this.model.storeSharedObject(TRAIT_COUNT_LIST_KEY, this.curSortedTraitCounts);
 		this.prevSortedTraitCounts = this.curSortedTraitCounts;
-	}
+        this.log.debug("Leaving TraitFrequencyAnalyzer.process at time " + this.model.getTickCount());
+    }
 	
 	//	 helper method to reduce duplication - held in the outer class so it
 	// can be used by all inner classes.

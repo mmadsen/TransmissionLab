@@ -1,13 +1,13 @@
-package org.mmadsen.sim.transmission.rules;
+package org.mmadsen.sim.transmissionlab.rules;
 
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmission.agent.AgentSingleIntegerVariant;
-import org.mmadsen.sim.transmission.interfaces.IAgent;
-import org.mmadsen.sim.transmission.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmission.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmission.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
+import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 
 import uchicago.src.sim.util.Random;
 /**
