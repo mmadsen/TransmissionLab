@@ -17,69 +17,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/NullRule.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgent.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgent.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/test/RandomCopyModelTest.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/MoranProcessRandomSamplingTransmission.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdf" afterPath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdf" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util/SharedRepository.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent/AbstractAgent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/test" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IDataCollector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/commons-logging.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/TraitFrequencyAnalyzer.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SharedRepository.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SharedRepository.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/NonOverlappingRandomSamplingTransmission.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IPopulationTransformationRule.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent/AgentSingleIntegerVariant.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IAgent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/TransmissionLabModel.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util/PopulationRuleset.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/log4j.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.ipr" afterPath="$PROJECT_DIR$/transmissionlab.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.tex" afterPath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/deprecated" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AbstractAgent.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AbstractAgent.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/ISharedDataManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/UnstructuredGaussianInitialTraits.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdfsync" afterPath="$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdfsync" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IPopulationFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/UnstructuredSequentialTraits.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/RandomAgentInfiniteAllelesMutation.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/RandomCopyModelTest.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/RandomCopyModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISharedDataManager.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISharedDataManager.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IAgentPopulation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/SingleTraitPopulationFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/top40DataFileRecorder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/AbstractDataCollector.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/DataCollectorScheduleType.java" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -203,7 +148,75 @@
     </subPane>
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="IDataCollector.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="106" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.5403377">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractDataCollector.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="92" column="64" selection-start="4226" selection-end="4226" vertical-scroll-proportion="1.3320825">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransmissionLabModel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="153" column="97" selection-start="7142" selection-end="7142" vertical-scroll-proportion="1.0356473">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OverallStatisticsRecorder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="0" selection-start="1582" selection-end="1582" vertical-scroll-proportion="0.85553473">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TraitFrequencyAnalyzer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="382" column="0" selection-start="14866" selection-end="14866" vertical-scroll-proportion="1.15197">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="top40DataFileRecorder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="90" column="93" selection-start="3175" selection-end="3175" vertical-scroll-proportion="0.48968107">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataCollectorScheduleType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/DataCollectorScheduleType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="0" selection-start="273" selection-end="273" vertical-scroll-proportion="0.27016884">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -332,7 +345,111 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim" />
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -349,7 +466,7 @@
       <showLibraryContents />
       <hideEmptyPackages />
       <abbreviatePackageNames />
-      <showStructure ProjectPane="false" PackagesPane="false" Scope="false" Favorites="false" />
+      <showStructure Scope="false" ProjectPane="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -369,188 +486,15 @@
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager" />
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="3/18/07 11:07 AM" ActionInfo="Chec_k Status">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="UpdatedOnServer" />
-            <option name="myStatusName" value="Modified on Server" />
-            <option name="mySupportsDeletion" value="true" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="Modified On Server" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="ReplacedOnServer" />
-            <option name="myStatusName" value="Replaced on Server" />
-            <option name="mySupportsDeletion" value="true" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="Replaced On Server" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdf</PATH>
-          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.pdfsync</PATH>
-          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.tex</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AbstractAgent.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgent.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISharedDataManager.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/RandomCopyModelTest.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SharedRepository.java</PATH>
-          <PATH>$PROJECT_DIR$/transmissionlab.ipr</PATH>
-          <PATH>$PROJECT_DIR$/transmissionlab.iws</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-          <PATH>$PROJECT_DIR$/classes</PATH>
-          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.aux</PATH>
-          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.log</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/deprecated</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/commons-logging.properties</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent/AbstractAgent.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/agent/AgentSingleIntegerVariant.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/AbstractDataCollector.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/top40DataFileRecorder.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/analysis/TraitFrequencyAnalyzer.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/deprecated</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IAgent.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IAgentPopulation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IDataCollector.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IPopulationFactory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/IPopulationTransformationRule.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/interfaces/ISharedDataManager.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/commons-logging.properties</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/log4j.properties</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/models/TransmissionLabModel.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/SingleTraitPopulationFactory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/UnstructuredGaussianInitialTraits.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/population/UnstructuredSequentialTraits.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/MoranProcessRandomSamplingTransmission.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/NonOverlappingRandomSamplingTransmission.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/NullRule.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/rules/RandomAgentInfiniteAllelesMutation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/test</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/test/RandomCopyModelTest.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util/PopulationRuleset.java</PATH>
-          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmission/util/SharedRepository.java</PATH>
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
-  </component>
+  <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="Application.transmissionlab">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -570,6 +514,18 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
@@ -582,25 +538,6 @@
       <method>
         <option name="Make" value="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
     <configuration default="false" name="transmissionlab" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
@@ -708,17 +645,17 @@
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24953446" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24953446" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24953446" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32954547" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Tasks" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32954547" order="8" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" order="8" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -747,7 +684,7 @@
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="renamed main containing package from org.mmadsen.sim.transmission to transmissionlab.  have the scheduling mechanism for data collectors working fully now, including the ability to schedule data collectors (and possibly other modules later) for before, after, and during each tick of the simulation." />
+    <option name="LAST_COMMIT_MESSAGE" value="small refactoring in AbstractDataCollector and subclasses, to use an enum for the schedule type.  additions to Javadoc documentation especially since IDataCollectors are key extension points for model developers." />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -761,6 +698,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="renamed main containing package from org.mmadsen.sim.transmission to transmissionlab.  have the scheduling mechanism for data collectors working fully now, including the ability to schedule data collectors (and possibly other modules later) for before, after, and during each tick of the simulation." />
+    <MESSAGE value="small refactoring in AbstractDataCollector and subclasses, to use an enum for the schedule type.  additions to Javadoc documentation especially since IDataCollectors are key extension points for model developers." />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -815,37 +753,9 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="78" selection-start="2112" selection-end="2112" vertical-scroll-proportion="0.05421687">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="302" column="68" selection-start="11216" selection-end="11216" vertical-scroll-proportion="0.22771084">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.classpath">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="38" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="312" column="45" selection-start="12130" selection-end="12130" vertical-scroll-proportion="0.09380863">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="4" selection-start="1652" selection-end="1652" vertical-scroll-proportion="0.9043152">
           <folding />
         </state>
       </provider>
@@ -871,17 +781,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="663" selection-end="845" vertical-scroll-proportion="0.2251407">
+        <state line="153" column="97" selection-start="7142" selection-end="7142" vertical-scroll-proportion="1.0356473">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/DataCollectorScheduleType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="273" selection-end="273" vertical-scroll-proportion="0.27016884">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="35" selection-start="2137" selection-end="2137" vertical-scroll-proportion="1.0806754">
+        <state line="24" column="106" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.5403377">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="1582" selection-end="1582" vertical-scroll-proportion="0.85553473">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="382" column="0" selection-start="14866" selection-end="14866" vertical-scroll-proportion="1.15197">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="93" selection-start="3175" selection-end="3175" vertical-scroll-proportion="0.48968107">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="64" selection-start="4226" selection-end="4226" vertical-scroll-proportion="1.3320825">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

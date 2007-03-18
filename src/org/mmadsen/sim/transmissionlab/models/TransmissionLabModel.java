@@ -27,6 +27,7 @@ import org.mmadsen.sim.transmissionlab.rules.NonOverlappingRandomSamplingTransmi
 import org.mmadsen.sim.transmissionlab.rules.RandomAgentInfiniteAllelesMutation;
 import org.mmadsen.sim.transmissionlab.util.PopulationRuleset;
 import org.mmadsen.sim.transmissionlab.util.SharedRepository;
+import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 
 import uchicago.src.reflector.ListPropertyDescriptor;
 import uchicago.src.sim.engine.ActionGroup;
@@ -142,15 +143,15 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // let the IDataCollector tell us how to schedule itself.
         for (IDataCollector collector : this.dataCollectorList) {
             collector.initialize();
-            int schedGroupType = collector.getSchedGroupType();
-            if ( schedGroupType == AbstractDataCollector.SCHED_GROUP_TYPE_SIMULATION ) {
+            DataCollectorScheduleType schedGroupType = collector.getSchedGroupType();
+            if ( schedGroupType == DataCollectorScheduleType.EACH_TICK ) {
                 this.analysisActionGroup.addAction(collector.getDataCollectorSchedule());
-            } else if( schedGroupType == AbstractDataCollector.SCHED_GROUP_TYPE_END ) {
+            } else if( schedGroupType == DataCollectorScheduleType.END ) {
                 this.finalActionGroup.addAction(collector.getDataCollectorSchedule());
-            } else if( schedGroupType == AbstractDataCollector.SCHED_GROUP_TYPE_BEGIN) {
+            } else if( schedGroupType == DataCollectorScheduleType.BEGIN) {
                 this.setupActionGroup.addAction(collector.getDataCollectorSchedule());
             } else {
-                this.log.error("ERROR: unknown schedule group type: " + schedGroupType);
+                this.log.error("ERROR: unknown schedule group type: " + schedGroupType.toString());
             }
 
         }

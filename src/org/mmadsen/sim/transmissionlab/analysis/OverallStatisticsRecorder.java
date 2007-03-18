@@ -4,6 +4,7 @@ import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.engine.BasicAction;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.apache.commons.logging.Log;
 
 /**
@@ -28,7 +29,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private TransmissionLabModel model = null;
 	private Log log = null;
 	private double stepToStartRecording = 0.0;
-	private final String TYPE_CODE = this.getClass().getSimpleName();
+
 
     public void build(Object model) {
         this.model = (TransmissionLabModel) model;
@@ -40,9 +41,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
        // no action needed...yet
     }
 
-    public String getDataCollectorName() {
-        return this.TYPE_CODE;
-    }
+
     
     @Override
 	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
@@ -54,7 +53,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     public void initialize() {
         this.log.debug("Entering OverallStatisticsRecorder.initialize()");
         this.stepToStartRecording = this.model.getNumTicks();
-        this.setSchedGroupType(AbstractDataCollector.SCHED_GROUP_TYPE_END);
+        this.setSchedGroupType(DataCollectorScheduleType.END);
         this.log.debug("OverallStatisticsRecorder: record data at tick: " + this.stepToStartRecording);
     }
 

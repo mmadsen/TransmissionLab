@@ -79,8 +79,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	private Map<Integer, TraitCount> freqMap = null;
 	private ArrayList<TraitCount> prevSortedTraitCounts = null;
 	private ArrayList<TraitCount> curSortedTraitCounts = null;
-	private final String TYPE_CODE = this.getClass().getSimpleName();
-	private int topNListSize = 0;
+    private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
 	
@@ -381,10 +380,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// otherwise return the whole list if it's smaller than "top N"
 		return listOfTraits;
 	}
-	
-	public String getDataCollectorName() {
-		return this.TYPE_CODE;
-	}
+
 
 	@Override
 	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {

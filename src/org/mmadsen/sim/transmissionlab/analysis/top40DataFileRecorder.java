@@ -48,9 +48,8 @@ public class top40DataFileRecorder extends AbstractDataCollector implements IDat
 	private TransmissionLabModel model = null;
 	private Log log = null;
 	private double stepToStartRecording = 0.0;
-	private final String TYPE_CODE = this.getClass().getSimpleName();
-	
-	/* No implementation needed; each file snapshot cleans up after itself
+
+    /* No implementation needed; each file snapshot cleans up after itself
 	 * @see org.mmadsen.sim.transmissionlab.IDataCollector#completion()
 	 */
 	public void completion() {
@@ -89,10 +88,7 @@ public class top40DataFileRecorder extends AbstractDataCollector implements IDat
 		log.debug("Recording file snapshot at " + this.model.getTickCount());
 		this.recordAction();
 	}
-	
-	public String getDataCollectorName() {
-		return this.TYPE_CODE;
-	}
+
 	
 	@SuppressWarnings("unchecked")
 	private void recordAction() {
