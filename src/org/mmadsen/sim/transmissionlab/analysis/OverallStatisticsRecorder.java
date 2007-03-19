@@ -6,6 +6,13 @@ import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.apache.commons.logging.Log;
+import cern.colt.list.DoubleArrayList;
+import cern.jet.stat.Descriptive;
+
+import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,6 +36,10 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private TransmissionLabModel model = null;
 	private Log log = null;
 	private double stepToStartRecording = 0.0;
+    private double meanTurnover = 0.0;
+    private double stdevTurnover = 0.0;
+    private double meanTraitCount = 0.0;
+    private double stdevTraitCount = 0.0;
 
 
     public void build(Object model) {
@@ -58,10 +69,102 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     }
 
     /*
-     * TODO:  record some kind of moving-window average that we're going to have TraitFrequencyAnalyzer calculate and store.
+     * TODO:  instead of plain arithmetic mean, consider winsorized or trimmed mean to deal with "early" run outliers
+     * TODO:  output the statistics to a file as well as logging them.
      */
     @Override
     public void process() {
         this.log.debug("OverallStatisticsRecorder running process()");
+        DoubleArrayList turnoverHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TURNOVER_HISTORY_KEY);
+        DoubleArrayList traitCountHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_COUNT_HISTORY_KEY);
+
+        // calculate turnover statistics
+        this.meanTurnover = Descriptive.mean(turnoverHistory);
+        double varianceTurnover = Descriptive.sampleVariance(turnoverHistory, this.meanTurnover);
+        this.stdevTurnover = Descriptive.standardDeviation(varianceTurnover);
+        this.log.info("Mean turnover: " + this.meanTurnover + "  stdev: " + this.stdevTurnover);
+
+        // calculate total variation statistics
+        this.meanTraitCount = Descriptive.mean(traitCountHistory);
+        double varianceTraitCount = Descriptive.sampleVariance(traitCountHistory, this.meanTraitCount);
+        this.stdevTraitCount = Descriptive.standardDeviation(varianceTraitCount);
+        this.log.info("Mean num traits in population: " + this.meanTraitCount + "  stdev: " + this.stdevTraitCount);
+
+        // record overall stats to a file
+        this.recordStats();
     }
+
+    @SuppressWarnings("unchecked")
+	private void recordStats() {
+		String filePath = this.createDataDumpFilePath();
+
+        File neutralFile = new File(filePath);
+        Boolean headerAlreadyExists = neutralFile.exists();
+
+        try {
+            // open the file for append = true since we want to gather multiple runs
+            
+            FileWriter writer = new FileWriter(neutralFile, true);
+
+            if ( ! headerAlreadyExists ) {
+                StringBuffer header = new StringBuffer();
+                header.append("NumAgents");
+                header.append("\t");
+                header.append("MutationRate");
+                header.append("\t");
+                header.append("LengthSimRun");
+                header.append("\t");
+                header.append("RngSeed");
+                header.append("\t");
+                header.append("MeanTurnover");
+                header.append("\t");
+                header.append("StdevTurnover");
+                header.append("\t");
+                header.append("MeanTraitCount");
+                header.append("\t");
+                header.append("StdevTraitCount");
+                header.append("\n");
+                writer.write(header.toString());
+            }
+
+
+            StringBuffer sb = new StringBuffer();
+
+            sb.append(this.model.getNumAgents());
+            sb.append("\t");
+            sb.append(this.model.getMu());
+            sb.append("\t");
+            sb.append(this.model.getNumTicks());
+            sb.append("\t");
+            sb.append(this.model.getRngSeed());
+            sb.append("\t");
+            sb.append(this.meanTurnover);
+            sb.append("\t");
+            sb.append(this.stdevTurnover);
+            sb.append("\t");
+            sb.append(this.meanTraitCount);
+            sb.append("\t");
+            sb.append(this.stdevTraitCount);
+            sb.append("\n");
+
+            writer.write(sb.toString());
+			writer.close();
+		} catch (IOException ioe) {
+			log.info("IOException on filepath: "+ filePath + ": " + ioe.getMessage());
+		}
+	}
+
+	/**
+	 * Helper method to create a filepath usable for
+	 * storing data snapshot files
+	 * TODO:  Make this OS neutral for windows - works now on Mac/Linux
+	 */
+	private String createDataDumpFilePath() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.model.getDataDumpDirectory());
+		sb.append("/");
+		sb.append("transmissionlab-multiplerun-statistics");
+        sb.append(".txt");
+		return sb.toString();
+	}
 }

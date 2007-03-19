@@ -22,6 +22,7 @@ import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
+import cern.colt.list.DoubleArrayList;
 
 
 /**
@@ -71,7 +72,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	}
 
 	public static final String TRAIT_COUNT_LIST_KEY = "TRAIT_COUNT_LIST_KEY";
-	private OpenSequenceGraph turnGraph = null;
+    public static final String TURNOVER_HISTORY_KEY = "TURNOVER_HISTORY_KEY";
+    public static final String TRAIT_COUNT_HISTORY_KEY = "TRAIT_COUNT_HISTORY_KEY";
+    private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
 	private TransmissionLabModel model = null;
 	private Log log = null;
@@ -79,6 +82,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	private Map<Integer, TraitCount> freqMap = null;
 	private ArrayList<TraitCount> prevSortedTraitCounts = null;
 	private ArrayList<TraitCount> curSortedTraitCounts = null;
+    private DoubleArrayList turnoverHistory = null;
+    private DoubleArrayList traitCountHistory = null;
     private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
@@ -235,8 +240,11 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 			int intersectionSize = intersection.size();
 			turnover = (prevSize + curSize) - ( 2 * intersection.size());
 			log.debug("prev size: " + prevSize + " cursize: " + curSize + " intersection size: " + intersectionSize + " turnover: " + turnover);
-			
-			return turnover;
+
+            // add the calculated to the turnover history
+            turnoverHistory.add(turnover);
+            
+            return turnover;
 		}
 		
 		
@@ -301,8 +309,10 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		this.log.debug("entering TraitFrequencyAnalyzer.initialize()");
 		this.topNListSize = this.model.getTopNListSize();
 		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
-		
-		this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
+        this.turnoverHistory = new DoubleArrayList();
+        this.traitCountHistory = new DoubleArrayList();
+
+        this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
 		
 		this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);
@@ -345,7 +355,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// of TraitCounts for further processing
 		this.curSortedTraitCounts = new ArrayList<TraitCount>();
 		this.curSortedTraitCounts.addAll(this.freqMap.values());
-		Collections.sort(curSortedTraitCounts);
+        // capture the number of traits present in the population currently into the historical list
+        this.traitCountHistory.add(this.curSortedTraitCounts.size());
+        Collections.sort(curSortedTraitCounts);
 		Collections.reverse(curSortedTraitCounts);
 		
 		// debug only
@@ -358,11 +370,17 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// represents tickCount - 1, and curSortedTraitCounts represents this tick.
 		this.turnGraph.step();
 		this.totalVariabilityGraph.step();
-		
-		// housekeeping - store cur in prev for comparison next time around
+
+        // store the current version of the turnoverHistory list in the shared repository in case
+        // another module wants the current snapshot, for moving averages or something similiar
+        this.model.storeSharedObject(TURNOVER_HISTORY_KEY, this.turnoverHistory);
+        this.model.storeSharedObject(TRAIT_COUNT_HISTORY_KEY, this.traitCountHistory);
+
+        // housekeeping - store cur in prev for comparison next time around
 		// and cache the current trait counts in the model shared repository for 
-		// other modules to use
-		this.model.storeSharedObject(TRAIT_COUNT_LIST_KEY, this.curSortedTraitCounts);
+		// other modules to use - note that inter-step comparisons *within* this class don't use
+        // the shared repository - we're writing the object to the repository for other classes
+        this.model.storeSharedObject(TRAIT_COUNT_LIST_KEY, this.curSortedTraitCounts);
 		this.prevSortedTraitCounts = this.curSortedTraitCounts;
         this.log.debug("Leaving TraitFrequencyAnalyzer.process at time " + this.model.getTickCount());
     }

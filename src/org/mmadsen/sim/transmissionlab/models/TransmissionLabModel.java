@@ -457,6 +457,11 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // DEBUG: testing only - remove
         //this.popRuleSet.addRule(new NullRule(log, this));
 
+        if ( this.getPopulationProcessType() == null ) {
+            log.info("No PopulationProcess selection made - defaulting to WrightFisherProcess");
+            this.setPopulationProcessType("WrightFisherProcess");
+        }
+
         if (this.getPopulationProcessType().equals("WrightFisherProcess")) {
             this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
         } else if (this.getPopulationProcessType().equals("MoranProcess")) {
@@ -464,10 +469,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
             mpRule.setReproductivePairsPerTick(this.getMoranProcessNumPairs());
             this.popRuleSet.addRule(mpRule);
         } else {
-            // defaults to WrightFisher if no selection
-            log.info("No PopulationProcess selection made - defaulting to WrightFisherProcess");
-            this.setPopulationProcessType("WrightFisherProcess");
-            this.popRuleSet.addRule(new NonOverlappingRandomSamplingTransmission(log, this));
+            this.log.error("Unknown PopulationProcessType: " + this.getPopulationProcessType());
         }
 
         this.log.debug("created Transmission rule: " + this.getPopulationProcessType());
