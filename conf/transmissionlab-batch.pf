@@ -1,0 +1,59 @@
+runs: 1
+TopNListSize {
+    start: 5
+	end: 50
+	incr: 5
+	{
+		runs: 1
+		NumAgents {
+		  start: 100
+		  end: 1000
+		  incr: 100
+		  {
+			runs: 1
+			Mu {
+			  set_list: 0.0001 0.005 0.001 0.05 0.01 0.1
+			  {
+			     runs: 1
+			     RngSeed {
+					start: 199999999
+					end: 399999999
+					incr: 19999999
+			     }
+			  }
+			}
+		  }
+  
+		}
+	}
+}
+NumTicks {
+  set: 1000
+}
+EwensThetaMultipler {
+  set: 2
+}
+PopulationProcessType {
+  set_string: WrightFisherProcess
+}
+MoranProcessNumPairs {
+  set: 1
+}
+DataDumpDirectory {
+  set_string: /tmp
+}
+EnableNewTopN {
+  set_boolean: true
+}
+EnableFileSnapshot {
+  set_boolean: false
+}
+EnableOverallStats {
+  set_boolean: true
+}
+DataFileSnapshotPercentage {
+  set: 0.1
+}
+InitialTraitStructure {
+  set_string: SequentialTrait
+}

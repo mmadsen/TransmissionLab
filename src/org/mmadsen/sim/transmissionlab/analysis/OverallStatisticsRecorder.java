@@ -116,6 +116,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
                 header.append("\t");
                 header.append("RngSeed");
                 header.append("\t");
+                header.append("TopNListSize");
+                header.append("\t");
                 header.append("MeanTurnover");
                 header.append("\t");
                 header.append("StdevTurnover");
@@ -137,6 +139,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append(this.model.getNumTicks());
             sb.append("\t");
             sb.append(this.model.getRngSeed());
+            sb.append("\t");
+            sb.append(this.model.getTopNListSize());
             sb.append("\t");
             sb.append(this.meanTurnover);
             sb.append("\t");

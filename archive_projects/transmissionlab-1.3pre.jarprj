@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JAR>
+  <ARCHIVE_NAME>transmissionlab-1.3pre.jar</ARCHIVE_NAME>
+  <ARCHIVE_DIRECTORY>/Users/mark/Desktop</ARCHIVE_DIRECTORY>
+  <MAIN_CLASS>org.mmadsen.sim.transmissionlab.models.TransmissionLabModel</MAIN_CLASS>
+  <BUILD_SOURCE>NO</BUILD_SOURCE>
+  <SINGLE_SOURCE>NO</SINGLE_SOURCE>
+  <BUILD_BEFORE_ARCHIVING>YES</BUILD_BEFORE_ARCHIVING>
+  <SOURCE_DIR>/Users/mark/Documents/simulations/transmissionlab/</SOURCE_DIR>
+  <SOURCE_NAME>transmissionlab-1.3pre-src.jar</SOURCE_NAME>
+  <INCLUDE_ALL_PROJECT_RESOURCE>NO</INCLUDE_ALL_PROJECT_RESOURCE>
+  <SIGNED_LIBRARY_PATH />
+  <CLASSES>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/agent/AbstractAgent.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$AverageTraitCountSequence.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$EwensSequence.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$FrequencyCounter.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$TotalVariabilitySequence.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$TraitCount.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer$TurnoverSequence.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis/top40DataFileRecorder.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/IAgent.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces/ISharedDataManager.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/models/commons-logging.properties</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/models/log4j.properties</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/rules/NullRule.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/test/RandomCopyModelTest.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/util/DataCollectorScheduleType.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.class</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/util/SharedRepository.class</ELEMENT>
+  </CLASSES>
+  <LIBRARIES />
+  <SOURCES />
+  <RESOURCES />
+  <DIRECTORIES>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/agent</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/analysis</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/interfaces</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/models</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/population</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/rules</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/test</ELEMENT>
+    <ELEMENT>/Users/mark/Documents/simulations/transmissionlab/classes/production/transmissionlab/org/mmadsen/sim/transmissionlab/util</ELEMENT>
+  </DIRECTORIES>
+</JAR>
+

@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="BuildJarSettings">
+    <containerInfo>
+      <containerElement type="module" name="transmissionlab">
+        <attribute name="method" value="1" />
+        <attribute name="URI" value="/" />
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/colt.jar" />
+        <url>jar://$MODULE_DIR$/lib/colt.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib//commons-collections-3.2.jar" />
+        <url>jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/commons-logging.jar" />
+        <url>jar://$MODULE_DIR$/lib/commons-logging.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/commons-math-1.1.jar" />
+        <url>jar://$MODULE_DIR$/lib/commons-math-1.1.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/junit-4.1.jar" />
+        <url>jar://$MODULE_DIR$/lib/junit-4.1.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/log4j-1.2.8.jar" />
+        <url>jar://$MODULE_DIR$/lib/log4j-1.2.8.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/plot.jar" />
+        <url>jar://$MODULE_DIR$/lib/plot.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/privilegedAccessor5.0_1.0.2.jar" />
+        <url>jar://$MODULE_DIR$/lib/privilegedAccessor5.0_1.0.2.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/repast.jar" />
+        <url>jar://$MODULE_DIR$/lib/repast.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/trove.jar" />
+        <url>jar://$MODULE_DIR$/lib/trove.jar!/</url>
+      </containerElement>
+    </containerInfo>
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-1.3pre.jar" />
+    <setting name="buildJar" value="true" />
+    <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
+  </component>
   <component name="DependecySynchronizer" />
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="true">

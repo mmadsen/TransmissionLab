@@ -84,6 +84,7 @@ sub parse_row {
 	$parsed_row->{"mutationrate"} = shift @fields;
 	$parsed_row->{"numticks"} = shift @fields;
 	$parsed_row->{"rngseed"} = shift @fields;
+	$parsed_row->{"topnlistsize"} = shift @fields;
 	$parsed_row->{"meanturnover"} = shift @fields;
 	$parsed_row->{"stdevturnover"} = shift @fields;
 	$parsed_row->{"meantraitcount"} = shift @fields;
@@ -102,7 +103,7 @@ sub parse_row {
 # infrastructure in the output dumps in the future to capture parameter state and 
 # thus allow us to sort out these things in post-processing.  
 #
-# each "leaf" node in the combination numAgents -> mu then holds a hash with keys
+# each "leaf" node in the combination topnlistsize -> numAgents -> mu then holds a hash with keys
 # "MeanTurnover" and "MeanTraitCount", the values of which are Statistics::Descriptive
 # objects established the first time we see a particular numAgents/MutationRate combo.  
 # if, when processing a given row we already have a pair of Statistics::Descriptive objects at
@@ -120,20 +121,24 @@ sub process_replicates {
 		# print STDERR "(debug) processing row\n";
 		
 		# first examine numAgents, initialize slot if new
-		if ( ! defined $processed_data->{ $row->{"numagents"}}) {
-			$processed_data->{ $row->{"numagents"}} = {};
-		} 
+		if ( ! defined $processed_data->{ $row->{"topnlistsize"}}) {
+			$processed_data->{ $row->{"topnlistsize"}} = {};
+		}
+
+		if ( ! defined $process_data->{ $row->{"topnlistsize"}}->{ $row->{ "numagents" }) {
+		     $processed_data->{ $row->{"topnlistsize"}}->{$row->{"numagents"}} = {};
+		}
 		
 		# now examine mutationrate in the context of numagents, initialize slot if new
-		if ( ! defined $processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}} ) {
-			$processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}} = {};
-			$processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"} = Statistics::Descriptive::Sparse->new();
-			$processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
+		if ( ! defined $process_data->{ $row->{"topnlistsize"}}->{ $row->{ "numagents" }->{ $row->{ "mutationrate" }} ) {
+			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}} = {};
+			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"} = Statistics::Descriptive::Sparse->new();
+			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
 		}
 		
 		# now store the data we care about
-		$processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"}->add_data($row->{"meanturnover"});
-		$processed_data->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"}->add_data($row->{"meantraitcount"});
+		$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"}->add_data($row->{"meanturnover"});
+		$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"}->add_data($row->{"meantraitcount"});
 	}
 	
 	return $processed_data;
@@ -141,7 +146,7 @@ sub process_replicates {
 
 # header row for the output
 sub write_header {
-	print STDOUT "NumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\n";
+	print STDOUT "TopNListSize\tNumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\n";
 }
 
 # create_final_output runs through the processed replicates, in dually sorted order:
@@ -152,18 +157,24 @@ sub write_header {
 
 sub create_final_output {
 	my $processed_data = shift;
-	my @numagent_list = sort { $a <=> $b } keys %$processed_data;
+	my @topnlistsize_list = sort { $a <=> $b } keys %$processed_data;
 	
-	foreach my $numagent_value ( @numagent_list ) {
-		my @mutation_list = sort { $a <=> $b } keys %{$processed_data->{ $numagent_value }};
-		foreach my $mutationrate ( @mutation_list ) {
-			print $numagent_value, "\t";
-			print $mutationrate, "\t";
-			print $processed_data->{$numagent_value}->{$mutationrate}->{"turnover"}->count(), "\t";
-			print $processed_data->{$numagent_value}->{$mutationrate}->{"turnover"}->mean(), "\t";
-			print $processed_data->{$numagent_value}->{$mutationrate}->{"turnover"}->standard_deviation(), "\t";
-			print $processed_data->{$numagent_value}->{$mutationrate}->{"traitcount"}->mean(), "\t";
-			print $processed_data->{$numagent_value}->{$mutationrate}->{"traitcount"}->standard_deviation(), "\n";
+	foreach my $topnlistsize_value ( @topnlistsize_list ) {
+		my @numagent_list = sort { $a <=> $b } keys %{$processed_data->{ $topnlistsize_value }};
+		foreach my $numagent_value ( @numagent_list ) {
+
+		    my @mutationrate_list = sort { $a <=> $b } keys %{ $processed_data->{ $topnlistsize_value }->{ $numagent_value }};
+
+		    foreach my $mutationrate_value ( @mutationrate_list ) {
+		        print $topnlistsize_value, "\t";
+                print $numagent_value, "\t";
+                print $mutationrate, "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->count(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->standard_deviation(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"traitcount"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"traitcount"}->standard_deviation(), "\n";
+			}
 		}
 	}
 }
