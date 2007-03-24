@@ -57,8 +57,10 @@ if ($header_seen == FALSE ) {
 
 
 
-# print Dumper( @rows );
+#print Dumper( @rows );
 #print STDERR "(debug) number of rows to process: ", scalar @rows, "\n";
+
+
 
 # now take the parsed input rows, and process to average any parameter replicates
 my $processed_data = process_replicates( \@rows );
@@ -67,6 +69,7 @@ my $processed_data = process_replicates( \@rows );
 
 # write a header row to STDOUT representing the new data output
 write_header();
+
 
 # now take the reduced data set and produce a new tab-delimited output file
 create_final_output( $processed_data );
@@ -118,27 +121,36 @@ sub process_replicates {
 	my $processed_data = {};
 	foreach my $row ( @$row_list ) {
 		
+		# let's simplify the below and allow easier debugging...
+		my $listsize = $row->{"topnlistsize"};
+		my $numagents = $row->{"numagents"};
+		my $mu = $row->{"mutationrate"};
+		my $meanturnover = $row->{"meanturnover"};
+		my $meantraitcount = $row->{"meantraitcount"};
+		
+		#print STDERR "(debug) processing row with listsize: $listsize  numagents: $numagents  mu: $mu\n";
+		
 		# print STDERR "(debug) processing row\n";
 		
 		# first examine numAgents, initialize slot if new
-		if ( ! defined $processed_data->{ $row->{"topnlistsize"}}) {
-			$processed_data->{ $row->{"topnlistsize"}} = {};
+		if ( ! defined $processed_data->{$listsize}) {
+			$processed_data->{$listsize} = {};
 		}
 
-		if ( ! defined $process_data->{ $row->{"topnlistsize"}}->{ $row->{ "numagents" }) {
-		     $processed_data->{ $row->{"topnlistsize"}}->{$row->{"numagents"}} = {};
+		if ( ! defined $processed_data->{$listsize}->{$numagents}) {
+		     $processed_data->{$listsize}->{$numagents} = {};
 		}
 		
 		# now examine mutationrate in the context of numagents, initialize slot if new
-		if ( ! defined $process_data->{ $row->{"topnlistsize"}}->{ $row->{ "numagents" }->{ $row->{ "mutationrate" }} ) {
-			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}} = {};
-			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"} = Statistics::Descriptive::Sparse->new();
-			$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
+		if ( ! defined $processed_data->{$listsize}->{$numagents}->{$mu} ) {
+			$processed_data->{$listsize}->{$numagents}->{$mu} = {};
+			$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"} = Statistics::Descriptive::Sparse->new();
+			$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
 		}
 		
 		# now store the data we care about
-		$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"turnover"}->add_data($row->{"meanturnover"});
-		$processed_data->{ $row->{ "topnlistsize" }->{ $row->{"numagents"}}->{$row->{"mutationrate"}}->{"traitcount"}->add_data($row->{"meantraitcount"});
+		$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"}->add_data($meanturnover);
+		$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"}->add_data($meantraitcount);
 	}
 	
 	return $processed_data;
@@ -168,12 +180,12 @@ sub create_final_output {
 		    foreach my $mutationrate_value ( @mutationrate_list ) {
 		        print $topnlistsize_value, "\t";
                 print $numagent_value, "\t";
-                print $mutationrate, "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->count(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->mean(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"turnover"}->standard_deviation(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"traitcount"}->mean(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate}->{"traitcount"}->standard_deviation(), "\n";
+                print $mutationrate_value, "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"turnover"}->count(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"turnover"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"turnover"}->standard_deviation(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->standard_deviation(), "\n";
 			}
 		}
 	}
