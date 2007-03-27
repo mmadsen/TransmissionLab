@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/repast.jar"/>
 	<classpathentry kind="lib" path="lib/trove.jar"/>
 	<classpathentry kind="lib" path="lib/plot.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
