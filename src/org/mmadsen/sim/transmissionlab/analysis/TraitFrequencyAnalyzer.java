@@ -102,8 +102,10 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
-	
-	/**
+    private double curTurnover = 0.0;
+    private Boolean isBatchRun = false;
+
+    /**
 	 * TraitCount is a value class for tracking trait frequencies. 
 	 * We use a value class rather than just primitive types held
 	 * in collections because we want to make it easy to get a custom
@@ -230,40 +232,13 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		 * 
 		 */
 		public double getSValue() {
-			double turnover = 0.0;
-			//log.debug("lists should be trimmed to " + topNListSize);
-	
-			if ( prevSortedTraitCounts == null ) {
-				// this will happen on the first tick, after that we should be fine
-				return 0;
-			}
-
-			// given the sorted trait frequencies tallied in the IDataCollector process()
-			// method, extract just the sorted trait IDs, trim the list to top "N" if needed
-			List prevList = getTopNTraits(prevSortedTraitCounts);
-			List curList = getTopNTraits(curSortedTraitCounts);
-			
-			// now find the intersection of these two sorted trait ID lists
-			Collection intersection = CollectionUtils.intersection(prevList, curList);
-			log.debug("TFA:  previous: " + Arrays.deepToString(prevList.toArray()));
-			log.debug("TFA:  current: " + Arrays.deepToString(curList.toArray()));
-			log.debug("TFA:  intersection: " + Arrays.deepToString(intersection.toArray()));
-			
-			// now use the list sizes and the cardinality of the intersection set to calculate turnover
-			int prevSize = prevList.size();
-			int curSize = curList.size();
-			int intersectionSize = intersection.size();
-			turnover = (prevSize + curSize) - ( 2 * intersection.size());
-			log.debug("prev size: " + prevSize + " cursize: " + curSize + " intersection size: " + intersectionSize + " turnover: " + turnover);
-
-            // add the calculated to the turnover history
-            turnoverHistory.add(turnover);
-            
-            return turnover;
+            return curTurnover;
 		}
-		
-		
-	}
+
+
+
+
+    }
 	
 	class TotalVariabilitySequence implements Sequence {
 
@@ -282,19 +257,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		}
 		
 	}
-	
-	class AverageTraitCountSequence implements Sequence {
-		private AverageSequence seq = null;
-		
-		public AverageTraitCountSequence() {
-			this.seq = new AverageSequence(curSortedTraitCounts, "size");
-		}
-		
-		public double getSValue() {
-			return this.seq.getSValue();
-		}
-		
-	}
+
 	
 	public void build(Object m) {
 		this.model = (TransmissionLabModel) m;
@@ -303,8 +266,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		this.log.debug("Entering TraitFrequencyAnalyzer.build()");
 		this.freqCounter = new FrequencyCounter();
 		this.freqMap = new TreeMap<Integer, TraitCount>();
-		
-	}
+        this.isBatchRun = this.model.getBatchExecution();
+
+    }
 
 	public void completion() {
 		this.log.debug("entering TraitFrequencyAnalyzer.completion");
@@ -329,28 +293,29 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 
         this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
-		
-		this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);
-		this.turnGraph.setAxisTitles("time", "turnover");
-		StringBuffer sb = new StringBuffer();
-		sb.append("Top ");
-		sb.append(this.topNListSize);
-		this.turnGraph.addSequence(sb.toString(), new TurnoverSequence());
-		this.turnGraph.setXRange(0, 50);
-		this.turnGraph.setYRange(0, 30);
-		this.turnGraph.setSize(400, 250);
-		this.turnGraph.display();
-		
-		this.totalVariabilityGraph = new OpenSequenceGraph("Total Number of Traits in Population", this.model);
-		this.totalVariabilityGraph.setAxisTitles("time", "# of Traits");
-		this.totalVariabilityGraph.addSequence("num traits", new TotalVariabilitySequence());
-		this.totalVariabilityGraph.addSequence("Ewens " + this.ewensThetaMultipler + "Nmu", new EwensSequence());
-		//this.totalVariabilityGraph.addSequence("Avg. Traits", new AverageTraitCountSequence());
-		this.totalVariabilityGraph.setXRange(0, 50);
-		this.totalVariabilityGraph.setYRange(0, 100);
-		this.totalVariabilityGraph.setSize(400, 250);
-		this.totalVariabilityGraph.display();
-	}
+		if ( ! this.isBatchRun ) {
+            this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);
+            this.turnGraph.setAxisTitles("time", "turnover");
+            StringBuffer sb = new StringBuffer();
+            sb.append("Top ");
+            sb.append(this.topNListSize);
+            this.turnGraph.addSequence(sb.toString(), new TurnoverSequence());
+            this.turnGraph.setXRange(0, 50);
+            this.turnGraph.setYRange(0, 30);
+            this.turnGraph.setSize(400, 250);
+            this.turnGraph.display();
+
+            this.totalVariabilityGraph = new OpenSequenceGraph("Total Number of Traits in Population", this.model);
+            this.totalVariabilityGraph.setAxisTitles("time", "# of Traits");
+            this.totalVariabilityGraph.addSequence("num traits", new TotalVariabilitySequence());
+            this.totalVariabilityGraph.addSequence("Ewens " + this.ewensThetaMultipler + "Nmu", new EwensSequence());
+            //this.totalVariabilityGraph.addSequence("Avg. Traits", new AverageTraitCountSequence());
+            this.totalVariabilityGraph.setXRange(0, 50);
+            this.totalVariabilityGraph.setYRange(0, 100);
+            this.totalVariabilityGraph.setSize(400, 250);
+            this.totalVariabilityGraph.display();
+        }
+    }
 
 	@SuppressWarnings("unchecked")
 	public void process() {
@@ -362,8 +327,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// clear out the frequency map, and current list of sorted TraitCounts and recount
 		this.freqMap.clear();
 		this.curSortedTraitCounts = null;
-		
-		// fill up the frequency map
+        this.curTurnover = 0.0;
+
+        // fill up the frequency map
 		CollectionUtils.forAllDo(agentList, this.freqCounter);
 		
 		// At this point, we've got all the counts, so let's prepare a sorted List
@@ -374,17 +340,16 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.traitCountHistory.add(this.curSortedTraitCounts.size());
         Collections.sort(curSortedTraitCounts);
 		Collections.reverse(curSortedTraitCounts);
-		
-		// debug only
-	/*	log.debug("Sorted map of trait frequencies, in descending frequency order:");
-		for( TraitCount trait: curSortedTraitCounts ) {
-			log.debug("    " + trait.getTrait() + " = " + trait.getCount());
-		}
-		*/
-		// this is the right time to call the graph step() -- prevSortedTraitCounts still
+
+        // MEM: refactored out of the Sequence class to allow the simulation to run in batch mode
+        this.curTurnover = this.calculateTurnover();
+        
+        // this is the right time to call the graph step() -- prevSortedTraitCounts still
 		// represents tickCount - 1, and curSortedTraitCounts represents this tick.
-		this.turnGraph.step();
-		this.totalVariabilityGraph.step();
+        if ( ! this.isBatchRun ) {
+            this.turnGraph.step();
+		    this.totalVariabilityGraph.step();
+        }
 
         // store the current version of the turnoverHistory list in the shared repository in case
         // another module wants the current snapshot, for moving averages or something similiar
@@ -414,8 +379,48 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		return listOfTraits;
 	}
 
+    /**
+     * calculateTurnover() runs through the prev and current sorted lists of TraitCount
+     * objects, and calculates turnover (additions and removals) of traits from "top N"
+     * lists (i.e., truncating prev and cur sorted lists if list.size > topNlistsize).
+     * The topN cur and prev lists are then intersected, and we return turnover as:
+     * (prevsize + cursize) - (2 * intersection.size)
+     * @return turnover - double representing turnover, calculated from current data
+     */
+    private double calculateTurnover() {
+        double turnover = 0.0;
+        //log.debug("lists should be trimmed to " + topNListSize);
 
-	@Override
+        if ( prevSortedTraitCounts == null ) {
+            // this will happen on the first tick, after that we should be fine
+            return 0;
+        }
+
+        // given the sorted trait frequencies tallied in the IDataCollector process()
+        // method, extract just the sorted trait IDs, trim the list to top "N" if needed
+        List prevList = getTopNTraits(prevSortedTraitCounts);
+        List curList = getTopNTraits(curSortedTraitCounts);
+
+        // now find the intersection of these two sorted trait ID lists
+        Collection intersection = CollectionUtils.intersection(prevList, curList);
+        log.debug("TFA:  previous: " + Arrays.deepToString(prevList.toArray()));
+        log.debug("TFA:  current: " + Arrays.deepToString(curList.toArray()));
+        log.debug("TFA:  intersection: " + Arrays.deepToString(intersection.toArray()));
+
+        // now use the list sizes and the cardinality of the intersection set to calculate turnover
+        int prevSize = prevList.size();
+        int curSize = curList.size();
+        int intersectionSize = intersection.size();
+        turnover = (prevSize + curSize) - ( 2 * intersection.size());
+        log.debug("prev size: " + prevSize + " cursize: " + curSize + " intersection size: " + intersectionSize + " turnover: " + turnover);
+
+        // add the calculated to the turnover history
+        turnoverHistory.add(turnover);
+
+        return turnover;
+    }
+
+    @Override
 	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
 		Schedule sched = new Schedule();
 		sched.scheduleActionBeginning(1, actionToSchedule);

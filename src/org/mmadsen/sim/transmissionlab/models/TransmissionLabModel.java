@@ -26,6 +26,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.commons.cli.*;
 import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
 import org.mmadsen.sim.transmissionlab.analysis.top40DataFileRecorder;
 import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
@@ -55,9 +56,26 @@ import uchicago.src.sim.util.Random;
 public class TransmissionLabModel extends SimModelImpl implements ISharedDataManager {
 
     public static void main(String[] args) {
+        // parse command line options to see if this is a batch run
+        Options cliOptions = new Options();
+        cliOptions.addOption("b", false, "enable batch mode");
+        CommandLineParser parser = new PosixParser();
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse( cliOptions, args );
+        }
+        catch( ParseException ex ) {
+            System.out.println("ERROR: Command line exception: " + ex.toString());
+            System.exit(1);
+        }
+
         SimInit init = new SimInit();
         TransmissionLabModel model = new TransmissionLabModel();
-        init.loadModel(model, null, false);
+
+        model.isBatchExecution = cmd.hasOption("b");
+        System.out.println("INFO: batch mode setting: " + model.isBatchExecution);
+
+        init.loadModel(model, null, model.isBatchExecution);
     }
 
     private ActionGroup simulationActionGroups = null;
@@ -87,6 +105,16 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     private Schedule schedule;
     private SharedRepository sharedDataRepository = null;
     private int topNListSize = 40;
+
+    public Boolean getBatchExecution() {
+        return isBatchExecution;
+    }
+
+    public void setBatchExecution(Boolean batchExecution) {
+        isBatchExecution = batchExecution;
+    }
+
+    private Boolean isBatchExecution = false;
 
     @SuppressWarnings("unchecked")
     // vector usage is type-unsafe but follows repast examples
