@@ -18,8 +18,8 @@
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iml" afterPath="$PROJECT_DIR$/transmissionlab.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -144,10 +144,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TransmissionLabModel.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TransmissionLabModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="470" column="124" selection-start="18261" selection-end="18261" vertical-scroll-proportion="0.58348966">
+            <state line="65" column="98" selection-start="3089" selection-end="3089" vertical-scroll-proportion="0.36022514">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="log4j.properties" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="82" selection-start="1072" selection-end="1072" vertical-scroll-proportion="0.5403377">
               <folding />
             </state>
           </provider>
@@ -429,8 +438,101 @@
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager" />
-  <component name="RestoreUpdateTree" />
-  <component name="RunManager" selected="Application.transmissionlab-batch">
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="3/28/07 9:42 AM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+          <PATH>$PROJECT_DIR$/transmissionlab.iws</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+          <PATH>$PROJECT_DIR$/classes</PATH>
+          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.aux</PATH>
+          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.log</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Application.transmissionlab">
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -482,10 +584,10 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="transmissionlab-batch" type="Application" factoryName="Application" enabled="false" merge="false">
+    <configuration default="false" name="transmissionlab-batch-config" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-b" />
+      <option name="PROGRAM_PARAMETERS" value="-b  /Users/mark/Desktop/transmissionlab-batch.pf" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -501,6 +603,21 @@
       <option name="MAIN_CLASS_NAME" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="transmissionlab" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="transmissionlab-batch-noconf" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-b" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -609,7 +726,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3112745" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3112745" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24938725" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="8" />
@@ -620,7 +737,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3287827" order="2" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3287827" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -650,7 +767,7 @@
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Eclipse classpath file for Jakarta Commons CLI v1.0 jar file...should be a seamless addition for Eclipse users." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed batch mode startup via SimInit.main - the model class checks the model.controller to see if it's a batch controller to catch this case.  Seems to run completely headless from the CLI now." />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -663,7 +780,6 @@
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Cleanup of all code warnings and lint-style best practices, removal of unused fields from old RCM codebase." />
     <MESSAGE value="Nearly ready for version 1.2 release - fully generic data collector scheduling and implementation of cumulative file-based statistics collection -- the latter not very generic but making use of shared data and the data collector architecture.  Will declare version 1.2 once I actually *test* batch mode." />
     <MESSAGE value="Version 1.2 - fully generic data collector scheduling and implementation of cumulative file-based statistics collection -- the latter not very generic but making use of shared data and the data collector architecture.  Not quite ready for GUI-less batch mode simulation yet since turnover and other stats in TraitFrequencyAnalyzer are too closely related to the OpenSequenceGraph." />
     <MESSAGE value="Fixed the MANIFEST.MF for binary jar file production.  Added a scripts directory and a perl script for post-processing any replicates out of the output of OverallStatisticsRecorder." />
@@ -673,6 +789,7 @@
     <MESSAGE value="Minor updates and addition of copyright notices to all source files.  Added script to webslurp data on frequency of names at birth from the Social Security Administration website." />
     <MESSAGE value="Completion of batch mode changes - the normal Repast batch mode start on the command line (-b &lt;model class&gt; &lt;config file&gt;) now properly suppresses all GUI.  Added Jakarta Commons CLI parsing library for simplicity and extensibility." />
     <MESSAGE value="Updated Eclipse classpath file for Jakarta Commons CLI v1.0 jar file...should be a seamless addition for Eclipse users." />
+    <MESSAGE value="Fixed batch mode startup via SimInit.main - the model class checks the model.controller to see if it's a batch controller to catch this case.  Seems to run completely headless from the CLI now." />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -781,13 +898,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="790" selection-end="790" vertical-scroll-proportion="0.38273922">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="32" selection-start="764" selection-end="764" vertical-scroll-proportion="0.17370325">
@@ -825,7 +935,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="470" column="124" selection-start="18261" selection-end="18261" vertical-scroll-proportion="0.58348966">
+        <state line="65" column="98" selection-start="3089" selection-end="3089" vertical-scroll-proportion="0.36022514">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="82" selection-start="1072" selection-end="1072" vertical-scroll-proportion="0.5403377">
           <folding />
         </state>
       </provider>

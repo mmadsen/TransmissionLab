@@ -57,8 +57,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 
     public static void main(String[] args) {
 
-        System.out.println("(debug) first arg: " + args[0]);
-
         // parse command line options to see if this is a batch run
         Options cliOptions = new Options();
         cliOptions.addOption("b", false, "enable batch mode");
@@ -76,9 +74,18 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         TransmissionLabModel model = new TransmissionLabModel();
 
         model.isBatchExecution = cmd.hasOption("b");
+        String paramFile = null;
+
+        if ( model.isBatchExecution ) {
+            if (!cmd.getArgList().isEmpty()) {
+                System.out.println(cmd.getArgList().toString());
+                paramFile = (String) cmd.getArgList().get(0);
+            }
+        }
+
         System.out.println("INFO: batch mode setting: " + model.isBatchExecution);
 
-        init.loadModel(model, null, model.isBatchExecution);
+        init.loadModel(model, paramFile, model.isBatchExecution);
     }
 
     private ActionGroup simulationActionGroups = null;
