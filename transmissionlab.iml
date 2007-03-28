@@ -13,6 +13,11 @@
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/commons-cli-1.0.jar" />
+        <url>jar://$MODULE_DIR$/lib/commons-cli-1.0.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
         <attribute name="URI" value="lib//commons-collections-3.2.jar" />
         <url>jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/</url>
       </containerElement>
@@ -57,7 +62,7 @@
         <url>jar://$MODULE_DIR$/lib/trove.jar!/</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-1.3pre.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-1.3pre2.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
   </component>

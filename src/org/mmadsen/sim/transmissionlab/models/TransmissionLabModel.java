@@ -56,6 +56,9 @@ import uchicago.src.sim.util.Random;
 public class TransmissionLabModel extends SimModelImpl implements ISharedDataManager {
 
     public static void main(String[] args) {
+
+        System.out.println("(debug) first arg: " + args[0]);
+
         // parse command line options to see if this is a batch run
         Options cliOptions = new Options();
         cliOptions.addOption("b", false, "enable batch mode");
@@ -457,6 +460,16 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
            */
 
         Random.createUniform();
+
+        // HACK:  SimModelImpl doesn't retain any info on whether this model was constructed as a
+        // batch-mode simulation or not, so if we were started via the main() method in the model
+        // class, great.  If we were started via SimInit.main(), we need a way to tell whether
+        // we're in batch mode and this is the "cleanest" way that doesn't involve me hacking the
+        // repast source.
+        if (this.getBatchExecution() == false && this.getController().isBatch()) {
+            log.info("Probably started from SimInit.main as batch, will disable GUI elements");
+            this.setBatchExecution(true);
+        }
 
         // Upon setup(), we may need to reinitialize dynamic parameters in the combo box
         this.addDynamicParameters();
