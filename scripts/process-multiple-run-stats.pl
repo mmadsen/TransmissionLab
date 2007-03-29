@@ -92,6 +92,8 @@ sub parse_row {
 	$parsed_row->{"stdevturnover"} = shift @fields;
 	$parsed_row->{"meantraitcount"} = shift @fields;
 	$parsed_row->{"stdevtraitcount"} = shift @fields;
+	$parsed_row->{"meanagentstopn"} = shift @fields;
+	$parsed_row->{"stdevagentstopn"} = shift @fields;
 	return $parsed_row;
 }
 
@@ -127,6 +129,7 @@ sub process_replicates {
 		my $mu = $row->{"mutationrate"};
 		my $meanturnover = $row->{"meanturnover"};
 		my $meantraitcount = $row->{"meantraitcount"};
+		my $meanagentstopn = $row->{"meanagentstopn"};
 		
 		#print STDERR "(debug) processing row with listsize: $listsize  numagents: $numagents  mu: $mu\n";
 		
@@ -146,11 +149,13 @@ sub process_replicates {
 			$processed_data->{$listsize}->{$numagents}->{$mu} = {};
 			$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"} = Statistics::Descriptive::Sparse->new();
 			$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
+			$processed_data->{$listsize}->{$numagents}->{$mu}->{"agentstopn"} = Statistics::Descriptive::Sparse->new();
 		}
 		
 		# now store the data we care about
 		$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"}->add_data($meanturnover);
 		$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"}->add_data($meantraitcount);
+		$processed_data->{$listsize}->{$numagents}->{$mu}->{"agentstopn"}->add_data($meanagentstopn);
 	}
 	
 	return $processed_data;
@@ -158,7 +163,7 @@ sub process_replicates {
 
 # header row for the output
 sub write_header {
-	print STDOUT "TopNListSize\tNumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\n";
+	print STDOUT "TopNListSize\tNumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\tMeanAgentsTopN\tStdevAgentsTopN\n";
 }
 
 # create_final_output runs through the processed replicates, in dually sorted order:
@@ -185,7 +190,9 @@ sub create_final_output {
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"turnover"}->mean(), "\t";
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"turnover"}->standard_deviation(), "\t";
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->mean(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->standard_deviation(), "\n";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->standard_deviation(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"agentstopn"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"agentstopn"}->standard_deviation(), "\n";
 			}
 		}
 	}

@@ -89,6 +89,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	public static final String TRAIT_COUNT_LIST_KEY = "TRAIT_COUNT_LIST_KEY";
     public static final String TURNOVER_HISTORY_KEY = "TURNOVER_HISTORY_KEY";
     public static final String TRAIT_COUNT_HISTORY_KEY = "TRAIT_COUNT_HISTORY_KEY";
+    public static final String AGENT_TRAIT_TOPN_KEY = "AGENT_TRAIT_TOPN_KEY";
     private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
 	private TransmissionLabModel model = null;
@@ -99,6 +100,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	private ArrayList<TraitCount> curSortedTraitCounts = null;
     private DoubleArrayList turnoverHistory = null;
     private DoubleArrayList traitCountHistory = null;
+    private DoubleArrayList agentsInTopNHistory = null;
     private int topNListSize = 0;
 	private double ewensVariationLevel = 0.0;
 	private int ewensThetaMultipler = 0;
@@ -290,6 +292,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
         this.turnoverHistory = new DoubleArrayList();
         this.traitCountHistory = new DoubleArrayList();
+        this.agentsInTopNHistory = new DoubleArrayList();
 
         this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
@@ -355,6 +358,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         // another module wants the current snapshot, for moving averages or something similiar
         this.model.storeSharedObject(TURNOVER_HISTORY_KEY, this.turnoverHistory);
         this.model.storeSharedObject(TRAIT_COUNT_HISTORY_KEY, this.traitCountHistory);
+        this.model.storeSharedObject(AGENT_TRAIT_TOPN_KEY, this.agentsInTopNHistory);
 
         // housekeeping - store cur in prev for comparison next time around
 		// and cache the current trait counts in the model shared repository for 
@@ -366,7 +370,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     }
 	
 	//	 helper method to reduce duplication - held in the outer class so it
-	// can be used by all inner classes.
+    // // can be used by all inner classes.
 	private List<Integer> getTopNTraits( List<TraitCount> traitCounts ) {
 		ArrayList<Integer> listOfTraits = new ArrayList<Integer>();
 		for( TraitCount trait: traitCounts ) {
@@ -378,6 +382,31 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		// otherwise return the whole list if it's smaller than "top N"
 		return listOfTraits;
 	}
+
+    /**
+     * getNumAgentsInTopN is a helper method which calculates the number of agents which make up that "top N" set
+     * of traits -- in other words, it gives us a measure of evenness of agent
+     * distribution in the sense that 10% of the agents could be in the top 20 traits,
+     * or 90% of the agents could be in the top 20 traits.
+     *
+     * @param traitCounts - List<TraitCount> of all TraitCount objects, which combine the trait and its frequency.
+     * @return counts - List<Integer> of the ID numbers of the top N traits, in reverse sorted order
+     */
+    private int getNumAgentsInTopN( List<TraitCount> traitCounts ) {
+        int listSize = topNListSize;
+        int numAgentsInTopN = 0;
+
+        if ( traitCounts.size() < listSize ) {
+            listSize = traitCounts.size();
+        }
+
+        for( int i = 0; i < listSize; i++ ) {
+            TraitCount tc = traitCounts.get(i);
+            numAgentsInTopN += tc.getCount();
+        }
+
+        return numAgentsInTopN;
+    }
 
     /**
      * calculateTurnover() runs through the prev and current sorted lists of TraitCount
@@ -397,9 +426,13 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         }
 
         // given the sorted trait frequencies tallied in the IDataCollector process()
-        // method, extract just the sorted trait IDs, trim the list to top "N" if needed
-        List prevList = getTopNTraits(prevSortedTraitCounts);
-        List curList = getTopNTraits(curSortedTraitCounts);
+        // method, extract the top N traits and the number of agents that have traits in that top N list
+        List prevList = this.getTopNTraits(prevSortedTraitCounts);
+        List curList = this.getTopNTraits(curSortedTraitCounts);
+        int numAgentsInTopN = this.getNumAgentsInTopN(curSortedTraitCounts);
+
+        log.debug("TFA:  num agents with traits in top N: " + numAgentsInTopN);
+
 
         // now find the intersection of these two sorted trait ID lists
         Collection intersection = CollectionUtils.intersection(prevList, curList);
@@ -415,7 +448,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         log.debug("prev size: " + prevSize + " cursize: " + curSize + " intersection size: " + intersectionSize + " turnover: " + turnover);
 
         // add the calculated to the turnover history
-        turnoverHistory.add(turnover);
+        this.turnoverHistory.add(turnover);
+        this.agentsInTopNHistory.add((double) numAgentsInTopN);
 
         return turnover;
     }

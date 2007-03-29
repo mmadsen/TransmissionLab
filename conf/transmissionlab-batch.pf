@@ -45,14 +45,8 @@ DataDumpDirectory {
 EnableNewTopN {
   set_boolean: true
 }
-EnableFileSnapshot {
-  set_boolean: false
-}
 EnableOverallStats {
   set_boolean: true
-}
-DataFileSnapshotPercentage {
-  set: 0.1
 }
 InitialTraitStructure {
   set_string: SequentialTrait

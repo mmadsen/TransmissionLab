@@ -55,6 +55,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private double stdevTurnover = 0.0;
     private double meanTraitCount = 0.0;
     private double stdevTraitCount = 0.0;
+    private double meanAgentCount = 0.0;
+    private double stdevAgentCount = 0.0;
 
 
     public void build(Object model) {
@@ -91,6 +93,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         this.log.debug("OverallStatisticsRecorder running process()");
         DoubleArrayList turnoverHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TURNOVER_HISTORY_KEY);
         DoubleArrayList traitCountHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_COUNT_HISTORY_KEY);
+        DoubleArrayList agentsTopNHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.AGENT_TRAIT_TOPN_KEY);
 
         // calculate turnover statistics
         this.meanTurnover = Descriptive.mean(turnoverHistory);
@@ -103,6 +106,12 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         double varianceTraitCount = Descriptive.sampleVariance(traitCountHistory, this.meanTraitCount);
         this.stdevTraitCount = Descriptive.standardDeviation(varianceTraitCount);
         this.log.info("Mean num traits in population: " + this.meanTraitCount + "  stdev: " + this.stdevTraitCount);
+
+        // calculate stats for the number of agents with traits in the top N
+        this.meanAgentCount = Descriptive.mean(agentsTopNHistory);
+        double varianceAgentCount = Descriptive.sampleVariance(agentsTopNHistory, this.meanAgentCount);
+        this.stdevAgentCount = Descriptive.standardDeviation(varianceAgentCount);
+        this.log.info("Mean num agents with traits in top N: " + this.meanAgentCount + "  stdev: " + this.stdevAgentCount);
 
         // record overall stats to a file
         this.recordStats();
@@ -139,6 +148,10 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
                 header.append("MeanTraitCount");
                 header.append("\t");
                 header.append("StdevTraitCount");
+                header.append("\t");
+                header.append("MeanAgentsTopN");
+                header.append("\t");
+                header.append("StdevAgentsTopN");
                 header.append("\n");
                 writer.write(header.toString());
             }
@@ -163,6 +176,10 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append(this.meanTraitCount);
             sb.append("\t");
             sb.append(this.stdevTraitCount);
+            sb.append("\t");
+            sb.append(this.meanAgentCount);
+            sb.append("\t");
+            sb.append(this.stdevAgentCount);
             sb.append("\n");
 
             writer.write(sb.toString());

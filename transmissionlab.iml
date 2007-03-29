@@ -62,7 +62,7 @@
         <url>jar://$MODULE_DIR$/lib/trove.jar!/</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-1.3pre2.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-1.3.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.TransmissionLabModel" />
   </component>

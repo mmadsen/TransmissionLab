@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.commons.cli.*;
 import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
-import org.mmadsen.sim.transmissionlab.analysis.top40DataFileRecorder;
 import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
 import org.mmadsen.sim.transmissionlab.analysis.AbstractDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
@@ -80,6 +79,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
             if (!cmd.getArgList().isEmpty()) {
                 System.out.println(cmd.getArgList().toString());
                 paramFile = (String) cmd.getArgList().get(0);
+                System.out.println("debug: " + paramFile);
             }
         }
 
@@ -98,7 +98,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
     private Boolean dataCollectorsPresent = false;
     private String dataDumpDirectory = "/tmp";
     private double dataFileSnapshotPercentage = 0.10;
-    private Boolean enableFileSnapshot = false;
     private Boolean enableNewTopN = true;
     private Boolean enableOverallStats = true;
     private int ewensThetaMultipler = 2;
@@ -170,11 +169,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
             this.removeDataCollector(d);
         }
 
-        if (!this.getEnableFileSnapshot()) {
-            this.log.debug("removing top40DataFileRecorder from active data collectors - not selected");
-            IDataCollector d = this.dataCollectorMap.get("top40DataFileRecorder");
-            this.removeDataCollector(d);
-        }
 
         if (!this.getEnableOverallStats()) {
             this.log.debug("removing OverallStatisticsRecorder from active data collectors - not selected");
@@ -200,8 +194,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
 
         }
 
-        // debug
-        log.debug("dataCollectorMap: " + this.dataCollectorMap.toString());
 
         // now let's setup the rules that'll govern the population transformations at each step
         // we do it here rather than in setup() because we want access to GUI parameter selections
@@ -273,16 +265,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         return this.dataDumpDirectory;
     }
 
-    public double getDataFileSnapshotPercentage() {
-        return this.dataFileSnapshotPercentage;
-    }
-
-
-    @SuppressWarnings({"WeakerAccess"})
-    public Boolean getEnableFileSnapshot() {
-        return enableFileSnapshot;
-    }
-
     @SuppressWarnings({"WeakerAccess"})
     public Boolean getEnableNewTopN() {
         return this.enableNewTopN;
@@ -303,8 +285,8 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
                 "PopulationProcessType",
                 "MoranProcessNumPairs",
                 "DataDumpDirectory",
-                "EnableNewTopN", "EnableFileSnapshot", "EnableOverallStats",
-                "TopNListSize", "DataFileSnapshotPercentage", "InitialTraitStructure"};
+                "EnableNewTopN", "EnableOverallStats",
+                "TopNListSize", "InitialTraitStructure"};
 
         return params;
     }
@@ -377,15 +359,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         this.log.debug("Directory for file output: " + this.dataDumpDirectory);
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void setDataFileSnapshotPercentage(double d) {
-        this.dataFileSnapshotPercentage = d;
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void setEnableFileSnapshot(Boolean enableFileSnapshot) {
-        this.enableFileSnapshot = enableFileSnapshot;
-    }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void setEnableNewTopN(Boolean e) {
@@ -477,9 +450,7 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
             log.info("Probably started from SimInit.main as batch, will disable GUI elements");
             this.setBatchExecution(true);
         }
-
-        // Upon setup(), we may need to reinitialize dynamic parameters in the combo box
-        this.addDynamicParameters();
+        
 
         this.dataCollectorList = new ArrayList<IDataCollector>();
         this.dataCollectorMap = new HashMap<String, IDataCollector>();
@@ -496,9 +467,6 @@ public class TransmissionLabModel extends SimModelImpl implements ISharedDataMan
         // TODO: somehow this needs to be configurable, so we can have looser coupling here.
         IDataCollector f = new TraitFrequencyAnalyzer(this);
         this.addDataCollector(f);
-
-        IDataCollector t = new top40DataFileRecorder(this);
-        this.addDataCollector(t);
 
         IDataCollector o = new OverallStatisticsRecorder(this);
         this.addDataCollector(o);
