@@ -23,20 +23,19 @@ import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
-
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import uchicago.src.sim.util.Random;
 
 public class NonOverlappingRandomSamplingTransmission implements
 		IPopulationTransformationRule {
 
 	private Log log = null;
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	
-	public NonOverlappingRandomSamplingTransmission(Log log, TransmissionLabModel model) {
-		this.log = log;
+	public NonOverlappingRandomSamplingTransmission(ISimulationModel model) {
 		this.model = model;
-	}
+        this.log = this.model.getLog();
+    }
 	
 	
 	public Object transform(Object pop) {

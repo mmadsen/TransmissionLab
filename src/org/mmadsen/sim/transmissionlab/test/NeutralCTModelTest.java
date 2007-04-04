@@ -18,7 +18,8 @@ package org.mmadsen.sim.transmissionlab.test;
 
 import org.junit.After;
 import org.junit.Before;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.models.NeutralCTModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import junit.extensions.PrivilegedAccessor;	
 
@@ -26,17 +27,17 @@ import junit.extensions.PrivilegedAccessor;
  * @author mark
  *
  */
-public class RandomCopyModelTest {
+public class NeutralCTModelTest {
 
 	@SuppressWarnings("unused")
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.model = (TransmissionLabModel) PrivilegedAccessor.instantiate(TransmissionLabModel.class);
+		this.model = (NeutralCTModel) PrivilegedAccessor.instantiate(NeutralCTModel.class);
 	}
 
 	/**

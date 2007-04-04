@@ -17,7 +17,7 @@ package org.mmadsen.sim.transmissionlab.rules;
 
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 /**
  * NullRule does absolutely nothing to the population.  The whole point is to use it
@@ -30,12 +30,12 @@ import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 public class NullRule implements IPopulationTransformationRule{
 	private Log log = null;
 	@SuppressWarnings("unused")
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	
-	public NullRule(Log log, TransmissionLabModel model) {
-		this.log = log;
+	public NullRule(ISimulationModel model) {
 		this.model = model;
-	}
+        this.log = this.model.getLog();
+    }
 	
 	public Object transform(Object pop) {
 		this.log.debug("Executing NullRule - doing nothing to the population");

@@ -22,9 +22,11 @@ import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import uchicago.src.sim.util.Random;
+import uchicago.src.sim.util.RepastException;
+
 /**
  * @author mark
  * RandomAgentInfiniteAllelesMutation implements the original mutation rule
@@ -34,12 +36,12 @@ public class RandomAgentInfiniteAllelesMutation implements
 		IPopulationTransformationRule {
 	
 	private Log log = null;
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	
-	public RandomAgentInfiniteAllelesMutation(Log log, TransmissionLabModel model) {
-		this.log = log;
+	public RandomAgentInfiniteAllelesMutation(ISimulationModel model) {
 		this.model = model;
-	}
+        this.log = this.model.getLog();
+    }
 	
 	public Object transform(Object pop) {
 		IAgentPopulation population = (IAgentPopulation) pop;
@@ -48,19 +50,33 @@ public class RandomAgentInfiniteAllelesMutation implements
 	}
 
 	private IAgentPopulation mutate( IAgentPopulation population ) {
-		double mutationProbability = this.model.getMu();
-		List<IAgent> agentList = population.getAgentList();
-		for (IAgent agent: agentList) {
+        Double mutationProbability = 0.0;
+        Integer maxVariants = 0;
+        try {
+            mutationProbability = (Double) model.getSimpleModelPropertyByName("mu");
+            maxVariants = (Integer) model.getSimpleModelPropertyByName("maxVariants");
+        } catch(RepastException ex) {
+            System.out.println("FATAL EXCEPTION: " + ex.getMessage());
+            System.exit(1);
+        }
+
+        List<IAgent> agentList = population.getAgentList();
+        int curMaxVariant = maxVariants;
+        for (IAgent agent: agentList) {
 			agent = (AgentSingleIntegerVariant) agent;
 			double chance = Random.uniform.nextDoubleFromTo(0, 1);
 			if ( chance < mutationProbability ) {
 				//this.log.debug("mutating an individual, chance was: " + chance + " mu was: " + mutationProbability);
-				int curMaxVariant = this.model.getMaxVariants();
-				curMaxVariant++;
+                curMaxVariant++;
 				// NOTE:  This is the only place in the class we know that we're dealing
 				// with a specific agent class, so we cast very close to the actual code that needs it.
 				((AgentSingleIntegerVariant)agent).setAgentVariant(curMaxVariant);
-				this.model.setMaxVariants(curMaxVariant);
+                try {
+                    model.setModelPropertyByName("maxVariants", curMaxVariant);
+                } catch(RepastException ex) {
+                    System.out.println("FATAL EXCEPTION: " + ex.getMessage());
+                    System.exit(1);
+                }
 			}
 		}
 		

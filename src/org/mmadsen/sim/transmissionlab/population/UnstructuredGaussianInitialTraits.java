@@ -81,5 +81,8 @@ public class UnstructuredGaussianInitialTraits implements IAgentPopulation {
 		
 	}
 
+    public int getPopulationSize() {
+        return this.agentList.size();
+    }
 
 }

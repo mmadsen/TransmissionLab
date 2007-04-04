@@ -30,13 +30,14 @@ import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import uchicago.src.sim.analysis.AverageSequence;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
+import uchicago.src.sim.util.RepastException;
 import cern.colt.list.DoubleArrayList;
 
 
@@ -81,9 +82,11 @@ import cern.colt.list.DoubleArrayList;
  */
 
 public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDataCollector {
-	public TraitFrequencyAnalyzer(Object m) {
+	public TraitFrequencyAnalyzer(ISimulationModel m) {
 		super(m);
-		// TODO Auto-generated constructor stub
+        this.model = m;
+        this.log = this.model.getLog();
+        // TODO Auto-generated constructor stub
 	}
 
 	public static final String TRAIT_COUNT_LIST_KEY = "TRAIT_COUNT_LIST_KEY";
@@ -92,7 +95,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     public static final String AGENT_TRAIT_TOPN_KEY = "AGENT_TRAIT_TOPN_KEY";
     private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	private Log log = null;
 	private Closure freqCounter = null;
 	private Map<Integer, TraitCount> freqMap = null;
@@ -106,6 +109,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	private int ewensThetaMultipler = 0;
     private double curTurnover = 0.0;
     private Boolean isBatchRun = false;
+    private double mu = 0.0;
+    private int numAgents = 0;
 
     /**
 	 * TraitCount is a value class for tracking trait frequencies. 
@@ -261,11 +266,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	}
 
 	
-	public void build(Object m) {
-		this.model = (TransmissionLabModel) m;
-		this.log = model.getLog();
-
-		this.log.debug("Entering TraitFrequencyAnalyzer.build()");
+	public void build() {
+        this.log.debug("Entering TraitFrequencyAnalyzer.build()");
 		this.freqCounter = new FrequencyCounter();
 		this.freqMap = new TreeMap<Integer, TraitCount>();
         this.isBatchRun = this.model.getBatchExecution();
@@ -288,13 +290,22 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 
 	public void initialize() {
 		this.log.debug("entering TraitFrequencyAnalyzer.initialize()");
-		this.topNListSize = this.model.getTopNListSize();
-		this.ewensThetaMultipler = this.model.getEwensThetaMultipler();
+
+        try {
+            this.topNListSize = (Integer) this.model.getSimpleModelPropertyByName("topNListSize");
+            this.ewensThetaMultipler = (Integer) this.model.getSimpleModelPropertyByName("ewensThetaMultipler");
+            this.mu = (Double) this.model.getSimpleModelPropertyByName("mu");
+            this.numAgents = (Integer) this.model.getSimpleModelPropertyByName("numAgents");
+        } catch(RepastException ex) {
+            System.out.println("FATAL EXCEPTION: " + ex.getMessage());
+            System.exit(1);
+        }
+
         this.turnoverHistory = new DoubleArrayList();
         this.traitCountHistory = new DoubleArrayList();
         this.agentsInTopNHistory = new DoubleArrayList();
 
-        this.ewensVariationLevel = this.ewensThetaMultipler * this.model.getMu() * this.model.getNumAgents();
+        this.ewensVariationLevel = this.ewensThetaMultipler * this.mu * this.numAgents;
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
 		if ( ! this.isBatchRun ) {
             this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);

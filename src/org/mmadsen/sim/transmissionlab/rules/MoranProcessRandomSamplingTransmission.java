@@ -27,7 +27,7 @@ import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import uchicago.src.sim.util.Random;
 
@@ -35,13 +35,13 @@ public class MoranProcessRandomSamplingTransmission implements
 		IPopulationTransformationRule {
 
 	private Log log = null;
-	private TransmissionLabModel model = null;
+	private ISimulationModel model = null;
 	private int numReproductivePairsPerTick = 1;
 	
-	public MoranProcessRandomSamplingTransmission(Log log, TransmissionLabModel model) {
-		this.log = log;
+	public MoranProcessRandomSamplingTransmission(ISimulationModel model) {
 		this.model = model;
-	}
+        this.log = this.model.getLog();
+    }
 	
 	public void setReproductivePairsPerTick( int pairs ) {
 		this.numReproductivePairsPerTick = pairs;

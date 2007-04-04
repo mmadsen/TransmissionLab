@@ -15,10 +15,6 @@
 
 package org.mmadsen.sim.transmissionlab.interfaces;
 
-import org.apache.commons.logging.Log;
-
-import uchicago.src.sim.engine.SimModelImpl;
-
 /**
  * Interface IPopulationFactory represents any class that constructs an initial population
  * of RCMAgents.  Such classes are plug-in replacements to allow model scenarios to be held
@@ -44,6 +40,6 @@ import uchicago.src.sim.engine.SimModelImpl;
  *
  */
 public interface IPopulationFactory {
-	// construct a random population of numAgent RCMAgents, with no other structure
-	public IAgentPopulation generatePopulation(SimModelImpl model, Log log);
+	// construct a random population of agents, with structure depending upon the factory we use
+	public IAgentPopulation generatePopulation(ISimulationModel model);
 }

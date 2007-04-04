@@ -59,5 +59,8 @@ public class UnstructuredSequentialTraits implements IAgentPopulation {
 		this.agentList = null;
 		this.agentList = new ArrayList<IAgent>(newAgentList);
 	}
-	
+
+    public int getPopulationSize() {
+        return this.agentList.size();
+    }
 }

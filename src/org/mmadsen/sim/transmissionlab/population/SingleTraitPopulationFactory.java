@@ -16,26 +16,35 @@
 package org.mmadsen.sim.transmissionlab.population;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationFactory;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import uchicago.src.sim.engine.SimModelImpl;
+import uchicago.src.sim.util.RepastException;
 
 
 public class SingleTraitPopulationFactory implements IPopulationFactory {
 	
-	public IAgentPopulation generatePopulation(SimModelImpl model, Log log) {
-		
-		String populationType = ((TransmissionLabModel) model).getInitialTraitStructure();
-		if ( populationType == null ) { 
+	public IAgentPopulation generatePopulation(ISimulationModel model) {
+		Log log = model.getLog();
+        
+        String populationType = null;
+        Integer numAgents = 0;
+        try {
+            populationType = (String) model.getSimpleModelPropertyByName("initialTraitStructure");
+            numAgents = (Integer) model.getSimpleModelPropertyByName("numAgents");
+        } catch(RepastException ex) {
+            System.out.println("FATAL EXCEPTION: " + ex.getMessage());
+            System.exit(1);
+        }
+
+        if ( populationType == null ) {
 			log.info("No initial trait structure chosen, defaulting to SequentialTrait");
 			populationType = "SequentialTrait"; 
 		}
-		
-		int numAgents = ((TransmissionLabModel) model).getNumAgents();
-		
-		if ( populationType.equalsIgnoreCase("SequentialTrait")) {
+
+        if ( populationType.equalsIgnoreCase("SequentialTrait")) {
 			log.debug("Constructing UnstructuredSequentialTrait population");
 			return new UnstructuredSequentialTraits(numAgents, log);
 		} else if (populationType.equalsIgnoreCase("GaussianTrait")) {

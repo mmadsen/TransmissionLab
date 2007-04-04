@@ -17,7 +17,7 @@ package org.mmadsen.sim.transmissionlab.analysis;
 
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 
 import uchicago.src.sim.engine.ActionUtilities;
@@ -33,9 +33,9 @@ import uchicago.src.sim.engine.Schedule;
  */
 
 public abstract class AbstractDataCollector implements IDataCollector {
-	private TransmissionLabModel model = null;
-	private Log log = null;
-    private final String TYPE_CODE = this.getClass().getSimpleName();
+	protected ISimulationModel model = null;
+	protected Log log = null;
+    protected final String TYPE_CODE = this.getClass().getSimpleName();
 
     /**
      * Returns an enumerated constant of type {@link org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType DataCollectorScheduleType}
@@ -52,11 +52,11 @@ public abstract class AbstractDataCollector implements IDataCollector {
     }
 
     // default to data collection running on every model tick unless this is overriden by a subclass
-    private DataCollectorScheduleType schedGroupType = DataCollectorScheduleType.EACH_TICK;
+    protected DataCollectorScheduleType schedGroupType = DataCollectorScheduleType.EACH_TICK;
 
 
-    public AbstractDataCollector(Object m) {
-		this.model = (TransmissionLabModel) m;
+    public AbstractDataCollector(ISimulationModel m) {
+		this.model = m;
 		this.log = this.model.getLog();
 	}
 
@@ -100,7 +100,7 @@ public abstract class AbstractDataCollector implements IDataCollector {
 	 */
 	abstract protected Schedule getSpecificSchedule(BasicAction actionToSchedule);
 
-    abstract public void build(Object model);
+    abstract public void build();
 
 	abstract public void completion();
 

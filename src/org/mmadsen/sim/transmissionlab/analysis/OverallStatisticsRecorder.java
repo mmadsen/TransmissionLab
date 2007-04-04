@@ -17,8 +17,9 @@ package org.mmadsen.sim.transmissionlab.analysis;
 
 import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.engine.BasicAction;
+import uchicago.src.sim.util.RepastException;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
-import org.mmadsen.sim.transmissionlab.models.TransmissionLabModel;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.apache.commons.logging.Log;
 import cern.colt.list.DoubleArrayList;
@@ -44,12 +45,8 @@ import java.io.IOException;
  *
  */
 public class OverallStatisticsRecorder extends AbstractDataCollector implements IDataCollector {
-    public OverallStatisticsRecorder(Object m) {
-        super(m);
-    }
 
-    private TransmissionLabModel model = null;
-	private Log log = null;
+    private Log log = null;
 	private double stepToStartRecording = 0.0;
     private double meanTurnover = 0.0;
     private double stdevTurnover = 0.0;
@@ -57,11 +54,18 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private double stdevTraitCount = 0.0;
     private double meanAgentCount = 0.0;
     private double stdevAgentCount = 0.0;
+    private double mu = 0.0;
+    private int numAgents = 0;
+    private int topNListSize = 0;
 
-
-    public void build(Object model) {
-        this.model = (TransmissionLabModel) model;
+    public OverallStatisticsRecorder(ISimulationModel m) {
+		super(m);
+        this.model = m;
         this.log = this.model.getLog();
+        // TODO Auto-generated constructor stub
+	}
+
+    public void build() {
         this.log.debug("Entering OverallStatisticsRecorder.build()");
     }
 
@@ -80,9 +84,18 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
     public void initialize() {
         this.log.debug("Entering OverallStatisticsRecorder.initialize()");
-        this.stepToStartRecording = this.model.getNumTicks();
+        this.stepToStartRecording = this.model.getLengthSimulationRun();
         this.setSchedGroupType(DataCollectorScheduleType.END);
         this.log.debug("OverallStatisticsRecorder: record data at tick: " + this.stepToStartRecording);
+        try {
+            this.topNListSize = (Integer) this.model.getSimpleModelPropertyByName("topNListSize");
+            this.mu = (Double) this.model.getSimpleModelPropertyByName("mu");
+            this.numAgents = (Integer) this.model.getSimpleModelPropertyByName("numAgents");
+        } catch(RepastException ex) {
+            System.out.println("FATAL EXCEPTION: " + ex.getMessage());
+            System.exit(1);
+        }
+
     }
 
     /*
@@ -159,15 +172,15 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
             StringBuffer sb = new StringBuffer();
 
-            sb.append(this.model.getNumAgents());
+            sb.append(this.numAgents);
             sb.append("\t");
-            sb.append(this.model.getMu());
+            sb.append(this.mu);
             sb.append("\t");
-            sb.append(this.model.getNumTicks());
+            sb.append(this.model.getLengthSimulationRun());
             sb.append("\t");
             sb.append(this.model.getRngSeed());
             sb.append("\t");
-            sb.append(this.model.getTopNListSize());
+            sb.append(this.topNListSize);
             sb.append("\t");
             sb.append(this.meanTurnover);
             sb.append("\t");
@@ -196,7 +209,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 	 */
 	private String createDataDumpFilePath() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(this.model.getDataDumpDirectory());
+		sb.append(this.model.getFileOutputDirectory());
 		sb.append("/");
 		sb.append("transmissionlab-multiplerun-statistics");
         sb.append(".txt");

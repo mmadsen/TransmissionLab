@@ -27,7 +27,7 @@ TopNListSize {
 		}
 	}
 }
-NumTicks {
+LengthSimulationRun {
   set: 1000
 }
 EwensThetaMultipler {
@@ -39,7 +39,7 @@ PopulationProcessType {
 MoranProcessNumPairs {
   set: 1
 }
-DataDumpDirectory {
+FileOutputDirectory {
   set_string: /tmp
 }
 EnableNewTopN {

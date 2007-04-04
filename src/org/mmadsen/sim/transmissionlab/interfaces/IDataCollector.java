@@ -52,11 +52,9 @@ public interface IDataCollector {
      * is available to the data collector yet.  For construction activities which require user
      * parameter settings, see the initialize() method, which will/should be called by
      * SimModelImpl.begin() or a delegated method.
-     * @param model - TransmissionLabModel instance representing the model instantiating the IDataCollector.  Passed
-     * as a generic Object so cast this to TransmissionLabModel (or a subclass) before doing anything with it.
      * @see org.mmadsen.sim.transmissionlab.interfaces.IDataCollector#initialize
      */
-    public void build(Object model);
+    public void build();
 	
 
     /**

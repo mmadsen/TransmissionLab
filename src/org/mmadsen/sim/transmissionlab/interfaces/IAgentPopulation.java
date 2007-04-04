@@ -37,7 +37,9 @@ import java.util.List;
  *
  */
 public interface IAgentPopulation {
-	// No matter the underlying representation, we need to simply get a list of agents sometimes
+    // No matter the underlying representation, we need to know how many agents there are
+    public int getPopulationSize();
+    // No matter the underlying representation, we need to simply get a list of agents sometimes
 	public List<IAgent> getAgentList();
 	// For various reasons, we may want to know the "biggest" variant we've got in the population
 	public int getCurrentMaximumVariant();
