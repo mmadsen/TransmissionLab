@@ -17,33 +17,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MANIFEST.MF" afterPath="$PROJECT_DIR$/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/NeutralCTModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.ipr" afterPath="$PROJECT_DIR$/transmissionlab.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iml" afterPath="$PROJECT_DIR$/transmissionlab.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/RandomCopyModelTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/TransmissionLabModel.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VERSION" afterPath="$PROJECT_DIR$/VERSION" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/commons-beanutils-core.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/transmissionlab-batch.pf" afterPath="$PROJECT_DIR$/conf/transmissionlab-batch.pf" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -185,82 +160,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NeutralCTModel.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="NeutralCTModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="3" selection-start="1985" selection-end="1985" vertical-scroll-proportion="0.20224719">
+            <state line="266" column="21" selection-start="10075" selection-end="10075" vertical-scroll-proportion="0.8986731">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VERSION" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VERSION">
+      <file leaf-file-name=".classpath" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.classpath">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="50" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.49438202">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MANIFEST.MF" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MANIFEST.MF">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="341" selection-end="341" vertical-scroll-proportion="0.06936416">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transmissionlab-batch.pf" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conf/transmissionlab-batch.pf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="30" selection-start="66" selection-end="66" vertical-scroll-proportion="0.13483146">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractTLModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="213" column="84" selection-start="8158" selection-end="8158" vertical-scroll-proportion="0.29213482">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ISimulationModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="93" selection-start="1682" selection-end="1682" vertical-scroll-proportion="0.3164794">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TraitFrequencyAnalyzer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="4" selection-start="4240" selection-end="4418" vertical-scroll-proportion="0.21579961">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractDataCollector.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="4" selection-start="2796" selection-end="2901" vertical-scroll-proportion="0.85549134">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OverallStatisticsRecorder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="39" selection-start="1416" selection-end="1416" vertical-scroll-proportion="0.1849711">
+            <state line="7" column="70" selection-start="433" selection-end="433" vertical-scroll-proportion="0.1013269">
               <folding />
             </state>
           </provider>
@@ -474,7 +386,7 @@
       <showLibraryContents />
       <hideEmptyPackages />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" PackagesPane="false" Scope="false" ProjectPane="false" />
+      <showStructure Scope="false" ProjectPane="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -512,6 +424,31 @@
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="Application.NeutralCTModel-batch-config">
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -537,31 +474,6 @@
       <method>
         <option name="Make" value="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
     <configuration default="false" name="NeutralCTModel-batch-config" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
@@ -706,12 +618,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="22" width="1680" height="979" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35171568" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3615196" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24938725" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="8" />
@@ -721,7 +633,7 @@
       <window_info id="Tasks" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24232082" order="8" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32764506" order="8" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" order="8" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287827" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -864,65 +776,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="93" selection-start="1682" selection-end="1682" vertical-scroll-proportion="0.3164794">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="4" selection-start="2796" selection-end="2901" vertical-scroll-proportion="0.85549134">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="4" selection-start="4240" selection-end="4418" vertical-scroll-proportion="0.21579961">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="39" selection-start="1416" selection-end="1416" vertical-scroll-proportion="0.1849711">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="84" selection-start="8158" selection-end="8158" vertical-scroll-proportion="0.29213482">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/transmissionlab-batch.pf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="30" selection-start="66" selection-end="66" vertical-scroll-proportion="0.13483146">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/VERSION">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="50" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.49438202">
+        <state line="22" column="50" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.02255639">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="341" selection-end="341" vertical-scroll-proportion="0.06936416">
+        <state line="3" column="0" selection-start="341" selection-end="341" vertical-scroll-proportion="0.06963249">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/transmissionlab-batch.pf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="30" selection-start="66" selection-end="66" vertical-scroll-proportion="0.13533835">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="213" column="84" selection-start="8158" selection-end="8158" vertical-scroll-proportion="0.02255639">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="93" selection-start="1682" selection-end="1682" vertical-scroll-proportion="0.36842105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="4" selection-start="4240" selection-end="4418" vertical-scroll-proportion="0.023210831">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="4" selection-start="2796" selection-end="2901" vertical-scroll-proportion="0.23404256">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/OverallStatisticsRecorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="39" selection-start="1416" selection-end="1416" vertical-scroll-proportion="0.023210831">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="3" selection-start="1985" selection-end="1985" vertical-scroll-proportion="0.20224719">
+        <state line="266" column="21" selection-start="10075" selection-end="10075" vertical-scroll-proportion="0.8986731">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.classpath">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="70" selection-start="433" selection-end="433" vertical-scroll-proportion="0.1013269">
           <folding />
         </state>
       </provider>
