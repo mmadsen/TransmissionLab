@@ -31,10 +31,11 @@ import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
+import org.mmadsen.sim.transmissionlab.util.TraitCount;
 
-import uchicago.src.sim.analysis.AverageSequence;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
+import uchicago.src.sim.analysis.OpenHistogram;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.util.RepastException;
@@ -95,12 +96,15 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     public static final String AGENT_TRAIT_TOPN_KEY = "AGENT_TRAIT_TOPN_KEY";
     private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
-	private ISimulationModel model = null;
+    private OpenHistogram residenceTimeHistogram = null;
+    private ISimulationModel model = null;
 	private Log log = null;
 	private Closure freqCounter = null;
-	private Map<Integer, TraitCount> freqMap = null;
-	private ArrayList<TraitCount> prevSortedTraitCounts = null;
+    private Map<Integer, TraitCount> freqMap = null;
+    private Map<Integer, TraitCount> residenceTimeMap = null;
+    private ArrayList<TraitCount> prevSortedTraitCounts = null;
 	private ArrayList<TraitCount> curSortedTraitCounts = null;
+    private ArrayList<TraitCount> cumTraitResidenceTimeCounts = null;
     private DoubleArrayList turnoverHistory = null;
     private DoubleArrayList traitCountHistory = null;
     private DoubleArrayList agentsInTopNHistory = null;
@@ -112,49 +116,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     private double mu = 0.0;
     private int numAgents = 0;
 
-    /**
-	 * TraitCount is a value class for tracking trait frequencies. 
-	 * We use a value class rather than just primitive types held
-	 * in collections because we want to make it easy to get a custom
-	 * sort order, based on trait frequency (in this case, make it easy
-	 * to recover the "top N" traits, by frequency in descending order.
-	 * Thus, we implement Comparable and store the count and trait ID.
-	 * @author mark
-	 *
-	 */
-	
-	class TraitCount implements Comparable {
-		private Integer trait = null;
-		private Integer count = 0;
-		
-		public TraitCount(Integer t) {
-			this.trait = t;
-			this.count = 1;
-		}
-
-		public void increment() {
-			this.count++;
-		}
-		
-		public void decrement() {
-			this.count--;
-		}
-		
-		public Integer getTrait() {
-			return this.trait;
-		}
-		
-		public Integer getCount() {
-			return this.count;
-		}
-		 
-		public int compareTo(Object arg0) {
-			// MEM (v1.3): removed the explicit sign reversal, which was hackish 
-			// and possibly fragile, in favor of an explicit Collections.reverse() in process().
-			return this.count.compareTo(((TraitCount)arg0).getCount());
-		}
-		
-	}
+    
 	
 	/**
 	 * FrequencyCounter implements a Closure from the Jakarta Commons Collections 
@@ -168,7 +130,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	class FrequencyCounter implements Closure {
 		private int agentCount = 0;
 		private int variantCount = 0;
-		TraitFrequencyAnalyzer analyzer = null;
+		private TraitFrequencyAnalyzer analyzer = null;
 		
 		public FrequencyCounter() {
 			analyzer = TraitFrequencyAnalyzer.this;
@@ -209,8 +171,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 			return agentCount;
 		}
 	}
-	
-	/**
+    
+
+    /**
 	 * TurnoverSequence is a data Sequence from the Repast libraries, 
 	 * designed to provide a stream of double values to an OpenSequenceGraph.
 	 * 
@@ -269,7 +232,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 	public void build() {
         this.log.debug("Entering TraitFrequencyAnalyzer.build()");
 		this.freqCounter = new FrequencyCounter();
-		this.freqMap = new TreeMap<Integer, TraitCount>();
+        this.freqMap = new TreeMap<Integer, TraitCount>();
+        this.residenceTimeMap = new TreeMap<Integer, TraitCount>();
         this.isBatchRun = this.model.getBatchExecution();
 
     }
@@ -282,10 +246,15 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		if ( this.totalVariabilityGraph != null) {
 			this.totalVariabilityGraph.dispose();
 		}
+        if ( this.residenceTimeHistogram != null ) {
+            this.residenceTimeHistogram.dispose();
+        }
 
-		this.curSortedTraitCounts = null;
+        this.curSortedTraitCounts = null;
 		this.prevSortedTraitCounts = null;
-		this.model.removeSharedObject(TRAIT_COUNT_LIST_KEY);
+        this.residenceTimeMap = null;
+        this.cumTraitResidenceTimeCounts = null;
+        this.model.removeSharedObject(TRAIT_COUNT_LIST_KEY);
 	}
 
 	public void initialize() {
@@ -304,6 +273,9 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.turnoverHistory = new DoubleArrayList();
         this.traitCountHistory = new DoubleArrayList();
         this.agentsInTopNHistory = new DoubleArrayList();
+        // there needs to be an actual List object at initialization of the histogram, even if there's no data yet.
+        this.cumTraitResidenceTimeCounts = new ArrayList<TraitCount>();
+        this.cumTraitResidenceTimeCounts.add(new TraitCount(0));
 
         this.ewensVariationLevel = this.ewensThetaMultipler * this.mu * this.numAgents;
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
@@ -328,6 +300,10 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
             this.totalVariabilityGraph.setYRange(0, 100);
             this.totalVariabilityGraph.setSize(400, 250);
             this.totalVariabilityGraph.display();
+
+            this.residenceTimeHistogram = new OpenHistogram("Trait Residence Time Distribution", 25, 0);
+            this.residenceTimeHistogram.createHistogramItem("Residence Time", this.cumTraitResidenceTimeCounts, "getCountAsPrimitiveInt");
+            this.residenceTimeHistogram.display();
         }
     }
 
@@ -339,17 +315,40 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		List<IAgent> agentList = population.getAgentList();
 
 		// clear out the frequency map, and current list of sorted TraitCounts and recount
-		this.freqMap.clear();
+        // DO NOT clear out residenceTimeMap, however, since it's cumulative over the course of the run
+        this.freqMap.clear();
 		this.curSortedTraitCounts = null;
         this.curTurnover = 0.0;
 
         // fill up the frequency map
 		CollectionUtils.forAllDo(agentList, this.freqCounter);
-		
-		// At this point, we've got all the counts, so let's prepare a sorted List
+
+        // At this point, we've got all the counts, so let's prepare a sorted List
 		// of TraitCounts for further processing
 		this.curSortedTraitCounts = new ArrayList<TraitCount>();
 		this.curSortedTraitCounts.addAll(this.freqMap.values());
+
+        // update the residence time map for traits seen in this tick
+        for(TraitCount trait: this.curSortedTraitCounts) {
+            int agentVariant = trait.getTrait();
+
+            if ( this.residenceTimeMap.containsKey(agentVariant) ) {
+				// we've seen the variant before; increment the count.
+				TraitCount tc = this.residenceTimeMap.get(agentVariant);
+				tc.increment();
+				this.residenceTimeMap.put(agentVariant, tc);
+
+			} else {
+				// this is first time we've seen this variant, initialize the count
+                this.residenceTimeMap.put(agentVariant, new TraitCount(agentVariant));
+            }
+        }
+
+        // now update the list of trait residence times for the OpenHistogram, since it doesn't use Maps
+        this.cumTraitResidenceTimeCounts.clear();
+        this.cumTraitResidenceTimeCounts.addAll(this.residenceTimeMap.values());
+
+
         // capture the number of traits present in the population currently into the historical list
         this.traitCountHistory.add(this.curSortedTraitCounts.size());
         Collections.sort(curSortedTraitCounts);
@@ -363,6 +362,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         if ( ! this.isBatchRun ) {
             this.turnGraph.step();
 		    this.totalVariabilityGraph.step();
+            this.residenceTimeHistogram.step();
         }
 
         // store the current version of the turnoverHistory list in the shared repository in case

@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{cclicenses}
+\usepackage{algorithm2e}
+\begin{document}
+
+
+\title{Cultural Transmission Rules in TransmissionLab} 
+\maketitle
+
+
+\author{Mark E. Madsen}\\
+Department of Anthropology, University of Washington\\
+\texttt{madsenm@u.washington.edu}
+
+
+\section{Version 1.4 Rules}
+\subsection{Transmission Rules}
+\subsubsection{Wright-Fisher Random Population Sampling}
+The class \texttt{NonOverlappingRandomSamplingTransmission} implements a straightforward Wright-Fisher non-overlapping generations model, producing a descendant population with replacement.  
+
+\begin{algorithm}[H]
+\SetLine
+\KwData{a reference to an IAgentPopulation, holding a list of IAgent objects}
+\KwResult{a reference to an IAgentPopulation, consisting of a random sample of the input population, with replacement}
+initialization\;
+retrieve agent list from IAgentPopulation\;
+\For{each agent in agent list}{
+foo\;
+}
+
+\end{algorithm}
+
+\subsection{Mutation Rules}
+
+
+\section{Version 1.5 Rules}
+
+
+
+
+\end{document}

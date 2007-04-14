@@ -72,5 +72,15 @@ public class NonOverlappingRandomSamplingTransmission implements
 		return population;
 	}
 	
+    /*
+        Need a new implementation of the rule which does not *replace* the population with new agents, but
+        modifies agents in place, given that the agents will be also references within vertices.
+     */
+    private IAgentPopulation new_transmit(IAgentPopulation population) {
+
+        return population;
+    }
+
+
 
 }

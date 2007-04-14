@@ -24,7 +24,7 @@ This ``random copying model'' attempts to provide a simple generative model for 
 new traits, and stochastic loss of low-frequency traits by drift.  The current document 
 outlines a series of generalizations and refactorings of the basic agent-based model,
 suitable for additional
-experimentation and analysis of cultural null models as well as various types of biased copying.   The results of this generalization process is \emph{TransmissionLab}, a framework for modeling cultural transmission in an agent-based manner.  
+experimentation and analysis of cultural null models as well as various types of biased copying.   The results of this generalization process is \emph{TransmissionLab}, a framework for agent-based modeling of cultural transmission and communication processes with reusable components. 
 The ABM itself is written in Repast 3.x, a popular Java-based agent modeling toolkit with good 
 documentation, available on open-source license terms for all common platforms.
 \end{abstract}
@@ -42,16 +42,19 @@ account for the patterns seen at the population level.
 
 
 I began generalizing the Bentley et al. model because it is clean,
-simple, and gave me a baseline model with known analytic form, as well as empirical behavior to use as a test comparison as I restructured the software itself.   Starting from scratch allows
+simple, and gave me a baseline model with known analytic form and empirical behavior to use as a test case as I refactored the source code and redesigned the framework.   Starting from scratch allows
 one to design without history or constraints, but it is often better to start
 from something which works, and modify it incrementally, in order to understand whether model behavior is faithful to underlying theoretical models, rather than simply an artifact of the development process.  I chose to start with Bentley's RCM as my baseline, and have evolved it considerably (as of version 1.2).  The result is a fairly generic framework for running 
 simulation models of cultural transmission, called \emph{TransmissionLab}.  
 
 In the next several sections I outline the reorganization, refactoring, and
 generalization of the simulation codebase I'm performing.  This document is a work-in-progress, and will be updated as we continue to develop and use the transmission framework for new research projects.  In this document, I focus not on the scientific aspects of transmission models, but upon the software engineering
-aspects of \emph{TransmissionLab}.  The framework is written in Java, using the Repast agent-based simulation toolkit.  With suitable generalization and refactoring, \emph{TransmissionLab} will serve as a useful ``platform'' model
-for both extending Bentley et al.'s analysis, but performing a wide variety of computational ``experiments'' of cultural transmission. 
- 
+aspects of \emph{TransmissionLab}.  The framework is written in Java, using the Repast agent-based simulation toolkit.  With suitable generalization and refactoring, \emph{TransmissionLab} will serve as a useful ``platform''
+for both extending Bentley et al.'s analysis, and performing a wide variety of computational ``experiments'' of cultural transmission. 
+
+\section{Framework Goals and Requirements}
+foo
+
 \section{Modeling Philosophy}
 One of the hardest aspects of using agent-based models in scientific research is
 translating the theoretical ``model'' into the simulation realm.  In my past experience with simulations
@@ -78,10 +81,10 @@ really lives up to the promises of the previous paragraph.  These notes will
 also serve as partial documentation for using and extending the model once
 released.  
 
-\section{Basic Reorganization and Runtime Updates}
+\section{Framework Organization}
 For ease of constructing many models from the basic codebase, I reorganized the
 model into a series of java packages under a ``src'' directory.  Packages for
-this model are located under \texttt{org.mmadsen.sim.transmission} and comprise
+this model are located under \texttt{org.mmadsen.sim.transmissionlab} and comprise
 a functional decomposition of the code:\\
 \begin{tabular}{|r|r|}
 \hline

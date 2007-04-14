@@ -39,7 +39,8 @@ import org.apache.commons.cli.*;
  * TransmissionLabModel.  The purpose of this refactoring is to create a very simple process for creating
  * a new model out of TransmissionLab "parts."
  */
-public class NeutralCTModel extends AbstractTLModel implements ISharedDataManager, ISimulationModel {
+public class NeutralCTModel extends AbstractTLModel
+        implements ISharedDataManager, ISimulationModel {
 
     public static void main(String[] args) {
         // parse command line options to see if this is a batch run
