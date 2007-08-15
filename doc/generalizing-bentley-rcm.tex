@@ -1,32 +1,38 @@
-\documentclass{kluwer-mem-copyright}
-\usepackage{cclicenses,pdfsync}
+\documentclass[noid]{kluwer-mem-proposal}
+\usepackage{cclicenses,pdfsync,xspace,setspace,appendix}
+
+\newcommand{\tlfull}{\textsc{TransmissionLab}\xspace}
+\newcommand{\tlshort}{\ensuremath{\mathcal{TL}}\xspace}
+\newcommand{\todo[1]}{\ \textbf{$\ll$TODO: #1$\gg$}\xspace}
+
 \begin{document}
 \begin{article}
 \begin{opening}
-\title{The TransmissionLab Framework, Version 1\thanks{This work is licensed under the Creative Commons NonCommercial-Attribution-ShareAlike License version 3.0(\byncsa). 
+\title{The \tlfull Framework, Version 1\thanks{This work is licensed under the Creative Commons NonCommercial-Attribution-ShareAlike License version 3.0(\byncsa). 
 To view a copy of this license, visit http://creativecommons.org or send a letter to 
 Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.}}
-\subtitle{Generalizing the RandomCopyingModel for Cultural Transmission Research}
+\subtitle{Creating a Flexible, Repeatable Framework for Modeling Cultural Transmission}
 
 \runningauthor{M.E. Madsen}
-\runningtitle{Generalizing the RCM}
+\runningtitle{The \tlfull Framework}
 
 \author{Mark E. \surname{Madsen}}  
 \institute{Department of Anthropology, University of Washington \email{madsenm@u.washington.edu}}
 
 
-\date{March 2007}
+\date{\today (version 1.5)}
 
 \begin{abstract}
-Bentley et al. 2007 present a simple null model for imitation in cultural populations.  
+Bentley et al. 2007 presented a simple null model for imitation in cultural populations.  
 This ``random copying model'' attempts to provide a simple generative model for the imitation of 
-``neutral'' traits within a well-mixed population, with some innovation/invention rate for 
-new traits, and stochastic loss of low-frequency traits by drift.  The current document 
-outlines a series of generalizations and refactorings of the basic agent-based model,
-suitable for additional
-experimentation and analysis of cultural null models as well as various types of biased copying.   The results of this generalization process is \emph{TransmissionLab}, a framework for agent-based modeling of cultural transmission and communication processes with reusable components. 
-The ABM itself is written in Repast 3.x, a popular Java-based agent modeling toolkit with good 
-documentation, available on open-source license terms for all common platforms.
+``neutral'' traits within a well-mixed population, with an innovation/invention rate for 
+new traits, and stochastic loss of low-frequency traits by drift.  Their model formed the basis for creating a flexible framework
+for repeatable computational models of cultural transmission and evolution, through an iterative process of 
+generalization and separation of concerns. 
+The results of this refactoring process is \tlfull, a framework and library for creating many different transmission models from a standard library of population ``construction rules,'' transmission rules, and data collection 
+modules.  
+The framework consists of libraries which layer upon Repast 3.x, a popular Java-based agent modeling toolkit with good 
+documentation, hiding much of RepastJ's complexity and providing partial or complete implementations of much of the "mechanics" of an agent-based transmission model.  \tlfull is available in source and binary form as an open-source product, under the combined Creative Commons-GNU General Public License.  
 \end{abstract}
 \keywords{cultural transmission, cultural evolution, agent-based modeling, RePast 3.x}
 
@@ -34,6 +40,13 @@ documentation, available on open-source license terms for all common platforms.
 \end{opening}
 
 \section{Introduction}
+Much of the difficulty in using computational (or simulation) models for studying scientific phenomena is the fact that most scientists are not necessarily programmers; conversely, few programmers are familiar with the domain-specific details of much scientific research.  Thus, simulation models, and in particular agent-based simulations, are often ``single-use'' models---written for a single project or study, and then abandoned.  This often leads to relatively poorly documented and tested models, and occasionally even to models whose actual implementation does not match the investigator's design intent.  Such problems are solved in commercial settings by implementing standard software engineering practices.  Given the relative difficulty of becoming expert at such techniques, the solution to such problems within scientific research cannot be to turn scientists into software engineers.  
+
+Another possible solution has been to create ``friendlier'' simulation environments where investigators are responsible for less coding, and instead design models in a more graphical or textual fashion (e.g., NetLogo, Repast Simphony).  Such environments are especially valuable for initial explorations, but the ``black box'' nature of many such systems also makes it difficult to understand precise model behavior in some cases, and thus is not a complete solution to the problem posed above.  My belief is that a dual solution might be best:  initial exploration in a ``friendly'' environment and final model development in a well-tested framework which provides well-tested and documented domain-specific libraries.  
+
+Alex Bentley (Durham University, UK), Carl P. Lipo (CSULB), and myself have been attempting to write such a domain-specific framework for ``production'' cultural transmission modeling, within anthropology, economics, and other social sciences.  \tlfull (or \tlshort) represents the current version of that framework, available to the research community and general public under an open-source license which encourages free sharing of improvements and extensions, but still allows commercial use if desired.  The \tlfull source code, documentation, and downloadable distributions will be maintained online, currently in the Google Code repository for open-source projects.\footnote{see \texttt{http://code.google.com/p/transmissionlab}}
+
+\tlfull evolved as an extension to an earlier, and project-specific agent-based transmission model. 
 In their 2007 article, ``Regular rates of popular culture change reflect random copying,'' Alex Bentley, 
 Carl Lipo, Harold Herzog, and Matthew Hahn present a simple model of random cultural imitation in a well-mixed
 population.  This model posits a null hypothesis for the cultural transmission of ``neutral'' traits, which 
@@ -44,62 +57,67 @@ account for the patterns seen at the population level.
 I began generalizing the Bentley et al. model because it is clean,
 simple, and gave me a baseline model with known analytic form and empirical behavior to use as a test case as I refactored the source code and redesigned the framework.   Starting from scratch allows
 one to design without history or constraints, but it is often better to start
-from something which works, and modify it incrementally, in order to understand whether model behavior is faithful to underlying theoretical models, rather than simply an artifact of the development process.  I chose to start with Bentley's RCM as my baseline, and have evolved it considerably (as of version 1.2).  The result is a fairly generic framework for running 
-simulation models of cultural transmission, called \emph{TransmissionLab}.  
+from something which works, and modify it incrementally, in order to understand whether model behavior is faithful to underlying theoretical models, rather than simply an artifact of the development process.  I chose to start with Bentley's RCM as my baseline, and have evolved it considerably (as of version 1.4).  The result is a fairly generic framework for running 
+simulation models of cultural transmission.  
 
-In the next several sections I outline the reorganization, refactoring, and
-generalization of the simulation codebase I'm performing.  This document is a work-in-progress, and will be updated as we continue to develop and use the transmission framework for new research projects.  In this document, I focus not on the scientific aspects of transmission models, but upon the software engineering
-aspects of \emph{TransmissionLab}.  The framework is written in Java, using the Repast agent-based simulation toolkit.  With suitable generalization and refactoring, \emph{TransmissionLab} will serve as a useful ``platform''
-for both extending Bentley et al.'s analysis, and performing a wide variety of computational ``experiments'' of cultural transmission. 
+In the next several sections I outline the organization, design philosophy, and future direction of the \tlshort framework.  This document is a work-in-progress, and will be updated as we continue to develop and use the transmission framework for new research projects.  In this document, I focus not on the scientific aspects of transmission models, but upon the software engineering
+aspects of the modeling framework.  The system is written in Java, and is ``layered'' upon the Repast agent-based simulation toolkit, version 3.x.  The system makes use of various other open-source libraries and projects, which in accordance with their individual licenses, are distributed as binary JAR files with \tlfull.
 
-\section{Framework Goals and Requirements}
-foo
+\section{Framework Requirements}
+In designing the \tlfull framework, 
 
-\section{Modeling Philosophy}
+
+
+\section{Design Principles}
 One of the hardest aspects of using agent-based models in scientific research is
 translating the theoretical ``model'' into the simulation realm.  In my past experience with simulations
 written in Swarm (Objective C), Repast (Java), and from scratch in C++, minor
 ``bugs'' are the least of one's worries.  Even a relatively simple simulation is a complex body
 of code, and ensuring the correct timing and ordering of agent updates,
-interactions, and observations in order to measure what we \emph{believe} we're
-measuring can be quite difficult.  
+agent interactions, and data collection can be quite difficult.  At the same time, warranting the correctness of
+this type of ``model skeleton'' is critical to ensuring that the final simulation model is (a) accurately representing a body of phenomena or theory, and (b) not displaying behavior which is simply an artifact of the software design or implementation.
 
-In developing TransmissionLab, I began with the hypothesis that 
+In developing \tlfull, I began with the hypothesis that 
 in most agent-based models designed to study
 population-level ``inheritance'' problems, several aspects of the model can be
-kept strictly orthogonal in the design of the simulation model.  And if the code
+kept strictly orthogonal in the design of the simulation model, as well as implemented in fairly standardized
+and reusable ways.  Additionally, if the code implementing each aspects
 can be kept as separate as possible, each ``facet'' of such a model can be
 tested rigorously with simple, ``null'' cases.  Schedules and event interleaving
-can be tested without complex activity getting in the way.  Data collection,
+can be tested without complex agent interactions getting in the way.  Data collection,
 displays and analysis can be tested on known data sets.  Agent interaction can
 be tested in isolation, knowing that data collection or other aspects of the
 model aren't affecting that interaction via side effects.  
 
 Of course, the price of all this cleanliness and separation is a more complex
-body of code.  What follows are notes on the current version of TransmissionLab, and the changes I'm trying in order to achieve a model which
-really lives up to the promises of the previous paragraph.  These notes will
-also serve as partial documentation for using and extending the model once
-released.  
+body of code.  What follows are notes on the design and implementation of the current version of \tlshort, in an 
+effort to show that the framework ``lives up'' to the promises of the previous paragraph.  These notes will
+also serve as partial ``developer documentation'' (in addition to the Javadoc API documentation provided) for those
+seeking to extend or alter the framework for their own research.
 
 \section{Framework Organization}
 For ease of constructing many models from the basic codebase, I reorganized the
 model into a series of java packages under a ``src'' directory.  Packages for
 this model are located under \texttt{org.mmadsen.sim.transmissionlab} and comprise
 a functional decomposition of the code:\\
-\begin{tabular}{|r|r|}
+\begin{table}[ht]
+\caption{Package structure of \tlfull framework}\label{table-tl-pkg}
+\begin{tabular}{|l|r|}
 \hline
-Package&Function\\
+Package Name&Package Function\\
 \hline
 agent&Classes implementing alternative types of agents\\
-analysis&Classes implementing data collection or analysis upon a model\\
+analysis&Classes implementing data collection or analysis\\
+config&Classes which represent model configuration\\
 interfaces&Generic interfaces general model interrelationships\\
-models&Classes which extend \texttt{SimModelImpl} and define a given model\\
-population&Classes which implement agent populations\\ 
+models&Classes which extend \texttt{SimModelImpl} and define a specific model\\
+population&Classes which construction and implement agent populations\\ 
 rules&Classes which implement transmission rules\\
 test&JUnit test classes and test harnesses \\
 util&Helper and utility classes\\
 \hline
 \end{tabular}
+\end{table}
 
 
 \section{Refactoring Notes}

@@ -10,8 +10,13 @@
 #
 # Purpose:  script to post-process the results of the OverallStatisticsRecorder data 
 # collector class.  That file will often contain multiple replicates at the same values of 
-# numAgents and Mu, but different random number seeds.  This script averages the MeanTurnover
-# and MeanTraitCount values for each set of replicates that share the same NumAgents and MutationRate.  
+# numAgents and Mu, but different random number seeds.  This script averages the MeanTurnover,
+# MeanTraitCount, MeanAgentsInTopN, and MeanTraitResidenceTime values for each set of replicates that share the same 
+# ListSize, NumAgents and MutationRate.  
+#
+# This script works against specific versions of output from OverallStatisticsRecorder and is included in the 
+# source distribution of each specific "tagged" version.  
+#
 # The results are written to STDOUT and can be redirected into another 
 # file, and contain every column except the random seed, which are no longer meaningful after 
 # averaging across rows.
@@ -94,6 +99,8 @@ sub parse_row {
 	$parsed_row->{"stdevtraitcount"} = shift @fields;
 	$parsed_row->{"meanagentstopn"} = shift @fields;
 	$parsed_row->{"stdevagentstopn"} = shift @fields;
+	$parsed_row->{"meanresidencetime"} = shift @fields;
+	$parsed_row->{"stdevresidencetime"} = shift @fields;
 	return $parsed_row;
 }
 
@@ -130,6 +137,7 @@ sub process_replicates {
 		my $meanturnover = $row->{"meanturnover"};
 		my $meantraitcount = $row->{"meantraitcount"};
 		my $meanagentstopn = $row->{"meanagentstopn"};
+		my $meanresidencetime = $row->{"meanresidencetime"};
 		
 		#print STDERR "(debug) processing row with listsize: $listsize  numagents: $numagents  mu: $mu\n";
 		
@@ -150,12 +158,14 @@ sub process_replicates {
 			$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"} = Statistics::Descriptive::Sparse->new();
 			$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"} = Statistics::Descriptive::Sparse->new();
 			$processed_data->{$listsize}->{$numagents}->{$mu}->{"agentstopn"} = Statistics::Descriptive::Sparse->new();
+			$processed_data->{$listsize}->{$numagents}->{$mu}->{"residencetime"} = Statistics::Descriptive::Sparse->new();
 		}
 		
 		# now store the data we care about
 		$processed_data->{$listsize}->{$numagents}->{$mu}->{"turnover"}->add_data($meanturnover);
 		$processed_data->{$listsize}->{$numagents}->{$mu}->{"traitcount"}->add_data($meantraitcount);
 		$processed_data->{$listsize}->{$numagents}->{$mu}->{"agentstopn"}->add_data($meanagentstopn);
+		$processed_data->{$listsize}->{$numagents}->{$mu}->{"residencetime"}->add_data($meanresidencetime);
 	}
 	
 	return $processed_data;
@@ -163,7 +173,7 @@ sub process_replicates {
 
 # header row for the output
 sub write_header {
-	print STDOUT "TopNListSize\tNumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\tMeanAgentsTopN\tStdevAgentsTopN\n";
+	print STDOUT "TopNListSize\tNumAgents\tMutationRate\tReplicates\tMeanTurnover\tStdevTurnover\tMeanTraitCount\tStdevTraitCount\tMeanAgentsTopN\tStdevAgentsTopN\tMeanResidenceTime\tStdevResidenceTime\n";
 }
 
 # create_final_output runs through the processed replicates, in dually sorted order:
@@ -192,7 +202,9 @@ sub create_final_output {
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->mean(), "\t";
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"traitcount"}->standard_deviation(), "\t";
                 print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"agentstopn"}->mean(), "\t";
-                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"agentstopn"}->standard_deviation(), "\n";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"agentstopn"}->standard_deviation(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"residencetime"}->mean(), "\t";
+                print $processed_data->{$topnlistsize_value}->{$numagent_value}->{$mutationrate_value}->{"residencetime"}->standard_deviation(), "\n";
 			}
 		}
 	}

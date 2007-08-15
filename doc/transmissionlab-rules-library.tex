@@ -8,8 +8,11 @@
 \maketitle
 
 
-\author{Mark E. Madsen}\\
-Department of Anthropology, University of Washington\\
+\author{Mark E. Madsen}
+
+
+Department of Anthropology, University of Washington
+
 \texttt{madsenm@u.washington.edu}
 
 
@@ -18,16 +21,19 @@ Department of Anthropology, University of Washington\\
 \subsubsection{Wright-Fisher Random Population Sampling}
 The class \texttt{NonOverlappingRandomSamplingTransmission} implements a straightforward Wright-Fisher non-overlapping generations model, producing a descendant population with replacement.  
 
+
 \begin{algorithm}[H]
 \SetLine
-\KwData{a reference to an IAgentPopulation, holding a list of IAgent objects}
-\KwResult{a reference to an IAgentPopulation, consisting of a random sample of the input population, with replacement}
+\KwData{an IAgentPopulation object}
+\KwResult{an IAgentPopulation object, constructed as a sample of the original by replacement}
 initialization\;
-retrieve agent list from IAgentPopulation\;
-\For{each agent in agent list}{
-foo\;
+get agentList from IAgentPopulation\;
+initialize $n$ as agentList.size()\;
+\For{agent in agentList}{
+select a uniform random variate ($p$) between 1 and $n$\;
+add agent $p$ from agentList to output IAgentPopulation\;
 }
-
+return output IAgentPopulation\;
 \end{algorithm}
 
 \subsection{Mutation Rules}

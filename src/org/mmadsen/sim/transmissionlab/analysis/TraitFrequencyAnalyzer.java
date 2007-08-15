@@ -94,6 +94,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     public static final String TURNOVER_HISTORY_KEY = "TURNOVER_HISTORY_KEY";
     public static final String TRAIT_COUNT_HISTORY_KEY = "TRAIT_COUNT_HISTORY_KEY";
     public static final String AGENT_TRAIT_TOPN_KEY = "AGENT_TRAIT_TOPN_KEY";
+    public static final String TRAIT_RESIDENCE_TIME_KEY = "TRAIT_RESIDENCE_TIME_KEY";
     private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
     private OpenHistogram residenceTimeHistogram = null;
@@ -370,6 +371,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.model.storeSharedObject(TURNOVER_HISTORY_KEY, this.turnoverHistory);
         this.model.storeSharedObject(TRAIT_COUNT_HISTORY_KEY, this.traitCountHistory);
         this.model.storeSharedObject(AGENT_TRAIT_TOPN_KEY, this.agentsInTopNHistory);
+        this.model.storeSharedObject(TRAIT_RESIDENCE_TIME_KEY, this.residenceTimeMap);
 
         // housekeeping - store cur in prev for comparison next time around
 		// and cache the current trait counts in the model shared repository for 
@@ -468,7 +470,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     @Override
 	protected Schedule getSpecificSchedule(BasicAction actionToSchedule) {
 		Schedule sched = new Schedule();
-		sched.scheduleActionBeginning(1, actionToSchedule);
+		sched.scheduleActionBeginning(2, actionToSchedule);
 		return sched;
 	}
 

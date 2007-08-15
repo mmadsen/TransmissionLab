@@ -250,6 +250,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         for (IDataCollector collector : this.dataCollectorList) {
             collector.initialize();
             DataCollectorScheduleType schedGroupType = collector.getSchedGroupType();
+            this.log.debug("collector schedule type: " + schedGroupType);
             if (schedGroupType == DataCollectorScheduleType.EACH_TICK) {
                 this.analysisActionGroup.addAction(collector.getDataCollectorSchedule());
             } else if (schedGroupType == DataCollectorScheduleType.END) {
@@ -302,6 +303,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         schedule.scheduleActionBeginning(2, this.simulationActionGroups);
         schedule.scheduleActionAtEnd(this.finalActionGroup);
         schedule.scheduleActionAt(lengthSimulationRun, this, "stop", ScheduleBase.LAST);
+
     }
 
     public Object getSimpleModelPropertyByName(String property) throws RepastException {

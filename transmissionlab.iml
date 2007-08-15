@@ -28,6 +28,11 @@
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/commons-digester-1.8.jar" />
+        <url>jar://$MODULE_DIR$/lib/commons-digester-1.8.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
         <attribute name="URI" value="lib/commons-logging.jar" />
         <url>jar://$MODULE_DIR$/lib/commons-logging.jar!/</url>
       </containerElement>
@@ -35,6 +40,11 @@
         <attribute name="method" value="2" />
         <attribute name="URI" value="lib/commons-math-1.1.jar" />
         <url>jar://$MODULE_DIR$/lib/commons-math-1.1.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/jung-1.7.6.jar" />
+        <url>jar://$MODULE_DIR$/lib/jung-1.7.6.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
@@ -63,11 +73,26 @@
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/resolver.jar" />
+        <url>jar://$MODULE_DIR$/lib/resolver.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
         <attribute name="URI" value="lib/trove.jar" />
         <url>jar://$MODULE_DIR$/lib/trove.jar!/</url>
       </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/xercesImpl.jar" />
+        <url>jar://$MODULE_DIR$/lib/xercesImpl.jar!/</url>
+      </containerElement>
+      <containerElement type="library" level="module">
+        <attribute name="method" value="2" />
+        <attribute name="URI" value="lib/xml-apis.jar" />
+        <url>jar://$MODULE_DIR$/lib/xml-apis.jar!/</url>
+      </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.4.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre1-quiet.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
   </component>

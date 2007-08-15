@@ -21,11 +21,13 @@ import uchicago.src.sim.util.RepastException;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
+import org.mmadsen.sim.transmissionlab.util.TraitCount;
 import org.apache.commons.logging.Log;
 import cern.colt.list.DoubleArrayList;
 import cern.jet.stat.Descriptive;
 
 import java.util.List;
+import java.util.Map;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -54,6 +56,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private double stdevTraitCount = 0.0;
     private double meanAgentCount = 0.0;
     private double stdevAgentCount = 0.0;
+    private double meanResidenceTime = 0.0;
+    private double stdevResidenceTime = 0.0;
     private double mu = 0.0;
     private int numAgents = 0;
     private int topNListSize = 0;
@@ -107,6 +111,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         DoubleArrayList turnoverHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TURNOVER_HISTORY_KEY);
         DoubleArrayList traitCountHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_COUNT_HISTORY_KEY);
         DoubleArrayList agentsTopNHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.AGENT_TRAIT_TOPN_KEY);
+        Map<Integer,TraitCount> traitResidenceMap = (Map<Integer,TraitCount>) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_RESIDENCE_TIME_KEY);
+
 
         // calculate turnover statistics
         this.meanTurnover = Descriptive.mean(turnoverHistory);
@@ -125,6 +131,19 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         double varianceAgentCount = Descriptive.sampleVariance(agentsTopNHistory, this.meanAgentCount);
         this.stdevAgentCount = Descriptive.standardDeviation(varianceAgentCount);
         this.log.info("Mean num agents with traits in top N: " + this.meanAgentCount + "  stdev: " + this.stdevAgentCount);
+
+        // calculate stats for the "residence" time of traits - basically this is just the values from the
+        // residenceTimeMap
+        DoubleArrayList residenceTimeList = new DoubleArrayList();
+        for(TraitCount tc: traitResidenceMap.values()) {
+            residenceTimeList.add((double) tc.getCount());
+        }
+
+        this.meanResidenceTime = Descriptive.mean(residenceTimeList);
+        double varianceResidenceTime = Descriptive.sampleVariance(residenceTimeList, this.meanResidenceTime);
+        this.stdevResidenceTime = Descriptive.standardDeviation(varianceResidenceTime);
+        this.log.info("Mean trait residence time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
+
 
         // record overall stats to a file
         this.recordStats();
@@ -162,9 +181,9 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
                 header.append("\t");
                 header.append("StdevTraitCount");
                 header.append("\t");
-                header.append("MeanAgentsTopN");
+                header.append("MeanResidenceTime");
                 header.append("\t");
-                header.append("StdevAgentsTopN");
+                header.append("StdevResidenceTime");
                 header.append("\n");
                 writer.write(header.toString());
             }
@@ -193,6 +212,10 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append(this.meanAgentCount);
             sb.append("\t");
             sb.append(this.stdevAgentCount);
+            sb.append("\t");
+            sb.append(this.meanResidenceTime);
+            sb.append("\t");
+            sb.append(this.stdevResidenceTime);
             sb.append("\n");
 
             writer.write(sb.toString());

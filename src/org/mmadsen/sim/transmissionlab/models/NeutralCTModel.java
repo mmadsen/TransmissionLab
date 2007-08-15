@@ -31,6 +31,7 @@ import org.mmadsen.sim.transmissionlab.rules.RandomAgentInfiniteAllelesMutation;
 import org.mmadsen.sim.transmissionlab.population.SingleTraitPopulationFactory;
 import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
 import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
+import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyFileSnapshot;
 import org.apache.commons.cli.*;
 
 /**
@@ -77,14 +78,34 @@ public class NeutralCTModel extends AbstractTLModel
 
     private Boolean enableNewTopN = true;
     private Boolean enableOverallStats = true;
+
+
+
+    private Boolean enableTraitFrequencyFileSnapshots = false;
     private int ewensThetaMultipler = 2;
     private String initialTraitStructure = null;
     private String populationProcessType = null;
-    private int moranProcessNumPairs = 1;
+    private int numberFileSnapshots = 1;
     private int maxVariants = 4000;
     private double mu = 0.01;
     private int numAgents = 500;
     private int topNListSize = 40;
+
+    public Boolean getEnableTraitFrequencyFileSnapshots() {
+        return enableTraitFrequencyFileSnapshots;
+    }
+
+    public void setEnableTraitFrequencyFileSnapshots(Boolean enableTraitFrequencyFileSnapshots) {
+        this.enableTraitFrequencyFileSnapshots = enableTraitFrequencyFileSnapshots;
+    }
+
+    public int getNumberFileSnapshots() {
+        return numberFileSnapshots;
+    }
+
+    public void setNumberFileSnapshots(int numberFileSnapshots) {
+        this.numberFileSnapshots = numberFileSnapshots;
+    }
 
     public Boolean getEnableNewTopN() {
         return enableNewTopN;
@@ -124,14 +145,6 @@ public class NeutralCTModel extends AbstractTLModel
 
     public void setPopulationProcessType(String populationProcessType) {
         this.populationProcessType = populationProcessType;
-    }
-
-    public int getMoranProcessNumPairs() {
-        return moranProcessNumPairs;
-    }
-
-    public void setMoranProcessNumPairs(int moranProcessNumPairs) {
-        this.moranProcessNumPairs = moranProcessNumPairs;
     }
 
     public int getMaxVariants() {
@@ -190,6 +203,9 @@ public class NeutralCTModel extends AbstractTLModel
         IDataCollector o = new OverallStatisticsRecorder(this);
         this.addDataCollector(o);
 
+        IDataCollector s = new TraitFrequencyFileSnapshot(this);
+        this.addDataCollector(s);
+
         // Initialize any RNG we'll need
         Random.createUniform();
     }
@@ -215,6 +231,12 @@ public class NeutralCTModel extends AbstractTLModel
             IDataCollector d = this.getDataCollectorByName("OverallStatisticsRecorder");
             this.removeDataCollector(d);
         }
+
+        if (!this.getEnableTraitFrequencyFileSnapshots()) {
+            this.log.debug("removing TraitFrequencyFileSnapshot from active data collectors - not selected");
+            IDataCollector d = this.getDataCollectorByName("TraitFrequencyFileSnapshot");
+            this.removeDataCollector(d);
+        }
     }
 
     public void buildSpecificPopulation() {
@@ -237,9 +259,7 @@ public class NeutralCTModel extends AbstractTLModel
         if (this.getPopulationProcessType().equals("WrightFisherProcess")) {
             this.addPopulationRule(new NonOverlappingRandomSamplingTransmission(this));
         } else if (this.getPopulationProcessType().equals("MoranProcess")) {
-            MoranProcessRandomSamplingTransmission mpRule = new MoranProcessRandomSamplingTransmission(this);
-            mpRule.setReproductivePairsPerTick(this.getMoranProcessNumPairs());
-            this.addPopulationRule(mpRule);
+            this.addPopulationRule(new MoranProcessRandomSamplingTransmission(this));
         } else {
             this.log.error("Unknown PopulationProcessType: " + this.getPopulationProcessType());
         }
@@ -255,9 +275,10 @@ public class NeutralCTModel extends AbstractTLModel
         String[] params = {"NumAgents", "Mu", "LengthSimulationRun",
                 "EwensThetaMultipler",
                 "PopulationProcessType",
-                "MoranProcessNumPairs",
                 "FileOutputDirectory",
+                "NumberFileSnapshots",
                 "EnableNewTopN", "EnableOverallStats",
+                "EnableTraitFrequencyFileSnapshots",
                 "TopNListSize", "InitialTraitStructure"};
         return params;  
     }

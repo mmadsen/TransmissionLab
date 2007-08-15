@@ -32,8 +32,17 @@
             <schedulegrouporder>1</schedulegrouporder>
         </collector>
     </datacollection>
-    <populationfactory>
+    <population>
         <class>org.mmadsen.sim.transmissionlab.population.SingleTraitPopulationFactory</class>
-    </populationfactory>
-    <!-- transformation rules get configured here -->
+    </population>
+    <ruleset>
+        <rule>
+            <class>org.mmadsen.sim.transmissionlab.rules.NonOverlappingRandomSamplingTransmission</class>
+            <ruleorder>1</ruleorder>
+        </rule>
+        <rule>
+            <class>org.mmadsen.sim.transmissionlab.rules.RandomAgentInfiniteAllelesMutation</class>
+            <ruleorder>2</ruleorder>
+        </rule>
+    </ruleset>
 </modelconfiguration>

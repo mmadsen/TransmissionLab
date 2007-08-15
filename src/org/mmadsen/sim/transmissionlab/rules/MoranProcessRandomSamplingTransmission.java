@@ -36,18 +36,13 @@ public class MoranProcessRandomSamplingTransmission implements
 
 	private Log log = null;
 	private ISimulationModel model = null;
-	private int numReproductivePairsPerTick = 1;
-	
-	public MoranProcessRandomSamplingTransmission(ISimulationModel model) {
+
+    public MoranProcessRandomSamplingTransmission(ISimulationModel model) {
 		this.model = model;
         this.log = this.model.getLog();
     }
 	
-	public void setReproductivePairsPerTick( int pairs ) {
-		this.numReproductivePairsPerTick = pairs;
-	}
-	
-	public Object transform(Object pop) {
+    public Object transform(Object pop) {
 		IAgentPopulation population = (IAgentPopulation) pop;
 		log.debug("entering NonOverlappingRandomSamplingTransmission.transform()");
 		return this.transmit(population);
@@ -60,21 +55,16 @@ public class MoranProcessRandomSamplingTransmission implements
 		
 		/*
 		 * In the Moran process, we simulate overlapping generations by allowing most
-		 * individuals to survive each "tick", and select 2 * f individuals.  
-		 * We then treat these as f pairs, where one individual in the pair is removed
-		 * from the population and replaced by a clone of the other individual.  In the
-		 * classic Moran process, "f" is typically 1.  That should really slow down the 
-		 * evolution of the population, so we'll make "f" configurable, and test how things
-		 * scale with increasing f.  
-		 * 
-		 * The original Moran process selected two unique individuals, one to die, one to be
-		 * copied to occupy the dead individual's "slot" -- to generalize this to N pairs of 
-		 * individuals, we need all of the numReproductivePairsPerTick agents to be *unique*
-		 * otherwise we have a problem, and NoSuchElementExceptions, and general havoc.  Plus,
-		 * it wouldn't be faithful to the underlying process we're modeling.   
+		 * individuals to survive each "tick", and select 2  individuals.
+		 * We then treat these as a pair, where one individual in the pair is removed
+		 * from the population and replaced by a clone of the other individual.  This
+		 * number MUST be 2 individuals per tick, otherwise it's not a stochastic
+		 * birth-death process and thus the model won't match the formal properties
+		 * of the Moran process.  SO...the number of pairs is not configurable anymore
+		 * because I was stupid before.  :)
 		 * 
 		 */
-		int numUniqueAgentsNeeded = this.numReproductivePairsPerTick * 2;
+		int numUniqueAgentsNeeded = 2;
 		while(numUniqueAgentsNeeded != 0) {
 			int index = Random.uniform.nextIntFromTo(0, numAgents - 1);
 			if (!selectedAgentMap.containsKey(index)) {

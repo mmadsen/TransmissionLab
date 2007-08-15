@@ -15,6 +15,8 @@
 
 package org.mmadsen.sim.transmissionlab.util;
 
+import java.util.Comparator;
+
 /**
  * Created by IntelliJ IDEA.
  * User: mark
@@ -62,10 +64,19 @@ public class TraitCount implements Comparable {
         return this.count;
     }
 
+    // Default comparator sorts by trait count, not trait ID
     public int compareTo(Object arg0) {
         // MEM (v1.3): removed the explicit sign reversal, which was hackish
         // and possibly fragile, in favor of an explicit Collections.reverse() in process().
         return this.count.compareTo(((TraitCount)arg0).getCount());
     }
 
+    public static final Comparator SORT_BY_TRAIT_ID = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            TraitCount tc1 = (TraitCount) o1;
+            TraitCount tc2 = (TraitCount) o2;
+
+            return (tc1.getTrait() < tc2.getTrait()) ? 0 : 1;
+        }
+    };
 }
