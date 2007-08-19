@@ -23,12 +23,12 @@ TopNListSize {
 			  }
 			}
 		  }
-  
+
 		}
 	}
 }
 LengthSimulationRun {
-  set: 1000
+  set: 500
 }
 EwensThetaMultipler {
   set: 2
@@ -36,11 +36,8 @@ EwensThetaMultipler {
 PopulationProcessType {
   set_string: WrightFisherProcess
 }
-MoranProcessNumPairs {
-  set: 1
-}
 FileOutputDirectory {
-  set_string: /tmp
+  set_string: /tmp/test
 }
 EnableNewTopN {
   set_boolean: true
@@ -50,4 +47,10 @@ EnableOverallStats {
 }
 InitialTraitStructure {
   set_string: SequentialTrait
+}
+EnableTraitFrequencyFileSnapshots {
+  set_boolean: true
+}
+NumberFileSnapshots {
+  set: 10
 }
