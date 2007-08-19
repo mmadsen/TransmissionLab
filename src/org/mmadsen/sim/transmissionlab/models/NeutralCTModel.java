@@ -196,6 +196,7 @@ public class NeutralCTModel extends AbstractTLModel
     }
 
     public void specificModelSetup() {
+
         // Create data collectors, in the order we'd like them to run
         IDataCollector f = new TraitFrequencyAnalyzer(this);
         this.addDataCollector(f);
@@ -268,7 +269,7 @@ public class NeutralCTModel extends AbstractTLModel
 
         // now add a mutation rule
         this.addPopulationRule(new RandomAgentInfiniteAllelesMutation(this));
-        this.log.debug("created Mutation rule");
+        this.log.debug("created Mutation rule: RandomAgentInfiniteAllelesMutation");
     }
 
     public String[] getInitParam() {

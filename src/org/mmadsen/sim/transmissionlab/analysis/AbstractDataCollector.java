@@ -80,7 +80,7 @@ public abstract class AbstractDataCollector implements IDataCollector {
 	 * 
 	 */
 	public BasicAction getDataCollectorSchedule() {
-		this.log.debug("Entering getDataCollectorSchedule for " + this.getClass().getSimpleName());
+		//this.log.debug("Entering getDataCollectorSchedule for " + this.getClass().getSimpleName());
 		return this.getSpecificSchedule(this.getBasicActionForDataCollector());
 	}
 	

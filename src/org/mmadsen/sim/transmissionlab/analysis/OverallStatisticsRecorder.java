@@ -61,6 +61,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private double mu = 0.0;
     private int numAgents = 0;
     private int topNListSize = 0;
+    private static final String multipleRunOutput = "TL-multiple-run-statistics.txt";
+    private static final String singleRunOutput = "TL-run-statistics.txt";
 
     public OverallStatisticsRecorder(ISimulationModel m) {
 		super(m);
@@ -142,7 +144,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         this.meanResidenceTime = Descriptive.mean(residenceTimeList);
         double varianceResidenceTime = Descriptive.sampleVariance(residenceTimeList, this.meanResidenceTime);
         this.stdevResidenceTime = Descriptive.standardDeviation(varianceResidenceTime);
-        this.log.info("Mean trait residence time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
+        this.log.info("Mean trait sojourn time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
 
 
         // record overall stats to a file
@@ -151,41 +153,44 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
     @SuppressWarnings("unchecked")
 	private void recordStats() {
-		String filePath = this.createDataDumpFilePath();
+        FileWriter runWriter = null;
+        FileWriter multRunWriter = null;
+        Boolean headerAlreadyExists = false;
 
-        File neutralFile = new File(filePath);
-        Boolean headerAlreadyExists = neutralFile.exists();
+        StringBuffer header = new StringBuffer();
+        header.append("NumAgents");
+        header.append("\t");
+        header.append("MutationRate");
+        header.append("\t");
+        header.append("LengthSimRun");
+        header.append("\t");
+        header.append("RngSeed");
+        header.append("\t");
+        header.append("TopNListSize");
+        header.append("\t");
+        header.append("MeanTurnover");
+        header.append("\t");
+        header.append("StdevTurnover");
+        header.append("\t");
+        header.append("MeanTraitCount");
+        header.append("\t");
+        header.append("StdevTraitCount");
+        header.append("\t");
+        header.append("MeanSojournTime");
+        header.append("\t");
+        header.append("StdevSojournTime");
+        header.append("\n");
+
 
         try {
-            // open the file for append = true since we want to gather multiple runs
+            headerAlreadyExists = this.model.testFileExistsInDataDirectory(multipleRunOutput);
+            runWriter = this.model.getFileWriterForPerRunOutput(singleRunOutput);
+            multRunWriter = this.model.getFileWriterForMultipleRunOutput(multipleRunOutput);
             
-            FileWriter writer = new FileWriter(neutralFile, true);
+            runWriter.write(header.toString());
 
             if ( ! headerAlreadyExists ) {
-                StringBuffer header = new StringBuffer();
-                header.append("NumAgents");
-                header.append("\t");
-                header.append("MutationRate");
-                header.append("\t");
-                header.append("LengthSimRun");
-                header.append("\t");
-                header.append("RngSeed");
-                header.append("\t");
-                header.append("TopNListSize");
-                header.append("\t");
-                header.append("MeanTurnover");
-                header.append("\t");
-                header.append("StdevTurnover");
-                header.append("\t");
-                header.append("MeanTraitCount");
-                header.append("\t");
-                header.append("StdevTraitCount");
-                header.append("\t");
-                header.append("MeanResidenceTime");
-                header.append("\t");
-                header.append("StdevResidenceTime");
-                header.append("\n");
-                writer.write(header.toString());
+                multRunWriter.write(header.toString());
             }
 
 
@@ -195,7 +200,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append("\t");
             sb.append(this.mu);
             sb.append("\t");
-            sb.append(this.model.getLengthSimulationRun());
+            sb.append((this.model.getLengthSimulationRun() - 2));
             sb.append("\t");
             sb.append(this.model.getRngSeed());
             sb.append("\t");
@@ -218,24 +223,13 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append(this.stdevResidenceTime);
             sb.append("\n");
 
-            writer.write(sb.toString());
-			writer.close();
-		} catch (IOException ioe) {
-			log.info("IOException on filepath: "+ filePath + ": " + ioe.getMessage());
+            runWriter.write(sb.toString());
+            multRunWriter.write(sb.toString());
+            runWriter.close();
+            multRunWriter.close();
+        } catch (IOException ioe) {
+			log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
 		}
 	}
-
-	/**
-	 * Helper method to create a filepath usable for
-	 * storing data snapshot files
-	 * TODO:  Make this OS neutral for windows - works now on Mac/Linux
-	 */
-	private String createDataDumpFilePath() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(this.model.getFileOutputDirectory());
-		sb.append("/");
-		sb.append("transmissionlab-multiplerun-statistics");
-        sb.append(".txt");
-		return sb.toString();
-	}
+    
 }

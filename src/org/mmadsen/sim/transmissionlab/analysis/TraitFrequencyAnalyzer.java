@@ -302,8 +302,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
             this.totalVariabilityGraph.setSize(400, 250);
             this.totalVariabilityGraph.display();
 
-            this.residenceTimeHistogram = new OpenHistogram("Trait Residence Time Distribution", 25, 0);
-            this.residenceTimeHistogram.createHistogramItem("Residence Time", this.cumTraitResidenceTimeCounts, "getCountAsPrimitiveInt");
+            this.residenceTimeHistogram = new OpenHistogram("Trait Sojourn Time Distribution", 25, 0);
+            this.residenceTimeHistogram.createHistogramItem("Sojourn Time", this.cumTraitResidenceTimeCounts, "getCountAsPrimitiveInt");
             this.residenceTimeHistogram.display();
         }
     }

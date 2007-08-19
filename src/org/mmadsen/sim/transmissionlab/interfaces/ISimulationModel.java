@@ -21,6 +21,7 @@ import uchicago.src.sim.util.RepastException;
 import org.apache.commons.logging.Log;
 
 import java.util.Collection;
+import java.io.FileWriter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,7 +54,13 @@ public interface ISimulationModel extends SimModel, ISharedDataManager {
     @SuppressWarnings({"UnusedDeclaration"})
     void setPopulation(IAgentPopulation population);
 
+    String getUniqueRunIdentifier();
+
     Schedule getSchedule();
+
+    FileWriter getFileWriterForPerRunOutput(String filename);
+    FileWriter getFileWriterForMultipleRunOutput(String filename);
+    Boolean testFileExistsInDataDirectory(String filename);
 
     void setup();
 

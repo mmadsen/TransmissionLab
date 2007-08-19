@@ -24,6 +24,7 @@ import org.mmadsen.sim.transmissionlab.interfaces.*;
 import org.mmadsen.sim.transmissionlab.util.SharedRepository;
 import org.mmadsen.sim.transmissionlab.util.PopulationRuleset;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
+import org.mmadsen.sim.transmissionlab.util.SimOutputDirectory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -31,6 +32,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.net.URL;
 import java.util.*;
+import java.io.FileWriter;
 
 /**
  * AbstractTLModel represents a simulation model class which follows not just the
@@ -56,6 +58,8 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     protected PopulationRuleset popRuleSet = null;
     protected IAgentPopulation population = null;
     protected String fileOutputDirectory = "/tmp";
+    protected String uniqueRunIdentifier = null;
+    protected SimOutputDirectory outputDirectory = null;
 
     public String getFileOutputDirectory() {
         return fileOutputDirectory;
@@ -70,7 +74,10 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     }
 
     public void setLengthSimulationRun(int lengthSimulationRun) {
+        // we add two ticks to the user's requested run length, because tick 1 and tick N are "administrative"
+        // and thus the user may not get the right number of snapshots or samples if we don't do this.
         this.lengthSimulationRun = lengthSimulationRun;
+        this.lengthSimulationRun += 2;
     }
 
     protected int lengthSimulationRun = 1000;
@@ -150,6 +157,18 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         return schedule;
     }
 
+    public FileWriter getFileWriterForPerRunOutput(String filename) {
+        return this.outputDirectory.getFileWriterForPerRunOutput(filename);
+    }
+
+    public FileWriter getFileWriterForMultipleRunOutput(String filename) {
+        return this.outputDirectory.getFileWriterForMultipleRunOutput(filename);
+    }
+
+    public Boolean testFileExistsInDataDirectory(String filename) {
+        return this.outputDirectory.testFileExistsInDataDirectory(filename);
+    }
+
     protected IDataCollector getDataCollectorByName(String name) {
         return this.dataCollectorMap.get(name);
     }
@@ -193,6 +212,13 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
 
         this.resetModel();
         this.resetSpecificModel();
+
+        // Generate a unique run identifier
+        Date now = new Date();
+        StringBuffer ident = new StringBuffer();
+        ident.append("TL-run-");
+        ident.append(now.getTime());
+        this.uniqueRunIdentifier = ident.toString();
 
         /*
            * INSTANTIATION AND SETUP SECTION - now that we're clean and safe, construct
@@ -245,12 +271,17 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.buildPostParameterInitialization();
         this.buildSpecificPopulation();
 
+        // Ensure that we have a standard place to output files for simulation results
+        this.outputDirectory = new SimOutputDirectory(this);
+        this.log.info("Output files from this simulation run will be written to: " + this.outputDirectory.getOutputDirectoryName());
+
+
         // let all of the IDataCollectors initialize themselves.  Then we
         // let the IDataCollector tell us how to schedule itself.
         for (IDataCollector collector : this.dataCollectorList) {
             collector.initialize();
             DataCollectorScheduleType schedGroupType = collector.getSchedGroupType();
-            this.log.debug("collector schedule type: " + schedGroupType);
+            //this.log.debug("collector schedule type: " + schedGroupType);
             if (schedGroupType == DataCollectorScheduleType.EACH_TICK) {
                 this.analysisActionGroup.addAction(collector.getDataCollectorSchedule());
             } else if (schedGroupType == DataCollectorScheduleType.END) {
@@ -323,4 +354,12 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
             throw new RepastException(ex, ex.getMessage());
         }
     }
+
+    // returns a default identifier for each run, made up of a string which is a date
+    // and timestamp of the form "TL-sim-<milliseconds since Unix epoch>"
+    public String getUniqueRunIdentifier() {
+        return this.uniqueRunIdentifier;
+    }
+
+
 }

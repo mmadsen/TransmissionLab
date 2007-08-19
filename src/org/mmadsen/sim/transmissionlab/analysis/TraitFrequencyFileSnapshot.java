@@ -42,6 +42,7 @@ public class TraitFrequencyFileSnapshot extends AbstractDataCollector implements
     private int recordingInterval = 1;
     private int numFileSnapshots = 1;
     private int intervalCount = 0;
+    private String uniqueRunIdent = null;
 
     public TraitFrequencyFileSnapshot(ISimulationModel m) {
             super(m);
@@ -73,8 +74,13 @@ public class TraitFrequencyFileSnapshot extends AbstractDataCollector implements
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // TODO:  get a unique identifier from the model object and then create a specific directory for each run
+
     public void initialize() {
         this.log.debug("Entering TraitFrequencyFileSnapshot.initialize()");
+
+        this.uniqueRunIdent = this.model.getUniqueRunIdentifier();
+        this.log.debug("Unique run identifier: " + this.uniqueRunIdent);
 
         // calculate recordingInterval from the model parameter getLengthSimulationRun / numberFileSnapshots
         try {
@@ -84,7 +90,10 @@ public class TraitFrequencyFileSnapshot extends AbstractDataCollector implements
             System.exit(1);
         }
 
-        this.recordingInterval = this.model.getLengthSimulationRun() / this.numFileSnapshots;
+        // Remember that we add 2 ticks to the user's requested simulation run because tick 1 and tick N are
+        // special, "administrative" ticks.  And thus to get the right interval, we need to restrict our
+        // collection to what the user originally asked for, which is the official length - 2.
+        this.recordingInterval = (this.model.getLengthSimulationRun() - 2) / this.numFileSnapshots;
         this.intervalCount = this.recordingInterval;
         this.log.debug("Recording interval for file snapshots: " + this.recordingInterval);
     }
@@ -112,24 +121,18 @@ public class TraitFrequencyFileSnapshot extends AbstractDataCollector implements
 
     @SuppressWarnings("unchecked")
 	private void recordStats(ArrayList<TraitCount> traitCounts) {
-		String filePath = this.createDataDumpFilePath();
-
-        File neutralFile = new File(filePath);
-        Boolean headerAlreadyExists = neutralFile.exists();
+        FileWriter writer = null;
 
         try {
-            // open the file for append = true since we want to gather multiple runs
+            String outputFilename = this.createOutputFilename();
+            writer = this.model.getFileWriterForPerRunOutput(outputFilename);
 
-            FileWriter writer = new FileWriter(neutralFile, true);
-
-            if ( ! headerAlreadyExists ) {
-                StringBuffer header = new StringBuffer();
-                header.append("Trait");
-                header.append("\t");
-                header.append("Count");
-                header.append("\n");
-                writer.write(header.toString());
-            }
+            StringBuffer header = new StringBuffer();
+            header.append("Trait");
+            header.append("\t");
+            header.append("Count");
+            header.append("\n");
+            writer.write(header.toString());
 
             for( TraitCount trait: traitCounts ) {
 			    StringBuffer sb = new StringBuffer();
@@ -139,29 +142,21 @@ public class TraitFrequencyFileSnapshot extends AbstractDataCollector implements
                 sb.append("\n");
                 writer.write(sb.toString());
             }
-
             writer.close();
-		} catch (IOException ioe) {
-			log.info("IOException on filepath: "+ filePath + ": " + ioe.getMessage());
-		}
+
+        } catch (IOException ioe) {
+			log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
+		} 
 	}
 
 
-    /**
-	 * Helper method to create a filepath usable for
-	 * storing data snapshot files
-	 * TODO:  Make this OS neutral for windows - works now on Mac/Linux
-	 */
-	private String createDataDumpFilePath() {
+    private String createOutputFilename() {
         Double tick = this.model.getTickCount();
         StringBuffer sb = new StringBuffer();
-		sb.append(this.model.getFileOutputDirectory());
-		sb.append("/");
-		sb.append("transmissionlab-trait-counts-tick-");
+        sb.append("TL-trait-counts-tick-");
         sb.append(tick.toString());
         sb.append(".txt");
 		return sb.toString();
-	}
-
+    }
 
 }
