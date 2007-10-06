@@ -15,13 +15,7 @@
 
 package org.mmadsen.sim.transmissionlab.analysis;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.collections.CollectionUtils;
@@ -95,6 +89,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     public static final String TRAIT_COUNT_HISTORY_KEY = "TRAIT_COUNT_HISTORY_KEY";
     public static final String AGENT_TRAIT_TOPN_KEY = "AGENT_TRAIT_TOPN_KEY";
     public static final String TRAIT_RESIDENCE_TIME_KEY = "TRAIT_RESIDENCE_TIME_KEY";
+    public static final String TRAIT_TOPN_RESIDENCE_MAP_KEY = "TRAIT_TOPN_RESIDENCE_MAP_KEY";
     private OpenSequenceGraph turnGraph = null;
 	private OpenSequenceGraph totalVariabilityGraph = null;
     private OpenHistogram residenceTimeHistogram = null;
@@ -106,6 +101,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     private ArrayList<TraitCount> prevSortedTraitCounts = null;
 	private ArrayList<TraitCount> curSortedTraitCounts = null;
     private ArrayList<TraitCount> cumTraitResidenceTimeCounts = null;
+    //private ArrayList<Map<Integer,TraitCount>> cumTraitTopNResidenceTimes = null;
+    private Map<Integer,ArrayList<Integer>> cumTraitTopNResidenceTimes = null;
     private DoubleArrayList turnoverHistory = null;
     private DoubleArrayList traitCountHistory = null;
     private DoubleArrayList agentsInTopNHistory = null;
@@ -236,7 +233,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.freqMap = new TreeMap<Integer, TraitCount>();
         this.residenceTimeMap = new TreeMap<Integer, TraitCount>();
         this.isBatchRun = this.model.getBatchExecution();
-
+        //this.cumTraitTopNResidenceTimes = new ArrayList<Map<Integer,TraitCount>>();
+        this.cumTraitTopNResidenceTimes = new HashMap<Integer,ArrayList<Integer>>();
     }
 
 	public void completion() {
@@ -255,6 +253,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 		this.prevSortedTraitCounts = null;
         this.residenceTimeMap = null;
         this.cumTraitResidenceTimeCounts = null;
+        this.cumTraitTopNResidenceTimes = null;
         this.model.removeSharedObject(TRAIT_COUNT_LIST_KEY);
 	}
 
@@ -277,6 +276,12 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         // there needs to be an actual List object at initialization of the histogram, even if there's no data yet.
         this.cumTraitResidenceTimeCounts = new ArrayList<TraitCount>();
         this.cumTraitResidenceTimeCounts.add(new TraitCount(0));
+
+        // we need to track the number of ticks each trait that ever makes the TopN list spends in each
+        // position of the list.  E.G., we care that trait 101 spends 5 ticks in 1st place, 3 ticks in 2nd place, etc.
+        /*for( int i = 0; i < this.topNListSize; i++ ) {
+            this.cumTraitTopNResidenceTimes.add(new HashMap<Integer, TraitCount>());
+        }*/
 
         this.ewensVariationLevel = this.ewensThetaMultipler * this.mu * this.numAgents;
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
@@ -302,8 +307,10 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
             this.totalVariabilityGraph.setSize(400, 250);
             this.totalVariabilityGraph.display();
 
-            this.residenceTimeHistogram = new OpenHistogram("Trait Sojourn Time Distribution", 25, 0);
-            this.residenceTimeHistogram.createHistogramItem("Sojourn Time", this.cumTraitResidenceTimeCounts, "getCountAsPrimitiveInt");
+            this.residenceTimeHistogram = new OpenHistogram("Trait Residence Time Distribution", 25, 0);
+
+            // TODO: The sojourn time graph would be better as a log-normal plot.  Explore how to do that....
+            this.residenceTimeHistogram.createHistogramItem("Residence Time", this.cumTraitResidenceTimeCounts, "getCountAsPrimitiveInt", -1, 0);
             this.residenceTimeHistogram.display();
         }
     }
@@ -372,6 +379,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.model.storeSharedObject(TRAIT_COUNT_HISTORY_KEY, this.traitCountHistory);
         this.model.storeSharedObject(AGENT_TRAIT_TOPN_KEY, this.agentsInTopNHistory);
         this.model.storeSharedObject(TRAIT_RESIDENCE_TIME_KEY, this.residenceTimeMap);
+        this.model.storeSharedObject(TRAIT_TOPN_RESIDENCE_MAP_KEY, this.cumTraitTopNResidenceTimes);
 
         // housekeeping - store cur in prev for comparison next time around
 		// and cache the current trait counts in the model shared repository for 
@@ -446,6 +454,8 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 
         log.debug("TFA:  num agents with traits in top N: " + numAgentsInTopN);
 
+        // update the tracking information for how long traits in the TopN spend in each position
+        this.updateCumTopNResidenceByTrait(curList);
 
         // now find the intersection of these two sorted trait ID lists
         Collection intersection = CollectionUtils.intersection(prevList, curList);
@@ -465,6 +475,48 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.agentsInTopNHistory.add((double) numAgentsInTopN);
 
         return turnover;
+    }
+
+
+
+    /*
+     * New implementation of tracking how long traits in the TopN spend in each list position
+     *
+     * It turns out that we don't want an ArrayList of Map<Integer, TraitCount>, because we want
+     * to easily create the output data matrix with traits as rows, and columns as top N list positions,
+     * with counts (0...maxTicks) in the cells.  So the new implementation makes that easier out
+     * the back end, by using a different data structure up front.  Instead, we use:
+     * Map<Integer, ArrayList>.
+     *
+     * TODO:  OK, the approach to use ArrayList isn't working, because as I work my way down
+     * the top N list, I'm not hitting the *same* ArrayList each time, so add doesn't do the trick.  ahhh....
+     * need *two* tests, not one, since this is a *sparse* matrix...
+     */
+
+    private void updateCumTopNResidenceByTrait(List<Integer> curTraitsTopN) {
+        int listPos = 0;
+        for(Integer trait: curTraitsTopN) {
+            if (this.cumTraitTopNResidenceTimes.containsKey(trait)) {
+                // Because the ArrayList has been initialized to hold zeros for each trait in each
+                // top N list position, if we've seen the trait before in the map we can get on
+                // with the business of incrementing a count, whether that count is zero or not.
+                Integer count = this.cumTraitTopNResidenceTimes.get(trait).get(listPos);
+                count++;
+                this.cumTraitTopNResidenceTimes.get(trait).set(listPos, count);
+            } else {
+                // First create a new ArrayList and initialize 0..topNListSize to 0 counts,
+                // so all array positions are defined for the upper branch of the "if"
+                ArrayList<Integer> traitCountList = new ArrayList<Integer>();
+                for(int i = 0; i < this.topNListSize; i++ ) {
+                    traitCountList.add(0);
+                }
+                
+                // now increment the counter for the one trait/list position combo we're dealing with
+                traitCountList.set(listPos, 1);
+                this.cumTraitTopNResidenceTimes.put(trait, traitCountList);
+            }
+            listPos++;
+        }
     }
 
     @Override

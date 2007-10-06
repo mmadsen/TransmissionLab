@@ -28,6 +28,8 @@ import cern.jet.stat.Descriptive;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,6 +65,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private int topNListSize = 0;
     private static final String multipleRunOutput = "TL-multiple-run-statistics.txt";
     private static final String singleRunOutput = "TL-run-statistics.txt";
+    private static final String topNTraitResidenceTimeMatrixOutput = "TL-topN-residence-time-matrix.csv";
 
     public OverallStatisticsRecorder(ISimulationModel m) {
 		super(m);
@@ -114,6 +117,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         DoubleArrayList traitCountHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_COUNT_HISTORY_KEY);
         DoubleArrayList agentsTopNHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.AGENT_TRAIT_TOPN_KEY);
         Map<Integer,TraitCount> traitResidenceMap = (Map<Integer,TraitCount>) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_RESIDENCE_TIME_KEY);
+        Map<Integer,ArrayList<Integer>> cumTraitTopNResidenceTimes = (Map<Integer,ArrayList<Integer>>)this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_TOPN_RESIDENCE_MAP_KEY);
 
 
         // calculate turnover statistics
@@ -149,6 +153,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
         // record overall stats to a file
         this.recordStats();
+        this.recordResidenceMatrix(cumTraitTopNResidenceTimes);
     }
 
     @SuppressWarnings("unchecked")
@@ -186,6 +191,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             headerAlreadyExists = this.model.testFileExistsInDataDirectory(multipleRunOutput);
             runWriter = this.model.getFileWriterForPerRunOutput(singleRunOutput);
             multRunWriter = this.model.getFileWriterForMultipleRunOutput(multipleRunOutput);
+
             
             runWriter.write(header.toString());
 
@@ -231,5 +237,51 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 			log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
 		}
 	}
-    
+
+    /*
+        TODO: Hmm...problem here is that the matrix needs rotation to fit the output form....
+        I'll get a list of fixed list positions, and then all the traits and their residence time in THAT list position
+        What I want to output is a list of traits, and then a sequential list of list positions with residence time...
+        Need to think about how to transpose/transform this list...
+     */
+
+    private void recordResidenceMatrix(Map<Integer,ArrayList<Integer>> cumTraitTopNResidenceTimes) {
+        FileWriter residenceMatrixWriter = null;
+
+        StringBuffer header = new StringBuffer();
+        header.append("Trait");
+        header.append(",");
+
+        for(int i = 0; i < this.topNListSize; i++ ) {
+            header.append(i);
+            header.append(",");
+        }
+
+        header.append("\n");
+
+        try {
+            residenceMatrixWriter = this.model.getFileWriterForPerRunOutput(topNTraitResidenceTimeMatrixOutput);
+            residenceMatrixWriter.write(header.toString());
+
+            for(Map.Entry<Integer,ArrayList<Integer>> entrySet : cumTraitTopNResidenceTimes.entrySet()) {
+                Integer trait = entrySet.getKey();
+                ArrayList<Integer> traitPosList = entrySet.getValue();
+                StringBuffer line = new StringBuffer();
+                line.append(trait);
+                line.append(",");
+                for(Integer posCount: traitPosList) {
+                    line.append(posCount);
+                    line.append(",");
+                }
+                line.append("\n");
+                residenceMatrixWriter.write(line.toString());
+            }
+
+            residenceMatrixWriter.close();
+
+        } catch (IOException ioe ) {
+             log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
+        }
+        
+    }
 }

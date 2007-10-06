@@ -1,4 +1,4 @@
-The current version of this code is 1.5-pre2
+The current version of this code is 1.5-pre3
 
 Please refer to this version number in all communications with the author
 
@@ -10,6 +10,10 @@ The notes below on version history reflect the changes between full, stable vers
 
 VERSION HISTORY
 
+Version 1.5-pre3 IS NOT YET A COMPLETE RELEASE OF TRANSMISSIONLAB
+    I've added tracking of how long each trait spends (if any), in each position of the Top N list.  This is
+    cumulative "dwell" or "sojourn" time in that state.  The data are output in a CSV matrix within the run-specific
+    output directory.  
 Version 1.5-pre2 IS NOT YET A COMPLETE RELEASE OF TRANSMISSIONLAB.
     I've got an XML configuration thing going for the model but it's incomplete, and
     I've started adding structured populations into the system via the JUNG library.  I've now added trait

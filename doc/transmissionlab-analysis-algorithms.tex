@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{madsen-macros}
+\usepackage{cclicenses}
+\usepackage{algorithm2e}
+\begin{document}
+
+
+\title{Analysis Algorithms in TransmissionLab} 
+\maketitle
+
+
+\author{Mark E. Madsen\\ Department of Anthropology, University of Washington\\\texttt{madsenm@u.washington.edu}}
+
+
+
+
+
+
+
+\section{Version 1.5 Algorithms}
+\subsection{Trait Frequency Analysis Algorithms}
+
+\subsubsection{Top \emph{Y} List Residence Time}
+The class \classname{TraitFrequencyAnalyzer} tracks the ``residence time'' of traits on the Top ``Y'' list.  The goal here is to match simulation dynamics to real-world data, which are often gathered in terms of how long a particular item or trait occupied a particular spot in a ``top 10'' or ``top 40'' list.  
+
+Thus, 
+
+\vskip 0.25in
+
+
+
+
+\begin{algorithm}[H]
+\SetLine
+\KwData{an IAgentPopulation object}
+\KwResult{an IAgentPopulation object, constructed as a sample of the original by replacement}
+initialization\;
+get agentList from IAgentPopulation\;
+initialize $n$ as agentList.size()\;
+\For{agent in agentList}{
+select a uniform random variate ($p$) between 1 and $n$\;
+add agent $p$ from agentList to output IAgentPopulation\;
+}
+return output IAgentPopulation\;
+\end{algorithm}
+
+\subsection{Mutation Rules}
+
+
+\section{Version 1.5 Rules}
+
+
+
+
+\end{document}
