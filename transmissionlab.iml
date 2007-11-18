@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="true" type="JAVA_MODULE">
+<module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="BuildJarSettings">
     <containerInfo>
       <containerElement type="module" name="transmissionlab">
@@ -23,7 +23,7 @@
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
-        <attribute name="URI" value="lib//commons-collections-3.2.jar" />
+        <attribute name="URI" value="lib/commons-collections-3.2.jar" />
         <url>jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
@@ -92,12 +92,10 @@
         <url>jar://$MODULE_DIR$/lib/xml-apis.jar!/</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre2-quiet.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre4-quiet.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
   </component>
-  <component name="DependecySynchronizer" />
-  <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">

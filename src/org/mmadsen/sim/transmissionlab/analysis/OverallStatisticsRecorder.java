@@ -15,24 +15,22 @@
 
 package org.mmadsen.sim.transmissionlab.analysis;
 
-import uchicago.src.sim.engine.Schedule;
-import uchicago.src.sim.engine.BasicAction;
-import uchicago.src.sim.util.RepastException;
+import cern.colt.list.DoubleArrayList;
+import cern.jet.stat.Descriptive;
+import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.mmadsen.sim.transmissionlab.util.TraitCount;
-import org.apache.commons.logging.Log;
-import cern.colt.list.DoubleArrayList;
-import cern.jet.stat.Descriptive;
+import uchicago.src.sim.engine.BasicAction;
+import uchicago.src.sim.engine.Schedule;
+import uchicago.src.sim.util.RepastException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Set;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -66,6 +64,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private static final String multipleRunOutput = "TL-multiple-run-statistics.txt";
     private static final String singleRunOutput = "TL-run-statistics.txt";
     private static final String topNTraitResidenceTimeMatrixOutput = "TL-topN-residence-time-matrix.csv";
+    private static final String residenceTimeFrequenciesOutput = "TL-residence-time-frequencies.csv";
 
     public OverallStatisticsRecorder(ISimulationModel m) {
 		super(m);
@@ -140,20 +139,43 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
         // calculate stats for the "residence" time of traits - basically this is just the values from the
         // residenceTimeMap
+        // 11/10/2007 - calculate ln(residenceTime) since it's a highly skewed distribution
         DoubleArrayList residenceTimeList = new DoubleArrayList();
+        Map<Integer, Integer> residenceTimesFreq = new HashMap<Integer, Integer>();
+
         for(TraitCount tc: traitResidenceMap.values()) {
-            residenceTimeList.add((double) tc.getCount());
+            // First we track the frequency of traits that last N ticks.
+            // This data comes from the TraitCount objects contained in the traitResidenceMap.
+            // We're not interested in the trait ID here, just the count of ticks the trait lasted
+            // before becoming extinct.  Thus, we grab the count from each TraitCount object,
+            // and hash into residenceTimesFreq and increment that "time slot" -- i.e., if trait
+            // 1001 had lasted 5 ticks, we'd look at key "5" and increment it.  If key "5" hadn't
+            // existed before, we'd establish it.  Pretty typical frequency counting stuff, other than
+            // the fact that we're ignoring the exact trait ID.
+            if (residenceTimesFreq.containsKey(tc.getCount())) {
+                Integer numTraitsWithCount = residenceTimesFreq.get(tc.getCount());
+                numTraitsWithCount++;
+                residenceTimesFreq.put(tc.getCount(),numTraitsWithCount);
+            }
+            else {
+                residenceTimesFreq.put(tc.getCount(),(Integer) 1);
+            }
+
+            // Now, let's add the ln(tc.getCount) to the list of residence times we'll use to calc the
+            // log-mean of residence times for the final stats summary.
+            residenceTimeList.add(StrictMath.log((double) tc.getCount()));
         }
 
         this.meanResidenceTime = Descriptive.mean(residenceTimeList);
         double varianceResidenceTime = Descriptive.sampleVariance(residenceTimeList, this.meanResidenceTime);
         this.stdevResidenceTime = Descriptive.standardDeviation(varianceResidenceTime);
-        this.log.info("Mean trait sojourn time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
+        this.log.info("Mean log trait sojourn time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
 
 
         // record overall stats to a file
         this.recordStats();
         this.recordResidenceMatrix(cumTraitTopNResidenceTimes);
+        this.recordResidenceTimeFrequencies(residenceTimesFreq);
     }
 
     @SuppressWarnings("unchecked")
@@ -283,5 +305,35 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
              log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
         }
         
+    }
+
+    private void recordResidenceTimeFrequencies(Map<Integer,Integer> residenceTimesFreq ) {
+        FileWriter residenceFreqWriter = null;
+
+
+        StringBuffer header = new StringBuffer();
+        header.append("Residence Time Ticks");
+        header.append("Num Traits");
+        header.append("\n");
+
+        try {
+            residenceFreqWriter = this.model.getFileWriterForPerRunOutput(residenceTimeFrequenciesOutput);
+            residenceFreqWriter.write(header.toString());
+
+            for(Map.Entry<Integer,Integer> entrySet : residenceTimesFreq.entrySet()) {
+                Integer residenceTime = entrySet.getKey();
+                Integer numTraits = entrySet.getValue();
+                StringBuffer line = new StringBuffer();
+                line.append(residenceTime);
+                line.append(",");
+                line.append(numTraits);
+                line.append("\n");
+                residenceFreqWriter.write(line.toString());
+            }
+            residenceFreqWriter.close();
+
+        } catch (IOException ioe ) {
+            log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
+        }
     }
 }
