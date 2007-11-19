@@ -31,6 +31,7 @@ import uchicago.src.sim.util.Random;
 import uchicago.src.reflector.ListPropertyDescriptor;
 
 import java.util.Vector;
+import java.util.Date;
 
 /**
  * ConformistAgentModel is really designed as a test model.  In designing structured populations,
@@ -133,6 +134,21 @@ public class ConformistAgentModel extends AbstractTLModel
         }
     }
 
+    public void buildSpecificPerRunIdentifier() {
+        // Generate a unique run identifier
+        Date now = new Date();
+        StringBuffer ident = new StringBuffer();
+        ident.append("TL-run-");
+        ident.append(this.numAgents);
+        ident.append("-");
+        ident.append(this.mu);
+        ident.append("-");
+        ident.append(this.topNListSize);
+        ident.append("-");
+        ident.append(now.getTime());
+        this.uniqueRunIdentifier = ident.toString();
+    }
+    
     public void buildSpecificPopulation() {
         IPopulationFactory factory = new SingleTraitPopulationFactory();
         this.setPopulation(factory.generatePopulation(this));

@@ -92,7 +92,7 @@
         <url>jar://$MODULE_DIR$/lib/xml-apis.jar!/</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre4-quiet.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre5-quiet.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
   </component>

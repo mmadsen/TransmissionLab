@@ -213,12 +213,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.resetModel();
         this.resetSpecificModel();
 
-        // Generate a unique run identifier
-        Date now = new Date();
-        StringBuffer ident = new StringBuffer();
-        ident.append("TL-run-");
-        ident.append(now.getTime());
-        this.uniqueRunIdentifier = ident.toString();
+
 
         /*
            * INSTANTIATION AND SETUP SECTION - now that we're clean and safe, construct
@@ -269,7 +264,9 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         // Now that we have parameters from a possible GUI run, do any specialized initialization
         // and then construct the initial population of agents
         this.buildPostParameterInitialization();
+        this.buildSpecificPerRunIdentifier();
         this.buildSpecificPopulation();
+
 
         // Ensure that we have a standard place to output files for simulation results
         this.outputDirectory = new SimOutputDirectory(this);
@@ -354,6 +351,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
             throw new RepastException(ex, ex.getMessage());
         }
     }
+
 
     // returns a default identifier for each run, made up of a string which is a date
     // and timestamp of the form "TL-sim-<milliseconds since Unix epoch>"

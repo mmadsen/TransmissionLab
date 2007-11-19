@@ -20,6 +20,7 @@ import uchicago.src.sim.engine.SimInit;
 import uchicago.src.sim.util.Random;
 
 import java.util.Vector;
+import java.util.Date;
 
 import org.mmadsen.sim.transmissionlab.interfaces.ISharedDataManager;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationFactory;
@@ -270,6 +271,21 @@ public class NeutralCTModel extends AbstractTLModel
         // now add a mutation rule
         this.addPopulationRule(new RandomAgentInfiniteAllelesMutation(this));
         this.log.debug("created Mutation rule: RandomAgentInfiniteAllelesMutation");
+    }
+
+    public void buildSpecificPerRunIdentifier() {
+        // Generate a unique run identifier
+        Date now = new Date();
+        StringBuffer ident = new StringBuffer();
+        ident.append("TL-run-");
+        ident.append(this.numAgents);
+        ident.append("-");
+        ident.append(this.mu);
+        ident.append("-");
+        ident.append(this.topNListSize);
+        ident.append("-");
+        ident.append(now.getTime());
+        this.uniqueRunIdentifier = ident.toString();
     }
 
     public String[] getInitParam() {

@@ -91,6 +91,12 @@ public interface ISimulationModel extends SimModel, ISharedDataManager {
 
     void buildSpecificPopulationRules();
 
+    /**
+     * buildSpecificPerRunIdentifier() must be implemented to produce a unique identifier for
+     * each run of the model - this is especially important in batch mode 
+     */
+    void buildSpecificPerRunIdentifier();
+
     void begin();
 
     String getFileOutputDirectory();
