@@ -33,9 +33,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/log4j-1.2.8.jar" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/log4j-1.2.15.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/GraphStructuredPopulationFactory.java" afterPath="" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
@@ -173,7 +172,7 @@
       <file leaf-file-name="StructuredPopulationFactory.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/StructuredPopulationFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19593346">
+            <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.12634088">
               <folding />
             </state>
           </provider>
@@ -182,7 +181,7 @@
       <file leaf-file-name="NeutralCTModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.2365989">
+            <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.15256257">
               <folding />
             </state>
           </provider>
@@ -191,7 +190,7 @@
       <file leaf-file-name="WrightFisherTransmissionRule.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.9685767">
+            <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.624553">
               <folding />
             </state>
           </provider>
@@ -200,7 +199,7 @@
       <file leaf-file-name="BARandomGraphPopulationStructure.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/BARandomGraphPopulationStructure.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.91312385">
+            <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.5887962">
               <folding />
             </state>
           </provider>
@@ -209,7 +208,7 @@
       <file leaf-file-name="EWRandomGraphPopulationStructure.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/EWRandomGraphPopulationStructure.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.7763401">
+            <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.5005959">
               <folding />
             </state>
           </provider>
@@ -218,7 +217,7 @@
       <file leaf-file-name="VERSION" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VERSION">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.52680224">
+            <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.33969012">
               <folding />
             </state>
           </provider>
@@ -236,7 +235,7 @@
       <file leaf-file-name="UnstructuredSequentialTraits.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.8077635">
+            <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.1656734">
               <folding />
             </state>
           </provider>
@@ -782,12 +781,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="12" y="22" width="1660" height="983" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258427" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3289882" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3289882" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733408" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892704" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32508436" order="9" />
@@ -804,7 +803,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39950982" order="0" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39886364" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32733408" order="10" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733408" order="10" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284091" order="13" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" order="6" />
@@ -831,7 +830,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.5pre5 - switching existing transmission rules to modify populations in place, so that we can put agents on graph vertices with no trouble." />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 1.6" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -854,6 +853,7 @@
     <MESSAGE value="1.5pre2:  lots of stuff in progress.  Added a histogram of trait &quot;residence&quot; times, but no statistical output yet.  Started structured populations via the JUNG library, not finished yet (working on some design issues).  Barely started a switch to an XML model specification, since the new concrete model classes are basically object declarations and parameter choices masquerading as actual code." />
     <MESSAGE value="1.5pre4 - added tracking and output of the frequency of extinction/residence times for traits in aggregate - this is for Long Tail paper." />
     <MESSAGE value="1.5pre5 - switching existing transmission rules to modify populations in place, so that we can put agents on graph vertices with no trouble." />
+    <MESSAGE value="Version 1.6" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -948,7 +948,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.2365989">
+        <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.15256257">
           <folding />
         </state>
       </provider>
@@ -969,42 +969,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.8077635">
+        <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.1656734">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.9685767">
+        <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.624553">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/EWRandomGraphPopulationStructure.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.7763401">
+        <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.5005959">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/BARandomGraphPopulationStructure.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.91312385">
+        <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.5887962">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/StructuredPopulationFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19593346">
+        <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.12634088">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VERSION">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.52680224">
+        <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.33969012">
           <folding />
         </state>
       </provider>
