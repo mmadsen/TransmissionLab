@@ -33,61 +33,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-visualization-2.0-alpha2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/neutral-model-config.xml" afterPath="$PROJECT_DIR$/conf/neutral-model-config.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/GraphStructuredPopulation.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SimParameterOptionsMap.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/log4j-1.2.8.jar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iws" afterPath="$PROJECT_DIR$/transmissionlab.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyFileSnapshot.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyFileSnapshot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/WellMixedPopulationStructure.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-swt-visualization-2.0-alpha2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VERSION" afterPath="$PROJECT_DIR$/VERSION" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jung-1.7.6.jar" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/collections-generic-4.01.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transmissionlab.iml" afterPath="$PROJECT_DIR$/transmissionlab.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/RegularRandomGraphPopulationStructure.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-algorithms-2.0-alpha2.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NonOverlappingRandomSamplingTransmission.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentPopulation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/NullRule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/DiverseClassPair.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentSet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-3d-2.0-alpha2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-jai-2.0-alpha2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SimOutputDirectory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/SimOutputDirectory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/NeutralCTModelTest.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/test/NeutralCTModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/ISimulationModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/BARandomGraphPopulationStructure.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/AbstractDataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/PopulationRuleset.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/ConformistAgentModel.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/StructuredPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/agent/AgentSingleIntegerVariant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationTransformationRule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/SingleTraitPopulationFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IParameterized.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/colt-1.2.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/log4j.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IPopulationFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IDataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/AbstractTLModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-graph-impl-2.0-alpha2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-api-2.0-alpha2.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/colt.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/analysis/TraitFrequencyAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/MoranProcessRandomSamplingTransmission.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-swt-rendering-2.0-alpha2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/concurrent-1.3.4.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/RandomAgentInfiniteAllelesMutation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/ModalConformistTransmissionRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/ModalConformistTransmissionRule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredGaussianInitialTraits.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jung-io-2.0-alpha2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/EWRandomGraphPopulationStructure.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/CTRuleFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/util/GraphEdgeFactory.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/GraphStructuredPopulationFactory.java" afterPath="" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
@@ -225,7 +173,7 @@
       <file leaf-file-name="StructuredPopulationFactory.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/StructuredPopulationFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19521178">
+            <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19593346">
               <folding />
             </state>
           </provider>
@@ -234,7 +182,7 @@
       <file leaf-file-name="NeutralCTModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.23572744">
+            <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.2365989">
               <folding />
             </state>
           </provider>
@@ -243,7 +191,7 @@
       <file leaf-file-name="WrightFisherTransmissionRule.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.83425415">
+            <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.9685767">
               <folding />
             </state>
           </provider>
@@ -252,7 +200,7 @@
       <file leaf-file-name="BARandomGraphPopulationStructure.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/BARandomGraphPopulationStructure.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.8158379">
+            <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.91312385">
               <folding />
             </state>
           </provider>
@@ -261,7 +209,7 @@
       <file leaf-file-name="EWRandomGraphPopulationStructure.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/EWRandomGraphPopulationStructure.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.77348065">
+            <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.7763401">
               <folding />
             </state>
           </provider>
@@ -270,7 +218,7 @@
       <file leaf-file-name="VERSION" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VERSION">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.5248619">
+            <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.52680224">
               <folding />
             </state>
           </provider>
@@ -288,7 +236,7 @@
       <file leaf-file-name="UnstructuredSequentialTraits.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.801105">
+            <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.8077635">
               <folding />
             </state>
           </provider>
@@ -382,6 +330,24 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
+          <option name="myItemId" value="Libraries" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/lib" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="transmissionlab" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
@@ -438,6 +404,112 @@
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.mmadsen.sim.transmissionlab.interfaces" />
     </key>
+  </component>
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="3/9/08 2:28 PM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+            <PATH vcs="svn" revision="76">$PROJECT_DIR$/lib/log4j-1.2.8.jar</PATH>
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+          <PATH>$PROJECT_DIR$/transmissionlab.iws</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+          <PATH>$PROJECT_DIR$/classes</PATH>
+          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.aux</PATH>
+          <PATH>$PROJECT_DIR$/doc/generalizing-bentley-rcm.log</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-analysis-algorithms.aux</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-analysis-algorithms.cb</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-analysis-algorithms.cb2</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-analysis-algorithms.log</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-analysis-algorithms.pdf</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-rules-library.aux</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-rules-library.log</PATH>
+          <PATH>$PROJECT_DIR$/doc/transmissionlab-rules-library.pdf</PATH>
+          <PATH>$PROJECT_DIR$/lib/log4j-1.2.15.jar</PATH>
+          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/interfaces/IAgentSetFactory.java</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+          <PATH>$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/GraphStructuredPopulationFactory.java</PATH>
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Application.NeutralCTModel-GUI">
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
@@ -727,12 +799,12 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265766" order="14" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32508436" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32508436" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39950982" order="0" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39886364" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733408" order="10" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32733408" order="10" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284091" order="13" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" order="6" />
@@ -876,7 +948,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/models/NeutralCTModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.23572744">
+        <state line="291" column="0" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.2365989">
           <folding />
         </state>
       </provider>
@@ -897,42 +969,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/UnstructuredSequentialTraits.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.801105">
+        <state line="108" column="56" selection-start="4505" selection-end="4505" vertical-scroll-proportion="1.8077635">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/rules/WrightFisherTransmissionRule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.83425415">
+        <state line="98" column="8" selection-start="4631" selection-end="4631" vertical-scroll-proportion="0.9685767">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/EWRandomGraphPopulationStructure.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.77348065">
+        <state line="41" column="76" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.7763401">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/BARandomGraphPopulationStructure.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.8158379">
+        <state line="73" column="65" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.91312385">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/mmadsen/sim/transmissionlab/population/StructuredPopulationFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19521178">
+        <state line="51" column="60" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.19593346">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VERSION">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.5248619">
+        <state line="19" column="97" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.52680224">
           <folding />
         </state>
       </provider>
