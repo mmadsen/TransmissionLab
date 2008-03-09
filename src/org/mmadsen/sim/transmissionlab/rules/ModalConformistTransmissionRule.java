@@ -15,19 +15,18 @@
 
 package org.mmadsen.sim.transmissionlab.rules;
 
-import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
-import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
-import org.mmadsen.sim.transmissionlab.util.TraitCount;
-import org.mmadsen.sim.transmissionlab.util.TraitFrequencyCounterClosure;
-import org.apache.commons.logging.Log;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
+import org.mmadsen.sim.transmissionlab.util.TraitCount;
+import org.mmadsen.sim.transmissionlab.util.TraitFrequencyCounterClosure;
+import uchicago.src.sim.util.RepastException;
 
 import java.util.*;
-
-import uchicago.src.sim.util.RepastException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,7 +41,14 @@ public class ModalConformistTransmissionRule implements IPopulationTransformatio
 	private ISimulationModel model = null;
     private Double switchingProbability = 0.0;
 
+    // needed for instantiation via reflection
+    public ModalConformistTransmissionRule() {}
+
     public ModalConformistTransmissionRule(ISimulationModel model) {
+        this.setSimulationModel(model);
+    }
+
+    public void setSimulationModel(ISimulationModel model) {
         this.model = model;
         this.log = this.model.getLog();
     }
@@ -78,10 +84,7 @@ public class ModalConformistTransmissionRule implements IPopulationTransformatio
         Collections.sort(curSortedTraitCounts);
 
 
-
-        // finally, store the agent list as just modified.
-		population.replaceAgentList(agentList);
-
-		return population;
+        // MUST MODIFY IN PLACE!
+        return population;
     }
 }

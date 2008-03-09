@@ -16,24 +16,45 @@
 package org.mmadsen.sim.transmissionlab.population;
 
 import org.apache.commons.logging.Log;
-import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmissionlab.interfaces.IPopulationFactory;
-import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-
-import uchicago.src.sim.engine.SimModelImpl;
+import org.mmadsen.sim.transmissionlab.interfaces.*;
+import org.mmadsen.sim.transmissionlab.util.SimParameterOptionsMap;
 import uchicago.src.sim.util.RepastException;
 
 
-public class SingleTraitPopulationFactory implements IPopulationFactory {
-	
-	public IAgentPopulation generatePopulation(ISimulationModel model) {
+/**
+ *
+ */
+
+public class SingleTraitPopulationFactory implements IAgentSetFactory {
+    private ISimulationModel model = null;
+    private Log log = null;
+    private SimParameterOptionsMap paramOptionsMap = null;
+    public static final String INIT_TRAIT_PARAM = "InitialTraitStructure";
+    public enum InitialTraitStructureOptions { SequentialTrait, GaussianTrait };
+    public static final InitialTraitStructureOptions DEFAULT_INIT_TRAIT = InitialTraitStructureOptions.SequentialTrait;
+
+
+    public SingleTraitPopulationFactory(ISimulationModel model) {
+        this.model = model;
+        this.log = this.model.getLog();
+        this.paramOptionsMap = new SimParameterOptionsMap();
+        this.paramOptionsMap.addParameter(INIT_TRAIT_PARAM, InitialTraitStructureOptions.SequentialTrait.toString());
+        this.paramOptionsMap.addParameter(INIT_TRAIT_PARAM, InitialTraitStructureOptions.GaussianTrait.toString());
+    }
+
+    public SimParameterOptionsMap getSimParameterOptionsMap() {
+        return paramOptionsMap;
+    }
+
+
+    public IAgentSet generatePopulation() {
 		Log log = model.getLog();
         
         String populationType = null;
         Integer numAgents = 0;
         try {
-            populationType = (String) model.getSimpleModelPropertyByName("initialTraitStructure");
-            numAgents = (Integer) model.getSimpleModelPropertyByName("numAgents");
+            populationType = (String) this.model.getSimpleModelPropertyByName("initialTraitStructure");
+            numAgents = (Integer) this.model.getSimpleModelPropertyByName("numAgents");
         } catch(RepastException ex) {
             System.out.println("FATAL EXCEPTION: " + ex.getMessage());
             System.exit(1);

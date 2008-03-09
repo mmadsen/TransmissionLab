@@ -37,15 +37,21 @@ import java.util.List;
  *
  */
 public interface IAgentPopulation {
+    	// needed if we construct rules from textual classnames, since newInstance()
+    // doesn't take constructor arguments.
+    public void setSimulationModel(ISimulationModel model);
     // No matter the underlying representation, we need to know how many agents there are
     public int getPopulationSize();
     // No matter the underlying representation, we need to simply get a list of agents sometimes
 	public List<IAgent> getAgentList();
-	// For various reasons, we may want to know the "biggest" variant we've got in the population
+    // All rules should use agent "neighbors" to perform transmission and copying, even if
+    // the "neighbors" are the whole population in a well-mixed model
+    public List<IAgent> getNeighboringAgents(IAgent agent);
+    // For various reasons, we may want to know the "biggest" variant we've got in the population
 	public int getCurrentMaximumVariant();
-	// within a transformation rule, we might create a new set of agents (based on the old, for 
-	// example, and simply replace the old list held by the population with a new one).  This 
-	// is also why other parts of the model ought never to hold references directly to agents
-	// or the agent-list from step to step, but always retrieve the agent list fresh each time.
-	public void replaceAgentList( List<IAgent> newAgentList);
+    // An agent population is constructed by creating an "agent set" as a primitive unstructured
+    // population, and then "decorated" (in Gang of Four parlance) with a structure, which then
+    // is handed back to the model
+    public IAgentPopulation createStructuredPopulation(IAgentSet population);
+
 }

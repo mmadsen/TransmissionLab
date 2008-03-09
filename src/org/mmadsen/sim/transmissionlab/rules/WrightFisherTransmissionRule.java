@@ -24,16 +24,16 @@ public class WrightFisherTransmissionRule implements IPopulationTransformationRu
     private ISimulationModel model = null;
     private Integer numAgents = 0;
 
+     // needed for instantiation via reflection
+    public WrightFisherTransmissionRule() {}
+
     public WrightFisherTransmissionRule(ISimulationModel model) {
+        this.setSimulationModel(model);
+    }
+
+    public void setSimulationModel(ISimulationModel model) {
         this.model = model;
         this.log = this.model.getLog();
-
-        try {
-            this.numAgents = (Integer) this.model.getSimpleModelPropertyByName("numAgents");
-        } catch(RepastException ex) {
-            System.out.println("FATAL EXCEPTION: " + ex.getMessage());
-            System.exit(1);
-        }
     }
 
     public Object transform(Object pop) {
@@ -57,21 +57,57 @@ public class WrightFisherTransmissionRule implements IPopulationTransformationRu
     // agent's new variant is sampled is "constant" for the operation of transmission - thus non-overlapping
     // generations are approximated.
 
-    private IAgentPopulation transmit(IAgentPopulation population) {
-        List<IAgent> agentList = population.getAgentList();
+    /*private IAgentPopulation nonSpatialTransmit(IAgentPopulation population) {
+        // For the moment, we don't really care about the neighbors, so we pass in null.
+        List<IAgent> agentList = population.getNeighboringAgents(null);
+        this.numAgents = agentList.size();
         Integer[] sampledTraitArray = new Integer[this.numAgents];
 
         // pass 1:  select new variants from the existing population with replacement
-        for(int i = 0; i < numAgents; i++) {
+        for(int i = 0; i < this.numAgents; i++) {
             int index = Random.uniform.nextIntFromTo(0, this.numAgents - 1);
             sampledTraitArray[i] = ((AgentSingleIntegerVariant) agentList.get(index)).getAgentVariant();
         }
 
-        for(int i = 0; i < numAgents; i++) {
+        for(int i = 0; i < this.numAgents; i++) {
             AgentSingleIntegerVariant agentRef = (AgentSingleIntegerVariant) agentList.get(i);
             agentRef.setAgentVariant(sampledTraitArray[i]);
         }
         
+        return population;
+    }*/
+
+    // New version of a fully neighborhood-based WrightFisher model, suitable
+    // for use when the population is actually on a graph
+    private IAgentPopulation transmit(IAgentPopulation population) {
+        List<IAgent> flatAgentList = population.getAgentList();
+        this.log.debug("WF: agent list size: "+ flatAgentList.size());
+        this.numAgents = flatAgentList.size();
+        Integer[] sampledTraitArray = new Integer[this.numAgents];
+
+        // pass 1:  for each agent in the population, find the list of neighbors,
+        // and select a random neighbor (including self) for a trait to take
+        // copy that trait into the sampledTraitArray
+        for(int i = 0; i < this.numAgents; i++) {
+            List<IAgent> neighborList = population.getNeighboringAgents(flatAgentList.get(i));
+            int numNeighbors = neighborList.size();
+            //this.log.debug("neighbor list size: " + numNeighbors);
+            if(numNeighbors == 0) {
+                // If a given individual has no neighbors, they keep their trait...
+                sampledTraitArray[i] = ((AgentSingleIntegerVariant)flatAgentList.get(i)).getAgentVariant();
+            } else {
+                int index = Random.uniform.nextIntFromTo(0, numNeighbors - 1);
+                sampledTraitArray[i] = ((AgentSingleIntegerVariant) neighborList.get(index)).getAgentVariant();
+            }
+        }
+
+        // pass 2:  go back through the full agent list, assigning each agent the trait
+        // we selected in pass 1
+        for(int i = 0; i < this.numAgents; i++) {
+            AgentSingleIntegerVariant agentRef = (AgentSingleIntegerVariant) flatAgentList.get(i);
+            agentRef.setAgentVariant(sampledTraitArray[i]);
+        }
+
         return population;
     }
 }

@@ -15,17 +15,16 @@
 
 package org.mmadsen.sim.transmissionlab.rules;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-
 import uchicago.src.sim.util.Random;
 import uchicago.src.sim.util.RepastException;
+
+import java.util.List;
 
 /**
  * @author mark
@@ -38,8 +37,15 @@ public class RandomAgentInfiniteAllelesMutation implements
 	private Log log = null;
 	private ISimulationModel model = null;
 	
-	public RandomAgentInfiniteAllelesMutation(ISimulationModel model) {
-		this.model = model;
+    // needed for instantiation via reflection
+    public RandomAgentInfiniteAllelesMutation() {}
+
+    public RandomAgentInfiniteAllelesMutation(ISimulationModel model) {
+        this.setSimulationModel(model);
+    }
+
+    public void setSimulationModel(ISimulationModel model) {
+        this.model = model;
         this.log = this.model.getLog();
     }
 	

@@ -32,10 +32,18 @@ public class NullRule implements IPopulationTransformationRule{
 	@SuppressWarnings("unused")
 	private ISimulationModel model = null;
 	
-	public NullRule(ISimulationModel model) {
-		this.model = model;
+    // needed for instantiation via reflection
+    public NullRule() {}
+
+    public NullRule(ISimulationModel model) {
+        this.setSimulationModel(model);
+    }
+
+    public void setSimulationModel(ISimulationModel model) {
+        this.model = model;
         this.log = this.model.getLog();
     }
+
 	
 	public Object transform(Object pop) {
 		this.log.debug("Executing NullRule - doing nothing to the population");

@@ -58,7 +58,7 @@ import org.apache.commons.collections.Transformer;
  * agent classes. 
  */
 public interface IPopulationTransformationRule extends Transformer {
-	// no public methods beyond Transformer required at this time
-	// but having rules implement a custom interface gives us the 
-	// opportunity to require more methods at a future time.
+	// needed if we construct rules from textual classnames, since newInstance()
+    // doesn't take constructor arguments.
+    public void setSimulationModel(ISimulationModel model);
 }

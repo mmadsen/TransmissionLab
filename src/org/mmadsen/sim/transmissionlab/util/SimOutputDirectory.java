@@ -15,8 +15,8 @@
 
 package org.mmadsen.sim.transmissionlab.util;
 
-import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.apache.commons.logging.Log;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 
 import java.io.File;
 import java.io.FileWriter;

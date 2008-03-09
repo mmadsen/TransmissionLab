@@ -37,7 +37,7 @@
     </population>
     <ruleset>
         <rule>
-            <class>org.mmadsen.sim.transmissionlab.rules.NonOverlappingRandomSamplingTransmission</class>
+            <class>org.mmadsen.sim.transmissionlab.rules.WrightFisherTransmissionRule</class>
             <ruleorder>1</ruleorder>
         </rule>
         <rule>

@@ -15,13 +15,13 @@
 
 package org.mmadsen.sim.transmissionlab.interfaces;
 
-import uchicago.src.sim.engine.SimModel;
-import uchicago.src.sim.engine.Schedule;
-import uchicago.src.sim.util.RepastException;
 import org.apache.commons.logging.Log;
+import uchicago.src.sim.engine.Schedule;
+import uchicago.src.sim.engine.SimModel;
+import uchicago.src.sim.util.RepastException;
 
-import java.util.Collection;
 import java.io.FileWriter;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,6 +61,15 @@ public interface ISimulationModel extends SimModel, ISharedDataManager {
     FileWriter getFileWriterForPerRunOutput(String filename);
     FileWriter getFileWriterForMultipleRunOutput(String filename);
     Boolean testFileExistsInDataDirectory(String filename);
+
+    /**
+     * preModelLoadSetup() is implemented in order to allow models to
+     * gather information from subclasses which require object instantiation
+     * AFTER the model constructor runs but before the model is handed to loadModel()
+     * in the repast core.  This is very useful for dynamically adding parameters
+     * to the GUI parameter panel, for example.
+     */
+    void preModelLoadSetup();
 
     void setup();
 

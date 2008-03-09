@@ -15,25 +15,24 @@
 
 package org.mmadsen.sim.transmissionlab.analysis;
 
-import java.util.*;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.collections.CollectionUtils;
+import cern.colt.list.DoubleArrayList;
 import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.TraitCount;
-
+import uchicago.src.sim.analysis.OpenHistogram;
 import uchicago.src.sim.analysis.OpenSequenceGraph;
 import uchicago.src.sim.analysis.Sequence;
-import uchicago.src.sim.analysis.OpenHistogram;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.util.RepastException;
-import cern.colt.list.DoubleArrayList;
+
+import java.util.*;
 
 
 /**
@@ -286,7 +285,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.ewensVariationLevel = this.ewensThetaMultipler * this.mu * this.numAgents;
 		this.log.info("Ewens " + this.ewensThetaMultipler + "Nmu variation level is: " + this.ewensVariationLevel);
 		if ( ! this.isBatchRun ) {
-            this.turnGraph = new OpenSequenceGraph("New Top N Analyzer", this.model);
+            this.turnGraph = new OpenSequenceGraph("Trait Turnover per Step", this.model);
             this.turnGraph.setAxisTitles("time", "turnover");
             StringBuffer sb = new StringBuffer();
             sb.append("Top ");

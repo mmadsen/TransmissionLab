@@ -15,25 +15,21 @@
 
 package org.mmadsen.sim.transmissionlab.models;
 
+import org.apache.commons.cli.*;
+import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
+import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
+import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyFileSnapshot;
+import org.mmadsen.sim.transmissionlab.interfaces.*;
+import org.mmadsen.sim.transmissionlab.population.SingleTraitPopulationFactory;
+import org.mmadsen.sim.transmissionlab.population.StructuredPopulationFactory;
+import org.mmadsen.sim.transmissionlab.rules.CTRuleFactory;
+import org.mmadsen.sim.transmissionlab.rules.NullRule;
+import org.mmadsen.sim.transmissionlab.util.SimParameterOptionsMap;
 import uchicago.src.reflector.ListPropertyDescriptor;
 import uchicago.src.sim.engine.SimInit;
 import uchicago.src.sim.util.Random;
 
-import java.util.Vector;
-import java.util.Date;
-
-import org.mmadsen.sim.transmissionlab.interfaces.ISharedDataManager;
-import org.mmadsen.sim.transmissionlab.interfaces.IPopulationFactory;
-import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
-import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-import org.mmadsen.sim.transmissionlab.rules.NonOverlappingRandomSamplingTransmission;
-import org.mmadsen.sim.transmissionlab.rules.MoranProcessRandomSamplingTransmission;
-import org.mmadsen.sim.transmissionlab.rules.RandomAgentInfiniteAllelesMutation;
-import org.mmadsen.sim.transmissionlab.population.SingleTraitPopulationFactory;
-import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
-import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
-import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyFileSnapshot;
-import org.apache.commons.cli.*;
+import java.util.*;
 
 /**
  * NeutralCTModel is the concrete model class which implements the neutral theory, "random copying" model.
@@ -61,6 +57,8 @@ public class NeutralCTModel extends AbstractTLModel
         SimInit init = new SimInit();
         NeutralCTModel model = new NeutralCTModel();
 
+        model.preModelLoadSetup();
+
         model.isBatchExecution = cmd.hasOption("b");
         String paramFile = null;
 
@@ -79,13 +77,15 @@ public class NeutralCTModel extends AbstractTLModel
 
     private Boolean enableNewTopN = true;
     private Boolean enableOverallStats = true;
-
+    private List<String> parameterList = null;
 
 
     private Boolean enableTraitFrequencyFileSnapshots = false;
     private int ewensThetaMultipler = 2;
     private String initialTraitStructure = null;
     private String populationProcessType = null;
+    private String populationStructure = null;
+    private String mutationProcessType = null;
     private int numberFileSnapshots = 1;
     private int maxVariants = 4000;
     private double mu = 0.01;
@@ -108,13 +108,6 @@ public class NeutralCTModel extends AbstractTLModel
         this.numberFileSnapshots = numberFileSnapshots;
     }
 
-    public Boolean getEnableNewTopN() {
-        return enableNewTopN;
-    }
-
-    public void setEnableNewTopN(Boolean enableNewTopN) {
-        this.enableNewTopN = enableNewTopN;
-    }
 
     public Boolean getEnableOverallStats() {
         return enableOverallStats;
@@ -146,6 +139,22 @@ public class NeutralCTModel extends AbstractTLModel
 
     public void setPopulationProcessType(String populationProcessType) {
         this.populationProcessType = populationProcessType;
+    }
+
+    public String getPopulationStructure() {
+        return populationStructure;
+    }
+
+    public void setPopulationStructure(String populationStructure) {
+        this.populationStructure = populationStructure;
+    }
+
+    public String getMutationProcessType() {
+        return mutationProcessType;
+    }
+
+    public void setMutationProcessType(String mutationProcess) {
+        this.mutationProcessType = mutationProcess;
     }
 
     public int getMaxVariants() {
@@ -180,20 +189,59 @@ public class NeutralCTModel extends AbstractTLModel
         this.topNListSize = topNListSize;
     }
 
-    @SuppressWarnings("unchecked")
-    protected void addDynamicParameters() {
-        this.log.debug("Adding dynamic parameters");
-        Vector<String> popPropertyVec = new Vector<String>();
-        popPropertyVec.add("SequentialTrait");
-        popPropertyVec.add("GaussianTrait");
-        ListPropertyDescriptor pd = new ListPropertyDescriptor("InitialTraitStructure", popPropertyVec);
+    public void preModelLoadSetup() {
+        // Set up static parameters for our model
+        this.parameterList = new ArrayList<String>();
+        this.parameterList.add("NumAgents");
+        this.parameterList.add("Mu");
+        this.parameterList.add("LengthSimulationRun");
+        this.parameterList.add("EwensThetaMultiplier");
+        this.parameterList.add("FileOutputDirectory");
+        this.parameterList.add("NumberFileSnapshots");
+        this.parameterList.add("EnableOverallStats");
+        this.parameterList.add("EnableTraitFrequencyFileSnapshots");
+        this.parameterList.add("TopNListSize");
 
-        Vector<String> transmissionRulePropVec = new Vector<String>();
-        transmissionRulePropVec.add("WrightFisherProcess");
-        transmissionRulePropVec.add("MoranProcess");
-        ListPropertyDescriptor pd2 = new ListPropertyDescriptor("PopulationProcessType", transmissionRulePropVec);
-        this.descriptors.put("InitialTraitStructure", pd);
-        this.descriptors.put("PopulationProcessType", pd2);
+        // here we make List of SimParameterOptionsMap objects from various sources,
+        // such as population factories, rules, etc.  This would be an ideal thing
+        // to turn into an XML configuration thing, since it would just list classes
+        // that needed to contribute configuration data to the overall model...for now
+        // we do it statically in a concrete model class
+        List<SimParameterOptionsMap> listParamOptMap = new ArrayList<SimParameterOptionsMap>();
+
+        SingleTraitPopulationFactory stpFactory = new SingleTraitPopulationFactory(this);
+        listParamOptMap.add(stpFactory.getSimParameterOptionsMap());
+        StructuredPopulationFactory spFactory = new StructuredPopulationFactory(this);
+        listParamOptMap.add(spFactory.getSimParameterOptionsMap());
+        CTRuleFactory ruleFactory = new CTRuleFactory(this);
+        listParamOptMap.add(ruleFactory.getSimParameterOptionsMap());
+
+        log.debug("listParamOptMap: " + listParamOptMap.toString());
+
+        this.addDynamicParameters(listParamOptMap);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void addDynamicParameters(List<SimParameterOptionsMap> listParamOptMap ) {
+        this.log.debug("Adding dynamic parameters");
+
+        // add everything that comesin the listParamOptMap
+        for(SimParameterOptionsMap poMap: listParamOptMap) {
+
+            for(String parameter: poMap.getParameterNames())   {
+                this.log.debug("Processing dynamic parameter " + parameter);
+                Vector<String> paramVector = new Vector<String>();
+
+                List<String> paramOptions = poMap.getOptionsForParam(parameter);
+                this.log.debug("   Options: " + paramOptions.toString());
+                paramVector.addAll(paramOptions);
+
+                // create a property descriptor and register it in the descriptor panel
+                ListPropertyDescriptor pd = new ListPropertyDescriptor(parameter, paramVector);
+                this.parameterList.add(parameter);
+                this.descriptors.put(parameter, pd);
+            }
+        }
     }
 
     public void specificModelSetup() {
@@ -217,16 +265,12 @@ public class NeutralCTModel extends AbstractTLModel
     }
 
     public void buildPostParameterInitialization() {
-        // check to see if we've enabled or disabled any data collectors
-        // would be nice if we could genericize this by having a standard parameter for each IDataCollector
-        // but I haven't solved the problem of initializing the getInitParams() before we've actually run
-        // anything in the model yet...
-        if (!this.getEnableNewTopN()) {
-            this.log.debug("removing TraitFrequencyAnalyzer from active data collectors - not selected");
-            IDataCollector d = this.getDataCollectorByName("TraitFrequencyAnalyzer");
-            this.removeDataCollector(d);
-        }
-
+        // we no longer allow disabling the TraitFrequencyAnalyzer, since it is relied upon by all
+        // the other data collectors for results, so turning it off is problematic.  I really
+        // need to refactor its *graphs* out into another data collector, and maybe create a split
+        // between Analyzers and Visualizers, running analyzers first in a step, then visualizers.
+        // Analyzers would be fundamental to a model, specified in the model class, whereas visualizers
+        // would be things you can turn off and on in the parameters....?
 
         if (!this.getEnableOverallStats()) {
             this.log.debug("removing OverallStatisticsRecorder from active data collectors - not selected");
@@ -242,8 +286,11 @@ public class NeutralCTModel extends AbstractTLModel
     }
 
     public void buildSpecificPopulation() {
-        IPopulationFactory factory = new SingleTraitPopulationFactory();
-        this.setPopulation(factory.generatePopulation(this));
+        IAgentSetFactory agentFactory = new SingleTraitPopulationFactory(this);
+        IPopulationFactory structureFactory = new StructuredPopulationFactory(this);
+        IAgentSet modelAgentSet = agentFactory.generatePopulation();
+        IAgentPopulation modelPopulation  = structureFactory.generatePopulation(modelAgentSet);
+        this.setPopulation(modelPopulation);
         this.maxVariants = this.population.getCurrentMaximumVariant();
     }
 
@@ -253,24 +300,12 @@ public class NeutralCTModel extends AbstractTLModel
         // DEBUG: testing only - remove
         //this.addPopulationRule(new NullRule(this));
 
-        if ( this.getPopulationProcessType() == null ) {
-            log.info("No PopulationProcess selection made - defaulting to WrightFisherProcess");
-            this.setPopulationProcessType("WrightFisherProcess");
-        }
-
-        if (this.getPopulationProcessType().equals("WrightFisherProcess")) {
-            this.addPopulationRule(new NonOverlappingRandomSamplingTransmission(this));
-        } else if (this.getPopulationProcessType().equals("MoranProcess")) {
-            this.addPopulationRule(new MoranProcessRandomSamplingTransmission(this));
-        } else {
-            this.log.error("Unknown PopulationProcessType: " + this.getPopulationProcessType());
-        }
-
-        this.log.debug("created Transmission rule: " + this.getPopulationProcessType());
-
-        // now add a mutation rule
-        this.addPopulationRule(new RandomAgentInfiniteAllelesMutation(this));
-        this.log.debug("created Mutation rule: RandomAgentInfiniteAllelesMutation");
+        CTRuleFactory ruleFactory = new CTRuleFactory(this);
+        // add rules in the order we want them to run
+        this.log.info("Adding population process" );
+        this.addPopulationRule(ruleFactory.getRuleForParameter(CTRuleFactory.POP_PROCESS_PROPERTY));
+        this.log.info("Adding mutation rule" );
+        this.addPopulationRule(ruleFactory.getRuleForParameter(CTRuleFactory.MUTATION_TYPE_PROPERTY));
     }
 
     public void buildSpecificPerRunIdentifier() {
@@ -289,15 +324,8 @@ public class NeutralCTModel extends AbstractTLModel
     }
 
     public String[] getInitParam() {
-        String[] params = {"NumAgents", "Mu", "LengthSimulationRun",
-                "EwensThetaMultipler",
-                "PopulationProcessType",
-                "FileOutputDirectory",
-                "NumberFileSnapshots",
-                "EnableNewTopN", "EnableOverallStats",
-                "EnableTraitFrequencyFileSnapshots",
-                "TopNListSize", "InitialTraitStructure"};
-        return params;  
+        String[] stringArray = {};
+        return this.parameterList.toArray(stringArray);
     }
 
     public String getName() {

@@ -15,21 +15,18 @@
 
 package org.mmadsen.sim.transmissionlab.analysis;
 
+import cern.colt.list.DoubleArrayList;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.mmadsen.sim.transmissionlab.util.TraitCount;
-import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.engine.BasicAction;
+import uchicago.src.sim.engine.Schedule;
 import uchicago.src.sim.util.RepastException;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import cern.colt.list.DoubleArrayList;
 
 /**
  * Created by IntelliJ IDEA.

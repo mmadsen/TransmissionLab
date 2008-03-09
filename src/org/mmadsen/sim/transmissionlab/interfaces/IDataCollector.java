@@ -15,8 +15,8 @@
 
 package org.mmadsen.sim.transmissionlab.interfaces;
 
-import uchicago.src.sim.engine.BasicAction;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
+import uchicago.src.sim.engine.BasicAction;
 
 /**
  * Interface IDataCollector represents any class that observe model state and

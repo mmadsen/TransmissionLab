@@ -15,24 +15,24 @@
 
 package org.mmadsen.sim.transmissionlab.models;
 
-import uchicago.src.sim.engine.SimModelImpl;
-import uchicago.src.sim.engine.Schedule;
-import uchicago.src.sim.engine.ActionGroup;
-import uchicago.src.sim.engine.ScheduleBase;
-import uchicago.src.sim.util.RepastException;
-import org.mmadsen.sim.transmissionlab.interfaces.*;
-import org.mmadsen.sim.transmissionlab.util.SharedRepository;
-import org.mmadsen.sim.transmissionlab.util.PopulationRuleset;
-import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
-import org.mmadsen.sim.transmissionlab.util.SimOutputDirectory;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.PropertyConfigurator;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
+import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
+import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
+import org.mmadsen.sim.transmissionlab.util.*;
+import uchicago.src.sim.engine.ActionGroup;
+import uchicago.src.sim.engine.Schedule;
+import uchicago.src.sim.engine.ScheduleBase;
+import uchicago.src.sim.engine.SimModelImpl;
+import uchicago.src.sim.util.RepastException;
 
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.*;
-import java.io.FileWriter;
 
 /**
  * AbstractTLModel represents a simulation model class which follows not just the
@@ -55,6 +55,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     protected ActionGroup finalActionGroup = null;
     protected ActionGroup modelActionGroup = null;
     protected ActionGroup setupActionGroup = null;
+    protected ActionGroup cleanupActionGroup = null;
     protected PopulationRuleset popRuleSet = null;
     protected IAgentPopulation population = null;
     protected String fileOutputDirectory = "/tmp";
@@ -87,10 +88,9 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         URL log4jresource = this.getClass().getResource("log4j.properties");
         PropertyConfigurator.configure(log4jresource);
         this.log = LogFactory.getLog(AbstractTLModel.class);
-        this.addDynamicParameters();
     }
 
-    protected abstract void addDynamicParameters();
+    protected abstract void addDynamicParameters(List<SimParameterOptionsMap> listParamOptMap);
 
     protected void addDataCollector(IDataCollector collector) {
         this.dataCollectorList.add(collector);
@@ -120,6 +120,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     }
 
     public void storeSharedObject(String key, Object value) {
+        this.removeSharedObject(key);
         this.sharedDataRepository.putEntry(key, value);
     }
 
@@ -139,6 +140,13 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.log.debug("executing population rules at tick: " + this.getTickCount());
         this.population = (IAgentPopulation) this.popRuleSet.transform(this.population);
     }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void executeGarbageCollection() {
+        this.log.debug("executing garbage collection at tick: " + this.getTickCount());
+        System.gc();
+    }
+
 
     public IAgentPopulation getPopulation() {
         return this.population;
@@ -172,6 +180,8 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     protected IDataCollector getDataCollectorByName(String name) {
         return this.dataCollectorMap.get(name);
     }
+
+    public abstract void preModelLoadSetup();
 
     /*
      * In order to ensure that this is called, we use
@@ -242,6 +252,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.modelActionGroup = new ActionGroup(ActionGroup.SEQUENTIAL);
         this.analysisActionGroup = new ActionGroup(ActionGroup.SEQUENTIAL);
         this.simulationActionGroups = new ActionGroup(ActionGroup.SEQUENTIAL);
+        this.cleanupActionGroup = new ActionGroup(ActionGroup.SEQUENTIAL);
         this.setupActionGroup = new ActionGroup(ActionGroup.SEQUENTIAL);
         // at the final tick, when executing things at the finish, we don't have an inherent notion
         // of "ordering" for stuff that happens after the model run.
@@ -307,6 +318,9 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         // set up the model actions - this essentially runs the simulation
         this.modelActionGroup.createActionFor(this, "executePopulationRules");
 
+        // run garbage collection
+        this.cleanupActionGroup.createActionFor(this, "executeGarbageCollection");
+
         // we're stacking up two action groups, running them in sequence.
         // first the model action group, then any analysis.  so *all* analyzer
         // modules always run *after* any modeling rule modules in any given
@@ -315,6 +329,9 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.simulationActionGroups.addAction(this.modelActionGroup);
         // analysis action group is already set up in begin(), which calls this method
         this.simulationActionGroups.addAction(this.analysisActionGroup);
+        
+        // run garbage collection after analysis
+        //this.simulationActionGroups.addAction(this.cleanupActionGroup);
 
         // set up the actual schedule.  It's pretty simple since all the complexity
         // is pushed down to the rules themselves.

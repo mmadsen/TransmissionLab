@@ -1,4 +1,4 @@
-The current version of this code is 1.5-pre5
+The current version of this code is 1.6
 
 Please refer to this version number in all communications with the author
 
@@ -10,6 +10,14 @@ The notes below on version history reflect the changes between full, stable vers
 
 VERSION HISTORY
 
+Version 1.6 places all transmission models into "structured" populations, represented as graphs using the
+    JUNG2-alpha graph library.  Even "unstructured" or "well-mixed" populations are represented as a
+    complete graph with n(n-1) edges.  All transmission rules now must: (a) modify agents in place, rather
+    than constructing and "replacing" the population, since the vertices of the JUNG2 graphs *are* the agents;
+    (b) all transmission rules, if they're remotely concerned with strucutre, must use population.getNeighbors(agent)
+    to get a List<IAgent> of the agents which are reachable by a single edge from the focal agent.  In the case of
+    a well-mixed population (i.e., a complete graph), getNeighbors() returns all agents.  Currently implemented
+    population structure models are WellMixed, Barabasi-Albert, and EppsteinWang random graphs.  
 Version 1.5-pre5 IS NOT YET A COMPLETE RELEASE OF TRANSMISSIONLAB
     I've changed the per-run directory name to include numAgents, mu, and topNListSize so we can readily
     identify specific runs for analysis.  There should be clusters of them, given replicates with differing

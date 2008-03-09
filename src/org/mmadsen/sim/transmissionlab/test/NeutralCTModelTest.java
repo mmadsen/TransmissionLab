@@ -16,12 +16,11 @@
 package org.mmadsen.sim.transmissionlab.test;
 
 
+import junit.extensions.PrivilegedAccessor;
 import org.junit.After;
 import org.junit.Before;
-import org.mmadsen.sim.transmissionlab.models.NeutralCTModel;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-
-import junit.extensions.PrivilegedAccessor;	
+import org.mmadsen.sim.transmissionlab.models.NeutralCTModel;
 
 /**
  * @author mark

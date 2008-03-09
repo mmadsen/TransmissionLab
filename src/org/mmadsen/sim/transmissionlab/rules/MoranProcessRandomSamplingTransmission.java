@@ -15,21 +15,16 @@
 
 package org.mmadsen.sim.transmissionlab.rules;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.agent.AgentSingleIntegerVariant;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
 import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
 import org.mmadsen.sim.transmissionlab.interfaces.IPopulationTransformationRule;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-
 import uchicago.src.sim.util.Random;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class MoranProcessRandomSamplingTransmission implements
 		IPopulationTransformationRule {
@@ -37,14 +32,21 @@ public class MoranProcessRandomSamplingTransmission implements
 	private Log log = null;
 	private ISimulationModel model = null;
 
+    // needed for instantiation via reflection
+    public MoranProcessRandomSamplingTransmission() {}
+
     public MoranProcessRandomSamplingTransmission(ISimulationModel model) {
-		this.model = model;
+        this.setSimulationModel(model);
+    }
+
+    public void setSimulationModel(ISimulationModel model) {
+        this.model = model;
         this.log = this.model.getLog();
     }
 	
     public Object transform(Object pop) {
 		IAgentPopulation population = (IAgentPopulation) pop;
-		log.debug("entering NonOverlappingRandomSamplingTransmission.transform()");
+		log.debug("entering MoranProcessRandomSamplingTransmission.transform()");
 		return this.transmit(population);
 	}
 
@@ -56,43 +58,19 @@ public class MoranProcessRandomSamplingTransmission implements
 		/*
 		 * In the Moran process, we simulate overlapping generations by allowing most
 		 * individuals to survive each "tick", and select 2  individuals.
-		 * We then treat these as a pair, where one individual in the pair is removed
-		 * from the population and replaced by a clone of the other individual.  This
-		 * number MUST be 2 individuals per tick, otherwise it's not a stochastic
-		 * birth-death process and thus the model won't match the formal properties
-		 * of the Moran process.  SO...the number of pairs is not configurable anymore
-		 * because I was stupid before.  :)
-		 * 
+		 * We then treat these as a pair, copying the first's variant to the second,
+		 * without modifying the actual agent objects (i.e., reproduction happens "in place"
 		 */
-		int numUniqueAgentsNeeded = 2;
-		while(numUniqueAgentsNeeded != 0) {
-			int index = Random.uniform.nextIntFromTo(0, numAgents - 1);
-			if (!selectedAgentMap.containsKey(index)) {
-				selectedAgentMap.put(index, agentList.get(index));
-				numUniqueAgentsNeeded--;
-			}
-		}
+
+        int agentOneIdx = Random.uniform.nextIntFromTo(0, numAgents - 1);
+        int agentTwoIdx = Random.uniform.nextIntFromTo(0, numAgents - 1);
+
+        AgentSingleIntegerVariant agentOne = (AgentSingleIntegerVariant) agentList.get(agentOneIdx);
+        AgentSingleIntegerVariant agentTwo = (AgentSingleIntegerVariant) agentList.get(agentTwoIdx);
+
+        agentTwo.setAgentVariant(agentOne.getAgentVariant());
 		
-		// Now iterate over the selected pairs of agents, removing the first agent
-		// and replacing it in the agentList with a copy of the second agent of the pair.  
-		// This will yield one more copy of whatever variants all the "agent 2's" represent
-		// at the end of the step.
-		Set<Entry<Integer, IAgent>> entries = selectedAgentMap.entrySet();
-		Iterator entryIter = entries.iterator();
-		while(entryIter.hasNext()) {
-			Entry entry1 = (Entry) entryIter.next();
-			Entry entry2 = (Entry) entryIter.next();
-			Integer indexAgent1 = (Integer) entry1.getKey();
-			IAgent agent2 = (IAgent) entry2.getValue();
-			
-			agentList.set(indexAgent1, ((AgentSingleIntegerVariant)agent2).copyOf());
-			
-		}
-		
-		// finally, store the agent list as just modified.
-		population.replaceAgentList(agentList);
-		
-		return population;
+        return population;
 	}
 	
 

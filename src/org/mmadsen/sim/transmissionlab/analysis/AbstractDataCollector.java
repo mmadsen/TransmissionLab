@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
-
 import uchicago.src.sim.engine.ActionUtilities;
 import uchicago.src.sim.engine.BasicAction;
 import uchicago.src.sim.engine.Schedule;
