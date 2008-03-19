@@ -24,32 +24,15 @@ import edu.uci.ics.jung.graph.SparseGraph;
  * Time: 2:48:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class WellMixedPopulationStructure implements IAgentPopulation {
-    private ISimulationModel model = null;
-    private Log log = null;
+public class WellMixedPopulationStructure extends AbstractStructuredPopulation {
     private Graph<IAgent,Integer> socialGraph = null;
     private GraphEdgeFactory edgeFactory = null;
-    private IAgentSet agentSet = null;
 
-        // needed for instantiation via reflection
+    // needed for instantiation via reflection
     public WellMixedPopulationStructure() {}
 
     public WellMixedPopulationStructure(ISimulationModel model) {
         this.setSimulationModel(model);
-    }
-
-    public void setSimulationModel(ISimulationModel model) {
-        this.model = model;
-        this.log = this.model.getLog();
-    }
-
-    // No matter the underlying representation, we need to know how many agents there are
-    public int getPopulationSize() {
-        return this.agentSet.getPopulationSize();
-    }
-
-    public List<IAgent> getAgentList() {
-        return this.agentSet.getAgentList();
     }
 
     public List<IAgent> getNeighboringAgents(IAgent agent) {
@@ -58,10 +41,6 @@ public class WellMixedPopulationStructure implements IAgentPopulation {
         Collection<IAgent> neighborColl = this.socialGraph.getNeighbors(agent);
         neighborList.addAll(neighborColl);
         return neighborList;
-    }
-
-    public int getCurrentMaximumVariant() {
-        return this.agentSet.getCurrentMaximumVariant();
     }
 
     // An agent population is constructed by creating an "agent set" as a primitive unstructured
@@ -89,5 +68,11 @@ public class WellMixedPopulationStructure implements IAgentPopulation {
             }
         }
         return this;
+    }
+
+
+
+    public void saveGraphToFile(String filename, WriterType outputFormat) {
+
     }
 }

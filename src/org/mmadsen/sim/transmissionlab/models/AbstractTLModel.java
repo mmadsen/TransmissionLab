@@ -86,6 +86,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
     public AbstractTLModel() {
         super();
         URL log4jresource = this.getClass().getResource("log4j.properties");
+        System.out.println("Using log4j configuration in: " + log4jresource.toString());
         PropertyConfigurator.configure(log4jresource);
         this.log = LogFactory.getLog(AbstractTLModel.class);
     }

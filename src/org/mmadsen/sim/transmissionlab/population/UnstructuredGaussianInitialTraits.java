@@ -108,6 +108,17 @@ public class UnstructuredGaussianInitialTraits implements IAgentSet {
         this.iterAgentFactory = this.agentList.iterator();
     }
 
+    public void addAgentToSet(IAgent agent) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void removeAgentFromSet(IAgent agent) {
+        this.log.debug("removing agent from agentSet");
+        this.agentList.remove(agent);
+        this.numAgents--;
+        this.resetAgentFactoryIterator();
+    }
+
     /**
      * The create() method is NOT for actually creating agents.  It is the Factory<Agent> method
      * for passing to JUNG2 graph generator classes; it actually *iterates* over the existing

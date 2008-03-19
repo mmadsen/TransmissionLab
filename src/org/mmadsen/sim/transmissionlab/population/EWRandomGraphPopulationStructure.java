@@ -22,30 +22,15 @@ import edu.uci.ics.jung.algorithms.generators.random.EppsteinPowerLawGenerator;
  * Time: 3:08:48 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EWRandomGraphPopulationStructure implements IAgentPopulation {
-    private ISimulationModel model = null;
-    private Log log = null;
+public class EWRandomGraphPopulationStructure extends AbstractStructuredPopulation {
     private Graph<IAgent,Integer> socialGraph = null;
     private GraphEdgeFactory edgeFactory = null;
-    private IAgentSet agentSet = null;
 
-        // needed for instantiation via reflection
+    // needed for instantiation via reflection
     public EWRandomGraphPopulationStructure() {}
 
     public EWRandomGraphPopulationStructure(ISimulationModel model) {
         this.setSimulationModel(model);
-    }
-
-    public void setSimulationModel(ISimulationModel model) {
-        this.model = model;
-        this.log = this.model.getLog();
-    }
-    public int getPopulationSize() {
-        return this.agentSet.getPopulationSize();
-    }
-
-    public List<IAgent> getAgentList() {
-        return this.agentSet.getAgentList();
     }
 
     public List<IAgent> getNeighboringAgents(IAgent agent) {
@@ -55,11 +40,7 @@ public class EWRandomGraphPopulationStructure implements IAgentPopulation {
         neighborList.addAll(neighborColl);
         return neighborList;
     }
-
-    public int getCurrentMaximumVariant() {
-        return this.agentSet.getCurrentMaximumVariant();
-    }
-
+    
     // An agent population is constructed by creating an "agent set" as a primitive unstructured
     // population, and then "decorated" (in Gang of Four parlance) with a structure, which then
     // is handed back to the model
@@ -86,5 +67,11 @@ public class EWRandomGraphPopulationStructure implements IAgentPopulation {
         public Graph<IAgent,Integer> create() {
             return new SparseGraph<IAgent,Integer>();
         }
+    }
+
+
+
+    public void saveGraphToFile(String filename, WriterType outputFormat) {
+
     }
 }

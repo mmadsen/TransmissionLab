@@ -8,91 +8,11 @@
       </containerElement>
       <containerElement type="library" level="module">
         <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/colt.jar" />
-        <url>jar://$MODULE_DIR$/lib/colt.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-beanutils-core.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-beanutils-core.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-cli-1.0.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-cli-1.0.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-collections-3.2.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-digester-1.8.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-digester-1.8.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-logging.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-logging.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/commons-math-1.1.jar" />
-        <url>jar://$MODULE_DIR$/lib/commons-math-1.1.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/jung-1.7.6.jar" />
-        <url>jar://$MODULE_DIR$/lib/jung-1.7.6.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/junit-4.1.jar" />
-        <url>jar://$MODULE_DIR$/lib/junit-4.1.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/log4j-1.2.8.jar" />
-        <url>jar://$MODULE_DIR$/lib/log4j-1.2.8.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/plot.jar" />
-        <url>jar://$MODULE_DIR$/lib/plot.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/privilegedAccessor5.0_1.0.2.jar" />
-        <url>jar://$MODULE_DIR$/lib/privilegedAccessor5.0_1.0.2.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/repast.jar" />
-        <url>jar://$MODULE_DIR$/lib/repast.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/resolver.jar" />
-        <url>jar://$MODULE_DIR$/lib/resolver.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/trove.jar" />
-        <url>jar://$MODULE_DIR$/lib/trove.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/xercesImpl.jar" />
-        <url>jar://$MODULE_DIR$/lib/xercesImpl.jar!/</url>
-      </containerElement>
-      <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
-        <attribute name="URI" value="lib/xml-apis.jar" />
-        <url>jar://$MODULE_DIR$/lib/xml-apis.jar!/</url>
+        <attribute name="URI" value="lib/" />
+        <url>file://$MODULE_DIR$/lib</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.5pre5-quiet.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.7.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
   </component>

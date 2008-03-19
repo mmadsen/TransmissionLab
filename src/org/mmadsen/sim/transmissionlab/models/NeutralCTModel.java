@@ -91,6 +91,25 @@ public class NeutralCTModel extends AbstractTLModel
     private double mu = 0.01;
     private int numAgents = 500;
     private int topNListSize = 40;
+    private int numClusters = 1;
+    private int rewiringsPerCluster = 0;
+
+    public int getNumClusters() {
+           return numClusters;
+    }
+
+   public void setNumClusters(int numClusters) {
+       this.numClusters = numClusters;
+   }
+
+   public int getRewiringsPerCluster() {
+       return rewiringsPerCluster;
+   }
+
+   public void setRewiringsPerCluster(int rewiringsPerCluster) {
+       this.rewiringsPerCluster = rewiringsPerCluster;
+   }
+
 
     public Boolean getEnableTraitFrequencyFileSnapshots() {
         return enableTraitFrequencyFileSnapshots;
@@ -201,6 +220,8 @@ public class NeutralCTModel extends AbstractTLModel
         this.parameterList.add("EnableOverallStats");
         this.parameterList.add("EnableTraitFrequencyFileSnapshots");
         this.parameterList.add("TopNListSize");
+        this.parameterList.add("RewiringsPerCluster");
+        this.parameterList.add("NumClusters");
 
         // here we make List of SimParameterOptionsMap objects from various sources,
         // such as population factories, rules, etc.  This would be an ideal thing

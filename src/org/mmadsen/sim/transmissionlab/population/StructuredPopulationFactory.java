@@ -40,13 +40,13 @@ public class StructuredPopulationFactory implements IPopulationFactory, IParamet
 
     public static final String POP_STRUCTURE_PARAM = "PopulationStructure";
     public static final String POP_STRUCTURE_PROPERTY = "populationStructure";
+
     public static final PopulationStructureOptions DEFAULT_POP_STRUCTURE = PopulationStructureOptions.WellMixed;
-    //public enum PopulationStructureOptions { WellMixed, RegularRandomGraph, BarabasiAlbertRG, EppsteinWangRG };
-    public enum PopulationStructureOptions { WellMixed, BarabasiAlbertRG, EppsteinWangRG };
+    public enum PopulationStructureOptions { WellMixed, BarabasiAlbertRG, EppsteinWangRG, RewiredConnCavemanRG };
     private String wmClassName = "org.mmadsen.sim.transmissionlab.population.WellMixedPopulationStructure";
-    //private String rrClassName = "org.mmadsen.sim.transmissionlab.population.RegularRandomGraphPopulationStructure";
     private String baClassName = "org.mmadsen.sim.transmissionlab.population.BARandomGraphPopulationStructure";
     private String ewClassName = "org.mmadsen.sim.transmissionlab.population.EWRandomGraphPopulationStructure";
+    private String ccClassName = "org.mmadsen.sim.transmissionlab.population.ConnCavemanGraphPopulationStructure";
     private Map<PopulationStructureOptions,String> structureClassMap = null;
 
     public StructuredPopulationFactory(ISimulationModel model) {
@@ -54,14 +54,16 @@ public class StructuredPopulationFactory implements IPopulationFactory, IParamet
         this.log = this.model.getLog();
         this.structureClassMap = new HashMap<PopulationStructureOptions,String>();
         this.paramOptionsMap = new SimParameterOptionsMap();
+
         this.paramOptionsMap.addParameter(POP_STRUCTURE_PARAM, PopulationStructureOptions.WellMixed.toString());
-        //this.paramOptionsMap.addParameter(POP_STRUCTURE_PARAM, PopulationStructureOptions.RegularRandomGraph.toString());
         this.paramOptionsMap.addParameter(POP_STRUCTURE_PARAM, PopulationStructureOptions.BarabasiAlbertRG.toString());
         this.paramOptionsMap.addParameter(POP_STRUCTURE_PARAM, PopulationStructureOptions.EppsteinWangRG.toString());
+        this.paramOptionsMap.addParameter(POP_STRUCTURE_PARAM, PopulationStructureOptions.RewiredConnCavemanRG.toString());
+
         this.structureClassMap.put(PopulationStructureOptions.WellMixed, wmClassName);
-        //this.structureClassMap.put(PopulationStructureOptions.RegularRandomGraph, rrClassName);
         this.structureClassMap.put(PopulationStructureOptions.BarabasiAlbertRG, baClassName);
         this.structureClassMap.put(PopulationStructureOptions.EppsteinWangRG, ewClassName);
+        this.structureClassMap.put(PopulationStructureOptions.RewiredConnCavemanRG, ccClassName);
     }
 
     public SimParameterOptionsMap getSimParameterOptionsMap() {

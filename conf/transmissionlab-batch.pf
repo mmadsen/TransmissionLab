@@ -30,17 +30,11 @@ TopNListSize {
 LengthSimulationRun {
   set: 500
 }
-EwensThetaMultipler {
-  set: 2
-}
 PopulationProcessType {
   set_string: WrightFisherProcess
 }
 FileOutputDirectory {
-  set_string: /tmp/test
-}
-EnableNewTopN {
-  set_boolean: true
+  set_string: /tmp
 }
 EnableOverallStats {
   set_boolean: true
@@ -53,4 +47,19 @@ EnableTraitFrequencyFileSnapshots {
 }
 NumberFileSnapshots {
   set: 10
+}
+MutationProcessType {
+  set_string: RandomAgentInfiniteAllelesMutation
+}
+PopulationProcessType {
+  set_string: WrightFisherProcess
+}
+PopulationStructure {
+  set_string: RewiredConnCavemanRG
+}
+NumClusters {
+  set: 10
+}
+RewiringsPerCluster {
+  set: 0
 }

@@ -32,4 +32,8 @@ public interface IAgentSet extends Factory<IAgent> {
     // but I don't expect this method to see use except in specialized cases.
     public void resetAgentFactoryIterator();
 
+    public void addAgentToSet(IAgent agent);
+
+    public void removeAgentFromSet(IAgent agent);
+
 }
