@@ -20,6 +20,8 @@ import cern.jet.stat.Descriptive;
 import org.apache.commons.logging.Log;
 import org.mmadsen.sim.transmissionlab.interfaces.IDataCollector;
 import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
+import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
+import org.mmadsen.sim.transmissionlab.interfaces.IStructuredPopulationWriter;
 import org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType;
 import org.mmadsen.sim.transmissionlab.util.TraitCount;
 import uchicago.src.sim.engine.BasicAction;
@@ -28,6 +30,7 @@ import uchicago.src.sim.util.RepastException;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +68,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private static final String singleRunOutput = "TL-run-statistics.txt";
     private static final String topNTraitResidenceTimeMatrixOutput = "TL-topN-residence-time-matrix.csv";
     private static final String residenceTimeFrequenciesOutput = "TL-residence-time-frequencies.csv";
+    private static final String pajekGraphOutputFile = "TL-population-structure-pajek.net";
+    private static final String sharedTraitAcrossClusterFile = "TL-traits-shared-across-clusters.csv";
 
     public OverallStatisticsRecorder(ISimulationModel m) {
 		super(m);
@@ -117,7 +122,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         DoubleArrayList agentsTopNHistory = (DoubleArrayList) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.AGENT_TRAIT_TOPN_KEY);
         Map<Integer,TraitCount> traitResidenceMap = (Map<Integer,TraitCount>) this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_RESIDENCE_TIME_KEY);
         Map<Integer,ArrayList<Integer>> cumTraitTopNResidenceTimes = (Map<Integer,ArrayList<Integer>>)this.model.retrieveSharedObject(TraitFrequencyAnalyzer.TRAIT_TOPN_RESIDENCE_MAP_KEY);
-
+        Map<Integer, Map<Integer, Integer>> sharedClusterTraitCountsByTick = (Map<Integer, Map<Integer,Integer>>) this.model.retrieveSharedObject(ClusterTraitFrequencyFileSnapshot.TRAITS_SHARED_ACROSS_CLUSTER_COUNTS);
 
         // calculate turnover statistics
         this.meanTurnover = Descriptive.mean(turnoverHistory);
@@ -171,11 +176,18 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         this.stdevResidenceTime = Descriptive.standardDeviation(varianceResidenceTime);
         this.log.info("Mean log trait sojourn time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
 
+        // record the population structure graph to a Pajek file for display and external analysis
+        IAgentPopulation population = this.model.getPopulation();
+        FileWriter socialGraphWriter = this.model.getFileWriterForPerRunOutput(pajekGraphOutputFile);
+        population.saveGraphToFile(socialGraphWriter, IStructuredPopulationWriter.WriterType.Pajek);
 
         // record overall stats to a file
         this.recordStats();
         this.recordResidenceMatrix(cumTraitTopNResidenceTimes);
         this.recordResidenceTimeFrequencies(residenceTimesFreq);
+        if(population.isPopulationClustered()) {
+            this.recordTraitsSharedAcrossClusters(sharedClusterTraitCountsByTick);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -312,8 +324,8 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
 
 
         StringBuffer header = new StringBuffer();
-        header.append("Residence Time Ticks");
-        header.append("Num Traits");
+        header.append("ResidenceTimeTicks,");
+        header.append("NumTraits");
         header.append("\n");
 
         try {
@@ -331,6 +343,45 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
                 residenceFreqWriter.write(line.toString());
             }
             residenceFreqWriter.close();
+
+        } catch (IOException ioe ) {
+            log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
+        }
+    }
+
+    private void recordTraitsSharedAcrossClusters(Map<Integer,Map<Integer, Integer>> traitsSharedAcrossClusters) {
+        FileWriter sharedTraitWriter = null;
+
+
+        StringBuffer header = new StringBuffer();
+        header.append("Time,");
+        header.append("Trait,");
+        header.append("NumClusters");
+        header.append("\n");
+
+        try {
+            sharedTraitWriter = this.model.getFileWriterForPerRunOutput(sharedTraitAcrossClusterFile);
+            sharedTraitWriter.write(header.toString());
+
+            for(Map.Entry<Integer,Map<Integer,Integer>> entrySet : traitsSharedAcrossClusters.entrySet()) {
+                Integer time = entrySet.getKey();
+                Map<Integer,Integer> traitCountMap = entrySet.getValue();
+                StringBuffer line = null;
+                for(Map.Entry<Integer,Integer> countSet: traitCountMap.entrySet()) {
+                    int trait = countSet.getKey();
+                    int count = countSet.getValue();
+                    //this.log.debug("recording traits for time: " + time + " trait: " + trait + " count: " + count);
+                    line = new StringBuffer();
+                    line.append(time);
+                    line.append(",");
+                    line.append(trait);
+                    line.append(",");
+                    line.append(count);
+                    line.append("\n");
+                    sharedTraitWriter.write(line.toString());
+                }
+            }
+            sharedTraitWriter.close();
 
         } catch (IOException ioe ) {
             log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());

@@ -25,10 +25,14 @@ import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
  *
  */
 public abstract class AbstractAgent implements IAgent {
-	private int agentID = 0;
-	
-	public AbstractAgent() {
-		this.agentID = this.hashCode();
+
+    private int agentID = 0;
+    private static int nextAgentId = 0;
+    private int numTraitsHeld = 1;
+
+    public AbstractAgent() {
+        this.setAgentID(nextAgentId);
+        nextAgentId++;
 	}
 	
 	/* (non-Javadoc)
@@ -45,5 +49,12 @@ public abstract class AbstractAgent implements IAgent {
 		this.agentID = agentID;
 	}
 
-	
+    public int getNumTraitsHeld() {
+        return this.numTraitsHeld;
+    }
+
+    public void setNumTraitsToHold(int numTraits) {
+        this.numTraitsHeld = numTraits;
+    }
+
 }

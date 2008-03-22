@@ -1,18 +1,17 @@
 package org.mmadsen.sim.transmissionlab.population;
 
-import org.mmadsen.sim.transmissionlab.interfaces.IAgentPopulation;
-import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
-import org.mmadsen.sim.transmissionlab.interfaces.ISimulationModel;
-import org.mmadsen.sim.transmissionlab.interfaces.IAgentSet;
+import org.mmadsen.sim.transmissionlab.interfaces.*;
 import org.mmadsen.sim.transmissionlab.util.GraphEdgeFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.collections15.Factory;
 
 import java.util.*;
+import java.io.FileWriter;
 
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.algorithms.generators.random.BarabasiAlbertGenerator;
+import edu.uci.ics.jung.io.PajekNetWriter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -62,6 +61,30 @@ public class BARandomGraphPopulationStructure extends AbstractStructuredPopulati
         return this;
     }
 
+    // Boolean which records whether this population supports distinct "clusters" of agents,
+    // or whether the population is a single structure (e.g., well-mixed or an ER random graph
+    // useful in selectively doing data analysis on a per-cluster whole population basis.
+    public Boolean isPopulationClustered() {
+        return false;
+    }
+    // Returns List<IAgent> for a specific cluster number, if the population supports clusters
+    // if not, returns null, so use this after a call to isPopulationClustered()
+    public List<IAgent> getAgentListForCluster(int cluster) {
+        return null;
+    }
+    // Returns List<List<IAgent>> for iteration in for() loops or with other iterators
+    // If the population does not support clusters, returns null, so use this after a call to
+    // isPopulationClustered()
+    public List<List<IAgent>> getAgentListsByCluster() {
+        return null;  
+    }
+
+    // Returns number of population "clusters" if the population is clustered.  Returns 0
+    // otherwise.  Should be used after a call to isPopulationClustered().
+    public int getNumClusters() {
+        return 0;  
+    }
+
     // The Barabasi-Albert generator actually does the creation of the SparseGraph object,
     // so we give it an inner class factory to work with instead of doing it ourselves.
     class GraphFactory implements Factory<Graph<IAgent,Integer>> {
@@ -72,7 +95,15 @@ public class BARandomGraphPopulationStructure extends AbstractStructuredPopulati
 
 
 
-    public void saveGraphToFile(String filename, WriterType outputFormat) {
-
+    public void saveGraphToFile(FileWriter writer, WriterType outputFormat) {
+        this.log.debug("Entering saveGraphToFile");
+        if(outputFormat == IStructuredPopulationWriter.WriterType.Pajek) {
+            PajekNetWriter graphWriter = new PajekNetWriter();
+            try {
+                graphWriter.save(this.socialGraph, writer);
+            } catch( Exception ex ) {
+                this.log.error("Error writing socialGraph to Pajek file: " + ex.getMessage());
+            }
+        }
     }
 }

@@ -81,7 +81,7 @@ public abstract class AbstractTLModel extends SimModelImpl implements ISimulatio
         this.lengthSimulationRun += 2;
     }
 
-    protected int lengthSimulationRun = 1000;
+    protected int lengthSimulationRun = 500;
 
     public AbstractTLModel() {
         super();

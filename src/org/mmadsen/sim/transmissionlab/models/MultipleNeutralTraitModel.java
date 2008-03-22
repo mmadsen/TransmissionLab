@@ -19,7 +19,7 @@ import org.apache.commons.cli.*;
 import org.mmadsen.sim.transmissionlab.analysis.OverallStatisticsRecorder;
 import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalyzer;
 import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyFileSnapshot;
-import org.mmadsen.sim.transmissionlab.analysis.ClusterTraitFrequencyFileSnapshot;
+import org.mmadsen.sim.transmissionlab.analysis.TraitFrequencyAnalysisManager;
 import org.mmadsen.sim.transmissionlab.interfaces.*;
 import org.mmadsen.sim.transmissionlab.population.SingleTraitPopulationFactory;
 import org.mmadsen.sim.transmissionlab.population.StructuredPopulationFactory;
@@ -38,7 +38,7 @@ import java.util.*;
  * TransmissionLabModel.  The purpose of this refactoring is to create a very simple process for creating
  * a new model out of TransmissionLab "parts."
  */
-public class NeutralCTModel extends AbstractTLModel
+public class MultipleNeutralTraitModel extends AbstractTLModel
         implements ISharedDataManager, ISimulationModel {
 
     public static void main(String[] args) {
@@ -56,7 +56,7 @@ public class NeutralCTModel extends AbstractTLModel
         }
 
         SimInit init = new SimInit();
-        NeutralCTModel model = new NeutralCTModel();
+        MultipleNeutralTraitModel model = new MultipleNeutralTraitModel();
 
         model.preModelLoadSetup();
 
@@ -82,7 +82,6 @@ public class NeutralCTModel extends AbstractTLModel
 
 
     private Boolean enableTraitFrequencyFileSnapshots = false;
-    private Boolean enableClusterTraitFrequencySnapshots = true;
     private int ewensThetaMultipler = 2;
     private String initialTraitStructure = null;
     private String populationProcessType = null;
@@ -90,36 +89,37 @@ public class NeutralCTModel extends AbstractTLModel
     private String mutationProcessType = null;
     private int numberFileSnapshots = 1;
     private int maxVariants = 4000;
-    private double mu = 0.005;
+    private double mu = 0.01;
     private int numAgents = 500;
     private int topNListSize = 40;
-    private int numClusters = 10;
+    private int numClusters = 1;
     private int rewiringsPerCluster = 0;
+    private int numTraitsPerAgent = 0;
+
+    public void setNumTraitsPerAgent(int numTraits) {
+        this.numTraitsPerAgent = numTraits;
+    }
+
+    public int getNumTraitsPerAgent() {
+        return this.numTraitsPerAgent;
+    }
 
     public int getNumClusters() {
-           return numClusters;
+        return this.numClusters;
     }
 
-   public void setNumClusters(int numClusters) {
+    public void setNumClusters(int numClusters) {
        this.numClusters = numClusters;
-   }
+    }
 
-   public int getRewiringsPerCluster() {
+    public int getRewiringsPerCluster() {
        return rewiringsPerCluster;
-   }
+    }
 
-   public void setRewiringsPerCluster(int rewiringsPerCluster) {
+    public void setRewiringsPerCluster(int rewiringsPerCluster) {
        this.rewiringsPerCluster = rewiringsPerCluster;
-   }
-
-
-    public Boolean getEnableClusterTraitFrequencySnapshots() {
-        return enableClusterTraitFrequencySnapshots;
     }
 
-    public void setenableClusterTraitFrequencySnapshots(Boolean enableTraitFrequencyFileSnapshots) {
-        this.enableClusterTraitFrequencySnapshots = enableTraitFrequencyFileSnapshots;
-    }
 
     public Boolean getEnableTraitFrequencyFileSnapshots() {
         return enableTraitFrequencyFileSnapshots;
@@ -232,7 +232,7 @@ public class NeutralCTModel extends AbstractTLModel
         this.parameterList.add("TopNListSize");
         this.parameterList.add("RewiringsPerCluster");
         this.parameterList.add("NumClusters");
-        this.parameterList.add("EnableClusterTraitFrequencySnapshots");
+        this.parameterList.add("NumTraitsPerAgent");
 
         // here we make List of SimParameterOptionsMap objects from various sources,
         // such as population factories, rules, etc.  This would be an ideal thing
@@ -279,7 +279,7 @@ public class NeutralCTModel extends AbstractTLModel
     public void specificModelSetup() {
 
         // Create data collectors, in the order we'd like them to run
-        IDataCollector f = new TraitFrequencyAnalyzer(this);
+        IDataCollector f = new TraitFrequencyAnalysisManager(this);
         this.addDataCollector(f);
 
         IDataCollector o = new OverallStatisticsRecorder(this);
@@ -287,9 +287,6 @@ public class NeutralCTModel extends AbstractTLModel
 
         IDataCollector s = new TraitFrequencyFileSnapshot(this);
         this.addDataCollector(s);
-
-        IDataCollector c = new ClusterTraitFrequencyFileSnapshot(this);
-        this.addDataCollector(c);
 
         // Initialize any RNG we'll need
         Random.createUniform();
@@ -316,12 +313,6 @@ public class NeutralCTModel extends AbstractTLModel
         if (!this.getEnableTraitFrequencyFileSnapshots()) {
             this.log.debug("removing TraitFrequencyFileSnapshot from active data collectors - not selected");
             IDataCollector d = this.getDataCollectorByName("TraitFrequencyFileSnapshot");
-            this.removeDataCollector(d);
-        }
-
-        if (!this.getEnableClusterTraitFrequencySnapshots()) {
-            this.log.debug("removing ClusterTraitFrequencyFileSnapshots from active data collectors - not selected");
-            IDataCollector d = this.getDataCollectorByName("ClusterTraitFrequencyFileSnapshot");
             this.removeDataCollector(d);
         }
     }
@@ -370,6 +361,6 @@ public class NeutralCTModel extends AbstractTLModel
     }
 
     public String getName() {
-        return "NeutralCTModel";
+        return "MultipleNeutralTraitModel";
     }
 }

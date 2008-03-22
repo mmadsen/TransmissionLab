@@ -36,7 +36,7 @@ import java.util.List;
  * @author mark
  *
  */
-public interface IAgentPopulation {
+public interface IAgentPopulation extends IStructuredPopulationWriter {
     	// needed if we construct rules from textual classnames, since newInstance()
     // doesn't take constructor arguments.
     public void setSimulationModel(ISimulationModel model);
@@ -53,5 +53,19 @@ public interface IAgentPopulation {
     // population, and then "decorated" (in Gang of Four parlance) with a structure, which then
     // is handed back to the model
     public IAgentPopulation createStructuredPopulation(IAgentSet population);
+    // Boolean which records whether this population supports distinct "clusters" of agents,
+    // or whether the population is a single structure (e.g., well-mixed or an ER random graph
+    // useful in selectively doing data analysis on a per-cluster whole population basis.
+    public Boolean isPopulationClustered();
+    // Returns List<IAgent> for a specific cluster number, if the population supports clusters
+    // if not, returns null, so use this after a call to isPopulationClustered()
+    public List<IAgent> getAgentListForCluster(int cluster);
+    // Returns List<List<IAgent>> for iteration in for() loops or with other iterators
+    // If the population does not support clusters, returns null, so use this after a call to
+    // isPopulationClustered()
+    public List<List<IAgent>> getAgentListsByCluster();
+    // Returns number of population "clusters" if the population is clustered.  Returns 0
+    // otherwise.  Should be used after a call to isPopulationClustered().
+    public int getNumClusters();
 
 }

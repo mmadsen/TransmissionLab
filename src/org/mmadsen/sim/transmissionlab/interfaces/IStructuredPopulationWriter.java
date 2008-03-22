@@ -1,5 +1,7 @@
 package org.mmadsen.sim.transmissionlab.interfaces;
 
+import java.io.FileWriter;
+
 /**
  * Created by IntelliJ IDEA.
  * User: mark
@@ -10,5 +12,5 @@ package org.mmadsen.sim.transmissionlab.interfaces;
 public interface IStructuredPopulationWriter {
     public enum WriterType {GraphML, Pajek};
 
-    public void saveGraphToFile(String filename, WriterType outputFormat);
+    public void saveGraphToFile(FileWriter writer, IStructuredPopulationWriter.WriterType outputFormat);
 }

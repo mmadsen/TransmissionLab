@@ -36,6 +36,8 @@ public abstract class AbstractDataCollector implements IDataCollector {
 	protected Log log = null;
     protected final String TYPE_CODE = this.getClass().getSimpleName();
 
+    public AbstractDataCollector() { }
+
     /**
      * Returns an enumerated constant of type {@link org.mmadsen.sim.transmissionlab.util.DataCollectorScheduleType DataCollectorScheduleType}
      * which indicates the general scheduling "type" of this data collector.  This is used to sort data collectors into ActionGroups for

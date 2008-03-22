@@ -1,0 +1,69 @@
+
+runs: 1
+NumAgents {
+  start: 100
+  end: 1000
+  incr: 100
+  {
+    NumClusters {
+          start: 2
+          end: 10
+          incr: 2
+          {
+                runs: 1
+                Mu {
+                      set_list: 0.0001 0.005 0.001 0.05 0.01 0.1
+                      {
+                         runs: 1
+                         RngSeed {
+                            start: 199999999
+                            end: 399999999
+                            incr: 19999999
+                         }
+                      }
+                }
+          }
+     }
+}
+TopNListSize {
+  set: 20
+}
+LengthSimulationRun {
+  set: 500
+}
+PopulationProcessType {
+  set_string: WrightFisherProcess
+}
+FileOutputDirectory {
+  set_string: /tmp
+}
+EnableOverallStats {
+  set_boolean: true
+}
+InitialTraitStructure {
+  set_string: SequentialTrait
+}
+EnableTraitFrequencyFileSnapshots {
+  set_boolean: true
+}
+NumberFileSnapshots {
+  set: 10
+}
+MutationProcessType {
+  set_string: RandomAgentInfiniteAllelesMutation
+}
+PopulationProcessType {
+  set_string: WrightFisherProcess
+}
+PopulationStructure {
+  set_string: RewiredConnCavemanRG
+}
+NumClusters {
+  set: 10
+}
+RewiringsPerCluster {
+  set: 0
+}
+EnableClusterTraitFrequencySnapshots {
+  set_boolean: true
+}

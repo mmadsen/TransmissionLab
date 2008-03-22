@@ -24,29 +24,24 @@ import org.mmadsen.sim.transmissionlab.interfaces.IAgent;
  * 
  */
 
-public class AgentSingleIntegerVariant extends AbstractAgent implements IAgent {
-    private int agentVariant = 1;
-    private static int agentID = 1;
-
+public class AgentSingleIntegerVariant extends AbstractAgent  {
+    private int agentVariant = 0;
     @SuppressWarnings("unused")
 	private Log log = null;
 
 	public AgentSingleIntegerVariant() {
-        this.setAgentID(agentID);
-        agentID++;
+        super();
     }
 
 	public AgentSingleIntegerVariant(int variant) {
-		this.agentVariant = variant;
-        this.setAgentID(agentID);
-        agentID++;
+		super();
+        this.agentVariant = variant;
     }
 
 	public AgentSingleIntegerVariant(int variant, Log l) {
-		this.log = l;
+		super();
+        this.log = l;
 		this.agentVariant = variant;
-        this.setAgentID(agentID);
-        agentID++;
     }
 
 	public int getAgentVariant() {
@@ -54,17 +49,12 @@ public class AgentSingleIntegerVariant extends AbstractAgent implements IAgent {
 	}
 
 	public void setAgentVariant(int agvar) {
-		/*
-		 * if ( agvar < 0) { StringBuffer sb = new
-		 * StringBuffer("setAgentVariant: "); sb.append("agent: ");
-		 * sb.append(this.toString()); sb.append(" variant: ");
-		 * sb.append(agvar); log.debug(sb); }
-		 */
-		agentVariant = agvar;
+        agentVariant = agvar;
 	}
 
 	public AgentSingleIntegerVariant copyOf() {
 		return new AgentSingleIntegerVariant(this.getAgentVariant(), this.log);
 	}
-	
+
+
 }

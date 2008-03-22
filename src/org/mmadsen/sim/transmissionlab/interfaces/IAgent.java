@@ -47,5 +47,18 @@ public interface IAgent {
 	 * @param agentID - int representing the desired ID for the agent object.  
 	 */
 	public void setAgentID(int agentID);
-	
+
+    /**
+     * Returns the number of traits held by an agent.
+     */
+    public int getNumTraitsHeld();
+
+    /**
+     * Sets the number of trait slots this agent holds, or is expected to hold at maximum.  In some
+     * models these will be the same thing, but when modeling situations where we "grow" the
+     * trait list through innovation, one should not rely on a pre-existing notion of this value
+     * but instead use the getNumTraitsHeld() value to index the traits actually held, or use
+     * an iterator-style construction instead.
+     */
+    public void setNumTraitsToHold(int numTraits);
 }

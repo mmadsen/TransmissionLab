@@ -39,44 +39,44 @@ import java.util.*;
  * TraitFrequencyAnalyzer is an IDataCollector module for analyzing the "top 40" properties
  * of a set of RCMAgents which store cultural variants.  Currently the assumption is that
  * each agent only possesses one variant but this will be generalized in future releases.
- * 
- * The general idea here is that we're going to make a single pass through the list of 
+ *
+ * The general idea here is that we're going to make a single pass through the list of
  * agents, either creating a new TraitCount value object if we see a new trait (with count = 1),
  * or incrementing an existing one.  This is facilitated by temporarily storing the TraitCounts
  * in a TreeMap indexed by trait ID.  The TraitCount value object not only stores the count
  * and trait ID together for easy access to either (an improvement on a raw Map) but allows
  * us to provide a custom sort order based on frequency, not trait number or object ID.  Thus
  * we implement Comparable and provide a compareTo() implementation that sorts by trait count.
- * 
- * The counting pass is facilitated by creating a Closure (from Commons Collections) that 
- * does the actual TraitCount manipulation.  This closure is then passed to 
- * CollectionUtils.forAlldo() over the agent list.  
- * 
+ *
+ * The counting pass is facilitated by creating a Closure (from Commons Collections) that
+ * does the actual TraitCount manipulation.  This closure is then passed to
+ * CollectionUtils.forAlldo() over the agent list.
+ *
  * Once the counting pass is completed, we initialize a List<TraitCount> from the TreeMap,
- * and since TraitCount implements Comparable, Collections.sort() provides us the 
+ * and since TraitCount implements Comparable, Collections.sort() provides us the
  * list sorted by trait count in descending order (what we want if we're reading off "top N"
  * statistics).
- * 
- * Finally, "turnover" in "top N" statistics become relatively easy.   
- * If we assume that turnover is defined strictly in terms of the number of 
- * elements which are in either list BUT NOT BOTH, we can figure out "turnover" of 
+ *
+ * Finally, "turnover" in "top N" statistics become relatively easy.
+ * If we assume that turnover is defined strictly in terms of the number of
+ * elements which are in either list BUT NOT BOTH, we can figure out "turnover" of
  * that list by finding the cardinality of the complement of set intersection of an "old"
- * and "new" top n collection.  CollectionUtils.intersection() returns a collection which 
- * is the intersection (e.g., intersectionCollection), and thus turnover can be defined 
- * for a "top N" list as N - intersectionCollection.size();  
- * 
+ * and "new" top n collection.  CollectionUtils.intersection() returns a collection which
+ * is the intersection (e.g., intersectionCollection), and thus turnover can be defined
+ * for a "top N" list as N - intersectionCollection.size();
+ *
  * To calculate turnover, we store the sorted results of the previous TraitCount pass
- * in addition to the current results.  We do not store any older (previous previous, etc) 
- * versions of the lists.  
- * 
+ * in addition to the current results.  We do not store any older (previous previous, etc)
+ * versions of the lists.
+ *
  * Uses the default implementation of getDataCollectorSchedule() from AbstractDataCollector
- * 
+ *
  * @author mark
  *
  */
 
-public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDataCollector {
-	public TraitFrequencyAnalyzer(ISimulationModel m) {
+public class IndividualTraitFrequencyAnalyzer extends AbstractDataCollector implements IDataCollector {
+	public IndividualTraitFrequencyAnalyzer(ISimulationModel m) {
 		super(m);
         this.model = m;
         this.log = this.model.getLog();
@@ -112,34 +112,34 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
     private double mu = 0.0;
     private int numAgents = 0;
 
-    
-	
+
+
 	/**
-	 * FrequencyCounter implements a Closure from the Jakarta Commons Collections 
+	 * FrequencyCounter implements a Closure from the Jakarta Commons Collections
 	 * library, thus allowing it to act like a functor (or "function object").  Its
-	 * purpose will be to track the frequency of each variant as the closure is 
-	 * applied to a list of agents by CollectionUtils.forAlldo().  
+	 * purpose will be to track the frequency of each variant as the closure is
+	 * applied to a list of agents by CollectionUtils.forAlldo().
 	 * @author mark
 	 *
 	 */
-	
+
 	class FrequencyCounter implements Closure {
 		private int agentCount = 0;
 		private int variantCount = 0;
-		private TraitFrequencyAnalyzer analyzer = null;
-		
+		private IndividualTraitFrequencyAnalyzer analyzer = null;
+
 		public FrequencyCounter() {
-			analyzer = TraitFrequencyAnalyzer.this;
+			analyzer = IndividualTraitFrequencyAnalyzer.this;
 		}
-		
+
 		public void execute(Object arg0) {
 			// the following is the only place in this entire set of nested classes that we "know"
 			// the concrete class of the agent objects....
 			AgentSingleIntegerVariant agent = (AgentSingleIntegerVariant) arg0;
 			Integer agentVariant = (Integer) agent.getAgentVariant();
-		
+
 			if ( analyzer.freqMap.containsKey(agentVariant) == true ) {
-				// we've seen the variant before; increment the count. 
+				// we've seen the variant before; increment the count.
 				TraitCount tc = analyzer.freqMap.get(agentVariant);
 				tc.increment();
 				analyzer.freqMap.put(agentVariant, tc);
@@ -152,50 +152,50 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 			}
 			agentCount++;
 		}
-		
+
 		// next three methods are purely for debugging - DO NOT USE IN PRODUCTION CODE
 		public void debugResetAgentCounter() {
 			agentCount = 0;
 			variantCount = 0;
 		}
-		
+
 		public int debugGetVariantCounter() {
 			return variantCount;
 		}
-		
+
 		public int debugGetAgentCounter() {
 			return agentCount;
 		}
 	}
-    
+
 
     /**
-	 * TurnoverSequence is a data Sequence from the Repast libraries, 
+	 * TurnoverSequence is a data Sequence from the Repast libraries,
 	 * designed to provide a stream of double values to an OpenSequenceGraph.
-	 * 
-	 * What this does is actually calculate a turnover value, given the 
+	 *
+	 * What this does is actually calculate a turnover value, given the
 	 * sorted list of TraitCounts from the previous time step and this time step.
-	 * 
-	 * The sequence method getSValue() will be called by OpenSequenceGraph.step(), 
-	 * so the precondition contract here is that the graph's step() method must be 
+	 *
+	 * The sequence method getSValue() will be called by OpenSequenceGraph.step(),
+	 * so the precondition contract here is that the graph's step() method must be
 	 * called from within IDataCollector.process(), at a time when prevSortedTraitCounts
 	 * holds the counts from tickCount - 1, and curSortedTraitCounts holds the counts
-	 * from the current model tick.  This is kinda hard to guarantee programmatically, 
+	 * from the current model tick.  This is kinda hard to guarantee programmatically,
 	 * but if you have bugs, beware -- call step() at the right time!
 	 * @author mark
 	 *
 	 */
 	class TurnoverSequence implements Sequence {
-		
+
 		/**
 		 * precondition contract:  prevSortedTraitCounts != null, curSortedTraitCounts != null
 		 * if prevSortedTraitCounts == null, it's the first tick on the model and we return 0
 		 * otherwise, calculate "set intersection turnover"
-		 * 
-		 * we define "set intersection turnover" as the number of traits which are NOT part 
-		 * of the intersection of the prev and cur TraitCount lists.  This, in turn, means 
-		 * that the turnover is:  (prev.size + cur.size) - ( 2 * intersection.size )	
-		 * 
+		 *
+		 * we define "set intersection turnover" as the number of traits which are NOT part
+		 * of the intersection of the prev and cur TraitCount lists.  This, in turn, means
+		 * that the turnover is:  (prev.size + cur.size) - ( 2 * intersection.size )
+		 *
 		 */
 		public double getSValue() {
             return curTurnover;
@@ -205,26 +205,26 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 
 
     }
-	
+
 	class TotalVariabilitySequence implements Sequence {
 
 		public double getSValue() {
 			return (double) curSortedTraitCounts.size();
 		}
-		
+
 	}
-	
+
 	class EwensSequence implements Sequence {
 
 		public double getSValue() {
-			// We return a constant value here since we're aiming at a "reference" line on the 
+			// We return a constant value here since we're aiming at a "reference" line on the
 			// total variation graph
 			return ewensVariationLevel;
 		}
-		
+
 	}
 
-	
+
 	public void build() {
         this.log.debug("Entering TraitFrequencyAnalyzer.build()");
 		this.freqCounter = new FrequencyCounter();
@@ -361,7 +361,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
 
         // MEM: refactored out of the Sequence class to allow the simulation to run in batch mode
         this.curTurnover = this.calculateTurnover();
-        
+
         // this is the right time to call the graph step() -- prevSortedTraitCounts still
 		// represents tickCount - 1, and curSortedTraitCounts represents this tick.
         if ( ! this.isBatchRun ) {
@@ -379,14 +379,14 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
         this.model.storeSharedObject(TRAIT_TOPN_RESIDENCE_MAP_KEY, this.cumTraitTopNResidenceTimes);
 
         // housekeeping - store cur in prev for comparison next time around
-		// and cache the current trait counts in the model shared repository for 
+		// and cache the current trait counts in the model shared repository for
 		// other modules to use - note that inter-step comparisons *within* this class don't use
         // the shared repository - we're writing the object to the repository for other classes
         this.model.storeSharedObject(TRAIT_COUNT_LIST_KEY, this.curSortedTraitCounts);
 		this.prevSortedTraitCounts = this.curSortedTraitCounts;
         this.log.debug("Leaving TraitFrequencyAnalyzer.process at time " + this.model.getTickCount());
     }
-	
+
 	//	 helper method to reduce duplication - held in the outer class so it
     // // can be used by all inner classes.
 	private List<Integer> getTopNTraits( List<TraitCount> traitCounts ) {
@@ -507,7 +507,7 @@ public class TraitFrequencyAnalyzer extends AbstractDataCollector implements IDa
                 for(int i = 0; i < this.topNListSize; i++ ) {
                     traitCountList.add(0);
                 }
-                
+
                 // now increment the counter for the one trait/list position combo we're dealing with
                 traitCountList.set(listPos, 1);
                 this.cumTraitTopNResidenceTimes.put(trait, traitCountList);

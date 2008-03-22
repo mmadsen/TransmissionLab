@@ -77,4 +77,4 @@ public class SingleTraitPopulationFactory implements IAgentSetFactory {
 		return null;
 	}
 
-}
+}                                 

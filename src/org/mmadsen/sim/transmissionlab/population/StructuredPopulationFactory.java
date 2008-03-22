@@ -90,6 +90,7 @@ public class StructuredPopulationFactory implements IPopulationFactory, IParamet
 
     private IAgentPopulation createPopulationObject(PopulationStructureOptions option) {
         String className = this.structureClassMap.get(option);
+        this.log.info("Creating structured population as: " + option.toString());
         Class classForPopulation = null;
         IAgentPopulation popObj = null;
         try {

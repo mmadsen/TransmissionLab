@@ -7,10 +7,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.collections15.Factory;
 
 import java.util.*;
+import java.io.FileWriter;
 
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.algorithms.generators.random.BarabasiAlbertGenerator;
+import edu.uci.ics.jung.io.PajekNetWriter;
 import uchicago.src.sim.util.*;
 
 /**
@@ -101,6 +103,13 @@ public class ConnCavemanGraphPopulationStructure extends AbstractStructuredPopul
         return this;
     }
 
+    // Boolean which records whether this population supports distinct "clusters" of agents,
+    // or whether the population is a single structure (e.g., well-mixed or an ER random graph
+    // useful in selectively doing data analysis on a per-cluster whole population basis.
+    public Boolean isPopulationClustered() {
+        return true;
+    }
+
     private IAgent selectRandomAgentFromCluster(int i) {
         IAgent selectedAgent = null;
         List<IAgent> agentClusterList = this.clusterList.get(i);
@@ -175,7 +184,28 @@ public class ConnCavemanGraphPopulationStructure extends AbstractStructuredPopul
         }
     }
 
-    public void saveGraphToFile(String filename, WriterType outputFormat) {
+    public void saveGraphToFile(FileWriter writer, IStructuredPopulationWriter.WriterType outputFormat) {
+        this.log.debug("Entering saveGraphToFile");
+        if(outputFormat == IStructuredPopulationWriter.WriterType.Pajek) {
+            PajekNetWriter graphWriter = new PajekNetWriter();
+            try {
+                graphWriter.save(this.socialGraph, writer);
+            } catch( Exception ex ) {
+                this.log.error("Error writing socialGraph to Pajek file: " + ex.getMessage());
+            }
+        }
+    }
 
+    public int getNumClusters() { return this.numClusters; }
+
+    public List<IAgent> getAgentListForCluster(int cluster) {
+        return this.clusterList.get(cluster);
+    }
+
+    // Returns List<List<IAgent>> for iteration in for() loops or with other iterators
+    // If the population does not support clusters, returns null, so use this after a call to
+    // isPopulationClustered()
+    public List<List<IAgent>> getAgentListsByCluster() {
+        return this.clusterList;
     }
 }

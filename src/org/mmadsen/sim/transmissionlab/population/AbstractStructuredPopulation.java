@@ -12,7 +12,7 @@ import java.util.List;
  * Time: 9:02:41 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractStructuredPopulation implements IAgentPopulation, IStructuredPopulationWriter {
+public abstract class AbstractStructuredPopulation implements IAgentPopulation {
     protected ISimulationModel model = null;
     protected Log log = null;
     protected IAgentSet agentSet = null;
