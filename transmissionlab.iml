@@ -12,7 +12,7 @@
         <url>file://$MODULE_DIR$/lib</url>
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.7.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../Desktop/transmissionlab-neutralCTmodel-1.8.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="org.mmadsen.sim.transmissionlab.models.NeutralCTModel" />
   </component>

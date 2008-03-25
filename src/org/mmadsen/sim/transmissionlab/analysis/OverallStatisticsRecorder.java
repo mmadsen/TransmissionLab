@@ -30,7 +30,6 @@ import uchicago.src.sim.util.RepastException;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +60,11 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private double stdevAgentCount = 0.0;
     private double meanResidenceTime = 0.0;
     private double stdevResidenceTime = 0.0;
+    private double meanNumberClustersPerTrait = 0.0;
+    private double stdevNumberClustersPerTrait = 0.0;
+    private double clusteringCoefficient = 0.0;
+    private double meanDistanceBetweenVertices = 0.0;
+    private int numClusters = 0;
     private double mu = 0.0;
     private int numAgents = 0;
     private int topNListSize = 0;
@@ -70,6 +74,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
     private static final String residenceTimeFrequenciesOutput = "TL-residence-time-frequencies.csv";
     private static final String pajekGraphOutputFile = "TL-population-structure-pajek.net";
     private static final String sharedTraitAcrossClusterFile = "TL-traits-shared-across-clusters.csv";
+    private DoubleArrayList traitsAcrossClustersHistory = null;
 
     public OverallStatisticsRecorder(ISimulationModel m) {
 		super(m);
@@ -104,6 +109,7 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             this.topNListSize = (Integer) this.model.getSimpleModelPropertyByName("topNListSize");
             this.mu = (Double) this.model.getSimpleModelPropertyByName("mu");
             this.numAgents = (Integer) this.model.getSimpleModelPropertyByName("numAgents");
+            this.numClusters = (Integer) this.model.getSimpleModelPropertyByName("numClusters");
         } catch(RepastException ex) {
             System.out.println("FATAL EXCEPTION: " + ex.getMessage());
             System.exit(1);
@@ -176,10 +182,21 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         this.stdevResidenceTime = Descriptive.standardDeviation(varianceResidenceTime);
         this.log.info("Mean log trait sojourn time: " + this.meanResidenceTime + "  stdev: " + this.stdevResidenceTime);
 
+        this.traitsAcrossClustersHistory = this.extractCountTraitsAcrossClusters(sharedClusterTraitCountsByTick);
+        this.meanNumberClustersPerTrait = Descriptive.mean(this.traitsAcrossClustersHistory);
+        double varianceNumClustersPerTrait = Descriptive.sampleVariance(this.traitsAcrossClustersHistory,this.meanNumberClustersPerTrait );
+        this.stdevNumberClustersPerTrait = Descriptive.standardDeviation(varianceNumClustersPerTrait);
+        this.log.info("Mean number of clusters per trait: " + this.meanNumberClustersPerTrait + " stdev: " + this.stdevNumberClustersPerTrait);
+
         // record the population structure graph to a Pajek file for display and external analysis
         IAgentPopulation population = this.model.getPopulation();
         FileWriter socialGraphWriter = this.model.getFileWriterForPerRunOutput(pajekGraphOutputFile);
         population.saveGraphToFile(socialGraphWriter, IStructuredPopulationWriter.WriterType.Pajek);
+
+        // HACK
+        this.calculateGraphStatistics();
+        this.log.info("Characteristic length of graph: " + this.meanDistanceBetweenVertices);
+        this.log.info("Clustering coefficient of graph: " + this.clusteringCoefficient);
 
         // record overall stats to a file
         this.recordStats();
@@ -215,9 +232,23 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         header.append("\t");
         header.append("StdevTraitCount");
         header.append("\t");
+        header.append("MeanAgentCount");
+        header.append("\t");
+        header.append("StdevAgentCount");
+        header.append("\t");
         header.append("MeanSojournTime");
         header.append("\t");
         header.append("StdevSojournTime");
+        header.append("\t");
+        header.append("MeanNumClustersPerTrait");
+        header.append("\t");
+        header.append("StdevNumClustersPerTrait");
+        header.append("\t");
+        header.append("CharacteristicLength");
+        header.append("\t");
+        header.append("ClusteringCoefficient");
+        header.append("\t");
+        header.append("NumClusters");
         header.append("\n");
 
 
@@ -261,6 +292,16 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
             sb.append(this.meanResidenceTime);
             sb.append("\t");
             sb.append(this.stdevResidenceTime);
+            sb.append("\t");
+            sb.append(this.meanNumberClustersPerTrait);
+            sb.append("\t");
+            sb.append(this.stdevNumberClustersPerTrait);
+            sb.append("\t");
+            sb.append(this.meanDistanceBetweenVertices);
+            sb.append("\t");
+            sb.append(this.clusteringCoefficient);
+            sb.append("\t");
+            sb.append(this.numClusters);
             sb.append("\n");
 
             runWriter.write(sb.toString());
@@ -386,5 +427,32 @@ public class OverallStatisticsRecorder extends AbstractDataCollector implements 
         } catch (IOException ioe ) {
             log.info("IOException on filepath: "+ this.model.getFileOutputDirectory() + ": " + ioe.getMessage());
         }
+    }
+
+    private DoubleArrayList extractCountTraitsAcrossClusters(Map<Integer,Map<Integer, Integer>> traitsSharedAcrossClusters)  {
+        DoubleArrayList listCountTraitsAcrossClusters = new DoubleArrayList();
+        for(Map.Entry<Integer,Map<Integer,Integer>> entrySet : traitsSharedAcrossClusters.entrySet()) {
+            Map<Integer,Integer> traitCountMap = entrySet.getValue();
+            for(Map.Entry<Integer,Integer> countSet: traitCountMap.entrySet()) {
+                int count = countSet.getValue();
+                listCountTraitsAcrossClusters.add((double) count);
+            }
+        }
+        return listCountTraitsAcrossClusters;
+    }
+
+    // Extreme HACK - this will only work for the Connected Caveman graph!!!
+    private void calculateGraphStatistics() {
+        double n = (double) this.numAgents;
+        double k = (double) (this.numAgents / this.numClusters);
+
+        // characteristic (i.e., avg) length between any two vertices
+        double term1 = (k / (n - 1));
+        double term2numerator = n * ((n - k) - 1);
+        double term2denom = 2 * (k + 1) * (n - 1);
+        this.meanDistanceBetweenVertices = term1 + (term2numerator / term2denom);
+
+        // clusting coefficient
+        this.clusteringCoefficient = 1 - (6 / ((k * k) / 1));
     }
 }
