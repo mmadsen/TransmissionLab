@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%
+%% madsen-macros.sty
+%%
+%% LaTeX style file with common macros for papers, presentations, and dissertation work on evolutionary theory, game theory, 
+%% and Rapa Nui archaeology
+%%
+%% May 2007
+%%
+%%%%%%%%%%%%%%%%%%%%
+
+% packages I use in nearly everything
+\usepackage{cclicenses}
+\usepackage{xspace}
+\usepackage{appendix}
+\usepackage{setspace}
+\usepackage{sgame}
+\usepackage{color}
+%\usepackage[hyperfigures=true,colorlinks=true,linkcolor=blue,filecolor=blue,menucolor=blue,bookmarks=true]{hyperref}
+\usepackage{graphicx}
+%\usepackage{showkeys} 
+\usepackage{paralist}
+\usepackage{outlines} 
+
+%\usepackage[pdftex,color]{changebar}
+% turn all changebars red instead of grey
+%\cbcolor{red}
+
+% date/version 
+\newcommand{\datedversion}[2]{#1\ (v.#2)}
+
+% Boilerplate Creative Commons License
+\newcommand{\memlicense}{\textsl{This work is licensed under the Creative Commons ``Attribution Noncommercial ShareAlike'' License version 3.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.}}
+
+% commonly used
+\newcommand{\memrunningauthor}{M.E. Madsen\xspace}
+
+\newcommand{\chklist}[1]{\item[\ensuremath{\Large\Box}]#1}
+
+%
+% The following are "todo" annotations for use during writing; should not remain in
+% final document!
+%
+% THE NEXT TWO ARE OLD STYLE AND SHOULD BE DEPRECATED IN ALL NEW DOCS - THE SECOND FORM IS CORRECT!
+%\newcommand{\todofn[1]}{\footnote{\textbf{$\ll$TODO: #1$\gg$}}}
+%\newcommand{\todopara[1]}{\textcolor{red}{\textbf{[#1]}}}
+
+\newcommand{\todofoot}[1]{\footnote{\textbf{$\ll$TODO: #1$\gg$}}}
+\newcommand{\todoblock}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\todoitem}[1]{\item \textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\secplaceholder}[1]{\textcolor{red}{\textsl{$\ll$#1$\gg$}}}
+\newcommand{\cureditmarker}[1]{\textcolor{blue}{\textbf{[#1]}}}
+
+\newcommand{\editorcomment}[3]{\item[] [Line #2] (#1): \textit{#3}\\}
+\newcommand{\clipocomment}[2]{\editorcomment{clipo}{#1}{#2}}
+
+\newcommand{\committeecomment}[1]{\footnote{\textcolor{red}{\textbf{$\ll$COMMENT TO COMMITTEE: #1$\gg$}}}}
+\newcommand{\tl}{\textsc{TransmissionLab}\xspace}
+
+% Useful for in-text references to Java or C++ classnames
+\newcommand{\classname}[1]{\texttt{#1}\xspace}
+
+% Styles for common scientific text
+\newcommand{\taxon}[1]{\emph{#1}\xspace}
+
+\newcommand{\REFS}{\textcolor{red}{\textbf{REFS\ldots}}}
+
+
+% Biblio abbrevations
+\newcommand{\inprep}{\emph{in prep}\xspace}
+\newcommand{\inpress}{\emph{in press}\xspace}
+\newcommand{\submitted}{\emph{submitted}\xspace}
+\newcommand{\pc}{\emph{personal communication}\xspace}
+
+% Various abbreviations for costly signaling since I type it nearly constantly...
+\newcommand{\cst}{costly signaling theory\xspace}
+\newcommand{\Cst}{Costly signaling theory\xspace}
+\newcommand{\st}{signaling theory\xspace}
+\newcommand{\cs}{costly signaling\xspace}
+\newcommand{\Cs}{Costly signaling\xspace}
+\newcommand{\CS}{Costly Signaling\xspace}
+\newcommand{\CST}{Costly Signaling Theory\xspace}
+
+% Generic symbol set for formal models and game strategies
+\newcommand{\modelsym}[2]{\ensuremath{\mathcal{#1}_{#2}}\xspace}
+\newcommand{\modelname}[1]{\ensuremath{\mathcal{#1}}\xspace}
+\newcommand{\stratsym}[1]{\ensuremath{\mathbf{#1}}\xspace}
+
+% OLD VERSIONS - DEPRECATE
+%\newcommand{\modsym}[2]{\ensuremath{\mathcal{#1}_{#2}}\xspace}
+%\newcommand{\modname}[1]{\ensuremath{\mathcal{#1}}\xspace}
+
+\def\Erdos{Erd\H{o}s}
+\newcommand{\ERgraph}{\Erdos-Renyi random graph\xspace}
+\newcommand{\ERgraphs}{\Erdos-Renyi random graphs\xspace}
+
+%% shortcut since I use it ALL the freakin' time...
+\newcommand{\GSB}{\modelname{GSB}}
+\newcommand{\GSBC}{\modelsym{GSB}{C}}
+\newcommand{\GSBCA}{\modelsym{GSB}{CA}}
+\newcommand{\GSBCAM}{\modelsym{GSB}{CAM}}
+\newcommand{\JR}{\modelname{JRN}}
+\newcommand{\GSBFULL}{\modelsym{GSB}{CAJR}}
+
+
+% lipsum
+\newcommand{\lipsum}{\textcolor{blue}{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus urna nisl, auctor ac, posuere sit amet, commodo a, mauris. Fusce placerat. Morbi dolor. Suspendisse eros. Vivamus vel dui. Quisque dignissim, tortor nec blandit lobortis, nibh dui viverra risus, et fringilla dui dui quis lorem. Donec ultricies. Donec libero nunc, ultricies euismod, gravida et, blandit vitae, tellus. In gravida, purus eu aliquet auctor, lorem leo sagittis lacus, ac ullamcorper massa risus ut tellus. Integer a metus in eros tincidunt facilisis. Morbi hendrerit eros viverra mi. Mauris tempor felis a lacus. Duis pellentesque magna at diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus urna nisl, auctor ac, posuere sit amet, commodo a, mauris. Fusce placerat. Morbi dolor. Suspendisse eros. Vivamus vel dui. Quisque dignissim, tortor nec blandit lobortis, nibh dui viverra risus, et fringilla dui dui quis lorem. Donec ultricies. Donec libero nunc, ultricies euismod, gravida et, blandit vitae, tellus. In gravida, purus eu aliquet auctor, lorem leo sagittis lacus, ac ullamcorper massa risus ut tellus. Integer a metus in eros tincidunt facilisis. Morbi hendrerit eros viverra mi. Mauris tempor felis a lacus. Duis pellentesque magna at diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;}}
+
+% common abbrevations
+\newcommand{\egt}{evolutionary game theory\xspace}
+\newcommand{\Egt}{Evolutionary game theory\xspace}
+\newcommand{\nplayer}{$n$-player\xspace}
+
+% official terms for CST epistemological problems in archaeology
+\newcommand{\arp}{\textbf{aggregate record problem}\xspace}
+\newcommand{\asp}{\textbf{aggregate signal problem}\xspace}
+\newcommand{\ssp}{\textbf{signaling structure problem}\xspace}
+\newcommand{\mcp}{\textbf{monument context problem}\xspace}
+\newcommand{\ecp}{\textbf{equilibrium correlation problem}\xspace}
+\newcommand{\ARP}{\emph{ARP}\xspace}
+\newcommand{\ASP}{\emph{ASP}\xspace}
+\newcommand{\SSP}{\emph{SSP}\xspace}
+\newcommand{\MCP}{\emph{MCP}\xspace}
+\newcommand{\ECP}{\emph{ECP}\xspace}
+
+% Costly signaling model requirements labels
+\newcommand{\cost}{\textbf{\textsl{cost}}\xspace}
+\newcommand{\benefit}{\textbf{\textsl{benefit}}\xspace}
+\newcommand{\quality}{\textbf{\textsl{quality}}\xspace}
+\newcommand{\corsigqual}{\textbf{\textsl{R(signal,quality)}}\xspace}
+\newcommand{\corqualbenefit}{\textbf{\textsl{R(quality,benefit)}}\xspace}
+
+% Rapa Nui and Oceanic archaeology abbreviations
+\newcommand{\moai}{\emph{moai}\xspace}
+\newcommand{\Moai}{\emph{Moai}\xspace}
+\newcommand{\ahu}{\emph{ahu}\xspace}
+\newcommand{\Ahu}{\emph{Ahu}\xspace}
+\newcommand{\pukao}{\emph{pukao}\xspace}
+\newcommand{\metraux}{M\'{e}traux\xspace}
+\newcommand{\hawaii}{Hawai'i\xspace}
+\newcommand{\hawaiian}{Hawai'ian\xspace}
+\newcommand{\rn}{Rapa Nui\xspace}
+\newcommand{\rnp}{Rapanui\xspace}
+\newcommand{\hp}{\emph{hare paenga}\xspace}
+\newcommand{\moaicount}{10000\todofoot{PLACEHOLDER NUMBER}\xspace}
+\newcommand{\seasoncount}{10000\todofoot{PLACEHOLDER NUMBER}\xspace}
+\newcommand{\projectfull}{University of \hawaii-Manoa--California State University at Long Beach\xspace}
+\newcommand{\projectabbrev}{UH-CSULB\xspace}
+
+% Geographic coordinates
+\newcommand{\degmin[3]}{\ensuremath{#1^\circ\ #2'\ #3}\xspace}
+\newcommand{\degminsec[4]}{\ensuremath{#1^\circ\ #2'\ #3"\ #4}\xspace}

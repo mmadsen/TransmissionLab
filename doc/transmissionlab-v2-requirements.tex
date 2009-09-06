@@ -1,0 +1,125 @@
+\documentclass[pdftex,letterpaper,rmp,groupedaddress,floatfix]{revtex4}
+\makeatletter
+\renewcommand\@biblabel[1]{#1.}
+\makeatother
+\bibpunct{(}{)}{,}{n}{,}{,}
+\usepackage{amssymb}\usepackage{amsmath}
+%\usepackage{algorithm2e}
+%\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%        \usepackage{textcomp} % to get the right copyright, etc.
+
+%        % use Lucida fonts for both text and math.
+%        \usepackage[altbullet]{lucidabr}     % get larger bullet
+%        \DeclareEncodingSubset{TS1}{hlh}{1}
+
+        \usepackage[bitstream-charter]{mathdesign}
+
+\usepackage{textcomp}
+\newcommand{\T}{\rule{0pt}{2.6ex}}
+\newcommand{\B}{\rule[-1.2ex]{0pt}{0pt}}
+\usepackage{tikz}
+\usepackage{wasysym}
+\usepackage{graphicx}
+\definecolor{lightgray}{rgb}{0.66,0.66,0.55}
+\definecolor{darkred}{rgb}{0.89,0.10,0.11}
+\definecolor{darkblue}{rgb}{0.22,0.49,0.72}
+\usepackage{url}
+\urlstyle{rm}
+\usepackage[pdftex,breaklinks=true,colorlinks=true,citecolor=darkblue,pagecolor=darkred,linkcolor=darkred,menucolor=darkred,urlcolor=darkred,pdfborder={1 0 0}]{hyperref}
+\hypersetup{pdftitle={TransmissionLab Version 2 Requirements},pdfauthor={Mark E. Madsen}}
+\usepackage{memhfixc}
+%\renewcommand{\sfdefault}{lo9}
+\usepackage{madsen-macros}
+\setcounter{tocdepth}{4} 
+
+\newtheorem{resquestion}{Research Question}
+\newtheorem{openproblem}{Open Problem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{definition}{Definition}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem{decisions}{Modeling Decisions}
+\newtheorem{model}{Model}
+\newtheorem{assumptions}{Assumption}
+
+\begin{document}
+
+\title{TransmissionLab Version 2 Requirements}
+
+\author{Mark E. Madsen}
+\email{madsenm@u.washington.edu}
+\affiliation{Department of Anthropology, University of Washington, Seattle, WA 98195-3100}
+\homepage{http://blog.madsenlab.org}
+\date{\today}
+%\pacs{89.75.-k, 89.75.Fb, 89.70.+c}
+\keywords{simulation modeling | cultural transmission | complex networks | evolutionary modeling}
+%\begin{abstract}
+%\lipsum
+%\end{abstract}
+
+\maketitle
+
+
+%\tableofcontents %\clearpage
+\section{Introduction}
+\tl is a simulation framework for creating and analyzing numerical models of cultural transmission phenomena, written in Java and building upon the Repast Java simulation framework.  The creation of \tl was motivated by the fact that while Repast offers a rich framework for agent-based simulation, the framework is low-level and one ends up writing a great deal of domain-specific code for each simulation model.  Many research projects, however, focus on a specific domain and create a number of variant models, whose results are compared over a parameter space (or spaces).  Much of the code one writes in each model is thus ``boilerplate.'' 
+
+\tl was developed to factor out this boilerplate for a single problem domain:  numerical simulation and analysis of formal models of cultural transmission.  The problem domain is very similar to mathematical population genetics, and \tl may be easily used for non-cultural simulations as well with minor extensions to explicitly model a genome.  
+
+\tl Version 1.x (currently 1.8.1) offers the following features:
+\begin{itemize}
+\item Simple API for specifying transmission ``rules'' which can read and write population and agent state, regardless of population structure.
+\item Framework classes specify their own required configuration data, which is provided at runtime to the Repast core.  This allows the main core of the simulation model to be provided by \tl and researchers only need to write rule, agent, analysis, and population structure classes.
+\item Analysis of population state follows a simple API which allows analysis classes to schedule themselves at appropriate points during a simulation run, and share data and intermediate results.  
+\item Population structure is currently represented by mathematical graph objects, using the JUNG2 library.  This allows transmission rules to function identically whether a rule is being applied to a well-mixed population, a lattice of individuals, or an arbitrary complex network.  
+\end{itemize}
+At the same time, the first version of \tl has some limitations.  The biggest is that the analysis framework does not easily generalize in an efficient manner to more complex trait spaces.  All of the current simulation models included in the \tl package are analogous to a single-locus, infinite-allele model from population genetics.  This lack of diversity in models has meant that other aspects of the framework are not sufficiently general to implement arbitrarily complex state spaces without serious kludges.  
+
+The second is that simulation statistics are currently output in fairly unstructured text files, leading to a variety of associated scripts to assist in post-processing simulation output for analysis.  
+
+\tl Version 2 is intended to overcome these limitations in an architecturally sound manner, preserving flexibility for researchers to develop simple simulation classes, as well as adding additional features to the framework.  The remainder of this document covers requirements and potential architectural decisions.  
+
+\section{Support for Multidimensional State Spaces}
+Modeling a complex phenomenon such as cultural transmission isn't simply a matter of transmission ``rules'' or interesting population structures.  The structure of cultural ``traits'' themselves can and will have an impact on the patterns we see within populations.  
+
+Researchers may wish, for example, to model cultural traits in a hierarchical manner (e.g., Mesoudi and O'Brien 2008).  For example, imagine that Trait A ``contains'' traits B and C (perhaps as steps in the construction of some artifact represented by A).  \tl should allow these relationships to be represented, and allow a simulation model to apply (if desired) transmission rules independently to traits A, B, and C, while tracking the resulting effects on each trait and subtrait.  In other words, the frequency of A can change because A is adopted (or dropped) by an individual, or because an individual adopts or drops a subtrait (perhaps causing A to become a new trait, D).  
+
+This means that \tl should not make assumptions about the nature of cultural traits at the level of the framework API.  This poses a challenge because we also expect \classname{IPopulationTransformationRule} classes to be insulated from the internal representation of \classname{IAgent} classes, but able to operate upon them.  The general approach will have to be similar to the distinction currently made between an \classname{IAgentSet}, which simply represents a ``list view'' of agents in a population (i.e., for statistical analysis and enumerative operations), and \classname{IAgentPopulation}, which represents any structured (e.g., spatial, network) relations between agents.  
+
+\section{Analysis, Rule, and Agent Framework Refinements}
+
+Complex state spaces imply that statistical analysis is more complex, since a class like today's \classname{TraitFrequencyAnalyzer} can't presume to know how to trait traits with arbitrary structure and dependency relationships.   The best approach would seem to be to introduce a new formalism, such as \classname{ITrait}.  Given arbitrary relationships, this suggests that \classname{ITrait} classes should be self-counting, keeping track of their own abundance within the population.  Frequency analysis would then a simple matter of accessing abundances and converting to frequencies, regardless of trait or population structure.  
+
+Such a system suggests a reversal of the relationship between agents and traits; instead of agents possessing a trait or traits, agents should ``attach'' and detach themselves to \classname{ITrait} instances.  This points to another structural oddity in \tl Version 1.X:  agents don't perform any actual ``transmission:''  instances of \classname{IPopulationTransformationRule} operate on the entire population, transforming the population state at time \emph{t} into the state at time \emph{$t+1$}.  This creates another limitation:  agents cannot have heterogeneous transmission rules in \tl Version 1.X.  Thus, the rule classes should move to be children of \classname{IAgent} instances, to allow variability, and to enforce the notion that ``agents do transmission with neighboring agents (whatever neighboring means), possess rules for doing so, and traits keep track of themselves.''  
+
+Other types of analysis can be better facilitated by having better structured data output, allowing many analyses to be done in external tools without the proliferation of text-processing scripts (see Section \ref{sec:large-sim-support} for ideas along these lines).
+
+\section{Network Model Refinements}
+One of the limitations of the current population structure support is that it interacts badly with analysis.  A ``hack'' in version 1.8.1 for a conference paper analysis has created a persistent NPE which points to the problem:  analysis and structure need to be strongly linked.  As with the 1.8.1 hack, we may wish to have an arbitrary, analytic notion of ``clusters'' or communities, on top of a core network structure to agent interaction.  In addition to whole-population trait frequency analysis (and measures derived from trait frequency analysis), the framework should support slicing the population analytically in arbitrary ways, without creating unnecessary code dependencies within the framework itself.  
+
+To some degree, creating self-counting traits, linked to agents, with agents placed in both a set and a population structure, should help.  Today's \classname{TraitFrequencyAnalyzer and OverallStatisticsRecorder} are monolithic and invariant given different structures.  Yet the job they do is largely boilerplate.  OverallStatisticsRecorder can be restructured in several ways (see Section \ref{sec:large-sim-support}).  TraitFrequencyAnalyzer should largely disappear as a monolithic analysis class, needing to be run ``first'' on each simulation tick.  The original intent, with small analysis classes implementing a simple interface like \classname{IDataCollector}, should be easily recoverable.  
+
+Better isolation of framework dependencies should also allow much easier implementation of adaptive network models, in which transmission rules modify the population structure, since analysis will not be dependent upon structure at the level of framework API.  
+
+\section{Large Simulation Set Support}\label{sec:large-sim-support}
+Experience using \tl Version 1.X for research shows that most of the researcher's effort is taken up in post-processing large numbers of small text files and massaging ``raw'' output into some format that is suitable for the actual analysis needed.  
+
+This problem is exacerbated by ``sweeps'' of large parameter spaces, and replicate simulations (with different random seeds) at each parameter combination.  These are all important simulation practices, but reducing the large quantities of data into something analyzable leads to layers of post-processing scripts, usually done in Perl because of the ease of ``munging'' text files.
+
+If output were structured into a database schema or schemas, the task of initial data reduction could be greatly simplified.  As I look at the small collection of Perl scripts I used for analysis with Version 1.8.1, I am struck at how the scripts all involve procedural versions of SQL \textbf{GROUP BY} queries with summing and averaging.  So why not simply do those operations in SQL?  In fact, having data simply ``pile up'' in a SQL database would allow analysis and exploration to occur while a long simulation ``sweep'' was in progress, instead of waiting hours, days, or weeks for a ``run'' to finish before analysis is really practical (given the \classname{OverallStatisticsRecorder} architecture).  
+
+Thus, I propose to embed HSQLDB into \tl Version 2.0, usable in fully embedded mode for interactive exploration, and as a standalone, persistent server for production simulation work.  The analysis classes deriving from \classname{IDataCollector} can focus on deriving the right summary data for periodic insertion into the database, and \classname{AbstractDataCollector} can implement default methods for inserting the data to a schema named by derived classes or configured in the UI or configuration files.  
+
+\section{Summary}
+
+The requirements discussed here are needed to do flexible and easy modeling of transmission processes with \tl, and the architectural changes are several:
+
+\begin{itemize}
+\item Transmission rules will migrate to be contained by agents, and run by agents.  A ``population process'' will be hollowed out to simply reflect the global timing and ordering of having individual agents run their rules and update themselves (i.e., a Moran process will still be represented by an \classname{IPopulationTransformationRule}, but the actual copying steps will happen in something like an \classname{IAgentTransmissionRule}).  
+\item Cultural traits will be modeled as first-class objects in the framework, perhaps as implementations of \classname{ITrait}, and traits will be able to have arbitrary relationships and dependency graphs (to handle cases like hierarchical cultural traits, or ``recipes'' for behavior).  
+\item Traits will be self-counting, and agents will attach and detach themselves from traits as the ``action'' of an \classname{IAgentTransmissionRule}.  This means that instances of \classname{IDataCollector} can slice the population agents in many ways without API-level dependencies:  globally, as an IAgentSet, through the lens of population structure (however complex that structure might be), or through the lens of traits themselves.  
+\item Given the lack of analysis dependencies, population structure choices can evolve in interesting ways, and in multiple directions.  
+\item \classname{IDataCollector} instances will have access to an HSQLDB instance in which all simulation results are stored, facilitating easy data reduction and analysis using standard SQL queries and thus connections to other analysis tools.  The database should be able to be embedded, for completely standalone simulation (e.g., classroom, interactive ``playing'' with the model), and be a standalone server for production use, and perhaps monitoring of progress for large simulation sets and parameter ``sweeps.''
+\end{itemize}
+
+\end{document}

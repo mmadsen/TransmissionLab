@@ -33,7 +33,6 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntryProperties />
   </component>
   <component name="copyright">
     <Base>
